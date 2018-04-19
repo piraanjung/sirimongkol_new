@@ -62,6 +62,9 @@ $this->params['breadcrumbs'][] = $this->title;
                                             </a>
                                             <ul class="dropdown-menu">
                                                 <li>
+                                                    <a href="#allbanks" data-toggle="tab">สรุปการโอนเงินผ่านบัญชีธนาคาร</a>
+                                                </li>
+                                                <li>
                                                     <a href="#bbl" data-toggle="tab">ธนาคารกรุงเทพ</a>
                                                 </li>
                                                 <li>
@@ -108,6 +111,21 @@ $this->params['breadcrumbs'][] = $this->title;
                                 <div id="transferbank" class="tab-pane">
                                     <?=$this->render("paidbybank",[
                                         'paidbybanks' => $paidbybanks
+                                    ]);?>
+                                </div>
+
+                                <div id="allbanks" class="tab-pane">
+                                    <?=$this->render("_banksumary",[
+                                            'allbanks'=>['
+                                                bkb' =>['data'=>$bkb, 'name' => 'กรุงเทพ'],
+                                                'ktb' =>['data'=>$ktb, 'name' => 'กรุงไทย'],
+                                                'kb'  =>['data'=>$kb, 'name' => 'กสิกรไทย'],
+                                                'scb' =>['data'=>$scb, 'name' => 'ไทยพาณิชย์'],
+                                                'tmb' => ['data'=>$tmb, 'name' => 'ทหารไทย'],
+                                                'gsb' => ['data'=>$gsb, 'name' => 'ออมสิน'],
+                                                'ksb' => ['data'=>$ksb, 'name' => 'กรุงศรีอยุทธยา'],
+                                            ]
+
                                     ]);?>
                                 </div>
 

@@ -124,36 +124,68 @@ th{
     
     ];
 
-    echo ExportMenu::widget([
-        'dataProvider' => $dataProvider,
-        'columns' => $gridColumns,
-        'fontAwesome' => true,
-        'dropdownOptions' => [
-            'label' => 'Export',
-            'class' => 'btn btn-info'
-        ],
-        'exportConfig' => [
-            ExportMenu::FORMAT_TEXT => false,
-            ExportMenu::FORMAT_CSV => false,
-            ExportMenu::FORMAT_EXCEL => false,
-            ExportMenu::FORMAT_HTML => false,
+    // echo ExportMenu::widget([
+    //     'dataProvider' => $dataProvider,
+    //     'columns' => $gridColumns,
+    //     'fontAwesome' => true,
+    //     'dropdownOptions' => [
+    //         'label' => 'Export',
+    //         'class' => 'btn btn-info'
+    //     ],
+    //     'exportConfig' => [
+    //         ExportMenu::FORMAT_TEXT => false,
+    //         ExportMenu::FORMAT_CSV => false,
+    //         ExportMenu::FORMAT_EXCEL => false,
+    //         ExportMenu::FORMAT_HTML => false,
             
-        ]
-    ]) . "<hr>\n".
+    //     ]
+    // ]) . "<hr>\n".
     
     
-    GridView::widget([
+    echo GridView::widget([
     'dataProvider' => $dataProvider,
     'filterModel' => $searchModel,
     'containerOptions' => ['style' => 'overflow: auto'], // only set when $responsive = false
     'headerRowOptions' => ['class' => 'kartik-sheet-style'],
     'filterRowOptions' => ['class' => 'kartik-sheet-style'],
+    'toolbar' =>  [
+        '{toggleData}',
+
+        ['content' => 
+            ExportMenu::widget([
+                'dataProvider' => $dataProvider,
+                'columns' => $gridColumns,
+                'fontAwesome' => true,
+                'showColumnSelector' =>true,
+                'dropdownOptions' => [
+                    'label' => 'Export',
+                    'class' => 'btn btn-info'
+                ],
+                'exportConfig' => [
+                    ExportMenu::FORMAT_TEXT => false,
+                    ExportMenu::FORMAT_CSV => false,
+                    ExportMenu::FORMAT_EXCEL => false,
+                    ExportMenu::FORMAT_HTML => false,                    
+                ]
+            ])
+        ],
+        
+    ],
+    // set export properties
+    'export' => [
+        'fontAwesome' => true,
+    ],
+
+
     'pjax' => true, // pjax is set to always true for this demo
     'showPageSummary'=>true,
-    'toolbar'=>[
-        '{export}',
-        '{toggleData}'
-    ],
+    'panel' => [
+            'type' => GridView::TYPE_PRIMARY,
+            // 'heading' => 'ddd',
+        ],
+    'persistResize' => false,
+    'toggleDataOptions' => ['minCount' => 10],
+
     'pjaxSettings' => ['options' => ['id' => 'kv-pjax-container']],
 
         'columns' => $gridColumns

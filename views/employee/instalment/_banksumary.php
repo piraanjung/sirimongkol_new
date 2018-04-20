@@ -5,6 +5,7 @@
     <tr>
         <th colspan="2" style="background-color:#26c6da;" class="col-md-5 col-xs-12"><?="ธนาคาร ".$bank['name'];?></th>
     </tr>
+    <?php if(count($bank['data']) > 0 ){ ?>
     <tr>
         <th width="5%">#</th>
         <th>ชื่อ - สกุล</th>
@@ -23,6 +24,11 @@
             <th colspan="3">รวม</th>
             <th class="text-right table-info"><?=number_format($sum, 2);?></th>
         </tr>
+    <?php }else{ ?>
+        <tr>
+            <th colspan="4">ไม่มีข้อมูลการโอนเงินผ่านธนาคาร</th>
+        </tr>
+    <?php }//else ?>
     </table>
     <br>
 <?php }//for?>

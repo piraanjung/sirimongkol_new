@@ -14,7 +14,7 @@ use app\assets\AppAsset;
 
 if (class_exists('ramosisw\CImaterial\web\MaterialAsset')) {
     ramosisw\CImaterial\web\MaterialAsset::register($this);
-    
+    AppAsset::register($this);
 }
 ?>
     <?php $this->beginPage() ?>
@@ -29,116 +29,7 @@ if (class_exists('ramosisw\CImaterial\web\MaterialAsset')) {
                 <?= Html::encode($this->title) ?>
             </title>
             <?php $this->head() ?>
-            <style>
-                .fixed-plugin {
-                    top: 50px;
-                }
-
-                .form-group label.control-label {
-                    font-size: 15px !important
-                }
-
-                .payee_sum {
-                    background: #26c6da;
-                    color: #FFFFFF;
-                }
-
-                .fixed-plugin {
-                    position: fixed;
-                    /* top: 180px; */
-                    right: 0;
-                    width: 64px;
-                    background: rgba(0, 0, 0, .3);
-                    z-index: 1031;
-                    border-radius: 8px 0 0 8px;
-                    text-align: center;
-                }
-
-                .fixed-plugin .fa-cog {
-                    color: #FFFFFF;
-                    padding: 10px;
-                    border-radius: 0 0 6px 6px;
-                    width: auto;
-                }
-
-                .fixed-plugin .dropdown .dropdown-menu {
-                    -webkit-transform: translateY(-15%);
-                    -moz-transform: translateY(-15%);
-                    -o-transform: translateY(-15%);
-                    -ms-transform: translateY(-15%);
-                    transform: translateY(-15%);
-                    top: 27px;
-                    opacity: 0;
-                    transform-origin: 0 0;
-                }
-
-                .fixed-plugin .dropdown-menu {
-                    right: 80px;
-                    left: auto;
-                    width: 290px;
-                    border-radius: 10px;
-                    padding: 0 10px;
-                }
-
-                .fixed-plugin li.header-title {
-                    height: 30px;
-                    line-height: 25px;
-                    font-size: 12px;
-                    font-weight: 600;
-                    text-align: center;
-                    text-transform: uppercase;
-                }
-
-                .fixed-plugin li.adjustments-line,
-                .fixed-plugin li.header-title,
-                .fixed-plugin li.button-container {
-                    width: 100%;
-                    height: 50px;
-                    min-height: inherit;
-                }
-
-                .fixed-plugin .dropdown-menu li {
-                    display: block;
-                    padding: 5px 2px;
-                    width: 25%;
-                    float: left;
-                }
-
-
-                .fixed-plugin .dropdown.open .dropdown-menu {
-                    opacity: 1;
-                    -webkit-transform: translateY(-13%);
-                    -moz-transform: translateY(-13%);
-                    -o-transform: translateY(-13%);
-                    -ms-transform: translateY(-13%);
-                    transform: translateY(-13%);
-                    transform-origin: 0 0;
-                }
-
-                .card {
-                    box-shadow: none !important;
-                }
-
-                .nav .open>a,
-                .nav .open>a:focus,
-                .nav .open>a:hover {
-                    background-color: #ab47bc;
-                    border-color: #337ab7;
-                }
-
-                .card [data-background-color] a {
-                    color: #000000;
-                }
-
-                body,
-                h1,
-                h2,
-                h3,
-                h4,
-                h5 {
-                    font-family: 'Kanit', sans-serif;
-                }
-            </style>
+            
             <link href="https://fonts.googleapis.com/css?family=Kanit" rel="stylesheet">
 
     </head>
@@ -243,24 +134,24 @@ if (class_exists('ramosisw\CImaterial\web\MaterialAsset')) {
             </div>
         </div>
         <?php
-$this->registerJs("
-    $('.navbar_close').click(function(){
-        $('.sidebar-wrapper').css('display','none')
-        $('.main-panel').css('width','100%')
-        $(this).css('display','none')
-        $('.logo').css('display', 'none')
-        $('.navbar_open').css('display','inline-block')
-    })  
-    $('.navbar_open').click(function(){
-        $('.sidebar-wrapper').css('display','block')
-        $('.main-panel').css('width','calc(100% - 260px)')
-        $(this).css('display','none')
-        $('.logo').css('display', 'block')
-        $('.navbar_close').css('display','inline-block')
-    })                                   
+// $this->registerJs("
+//     $('.navbar_close').click(function(){
+//         $('.sidebar-wrapper').css('display','none')
+//         $('.main-panel').css('width','100%')
+//         $(this).css('display','none')
+//         $('.logo').css('display', 'none')
+//         $('.navbar_open').css('display','inline-block')
+//     })  
+//     $('.navbar_open').click(function(){
+//         $('.sidebar-wrapper').css('display','block')
+//         $('.main-panel').css('width','calc(100% - 260px)')
+//         $(this).css('display','none')
+//         $('.logo').css('display', 'block')
+//         $('.navbar_close').css('display','inline-block')
+//     })                                   
 
-", $this::POS_READY); 
-?>
+// ", $this::POS_READY); 
+// ?>
             <?php $this->endBody() ?>
     </body>
 

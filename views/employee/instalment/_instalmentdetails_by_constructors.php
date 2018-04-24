@@ -1,5 +1,5 @@
 <?php
-use yii\helpers\Html;
+use kartik\helpers\Html;
 use yii\helpers\Url;
 use yii\bootstrap\Modal;
 use kartik\grid\GridView;
@@ -119,7 +119,7 @@ th{
         [
             'attribute' => '',
             'format' => 'raw',
-            'hAlign' => 'right', 
+            'width'=> '70px', 
             'value' => function($model){
                 return '<i class="material-icons edit-money-icon" 
                 value="'.\yii\helpers\Url::to(['employee/instalment/change-money-value', 
@@ -131,19 +131,38 @@ th{
 
     
     ];
-    echo ExportMenu::widget([
-        'dataProvider' => $dataProvider,
-        'columns' => $gridColumns,
-        'fontAwesome' => true,
-    ]);
-    
+    // echo ExportMenu::widget([
+    //     'dataProvider' => $dataProvider,
+    //     'columns' => $gridColumns,
+    //     'columnSelectorOptions'=>[
+    //         'label' => 'Cols...',
+    //     ],
+    //     'hiddenColumns'=>[0, 10], // SerialColumn & ActionColumn
+    //     'disabledColumns'=>[9], // ID & Name
+    //     'fontAwesome' => true,
+    //     'dropdownOptions' => [
+    //         'label' => 'Export All',
+    //         'class' => 'btn btn-default'
+    //     ]
+    // ]);
     echo GridView::widget([
     'dataProvider' => $dataProvider,
     'filterModel' => $searchModel,
     'containerOptions' => ['style' => 'overflow: auto'], // only set when $responsive = false
     'headerRowOptions' => ['class' => 'kartik-sheet-style'],
     'filterRowOptions' => ['class' => 'kartik-sheet-style'],
-    
+    'autoXlFormat'=>true,
+    'toolbar' =>  [
+
+        '{export}',
+        '{toggleData}',
+    ],
+    'export'=>[
+        'fontAwesome'=>true,
+        'showConfirmAlert'=>false,
+        'target'=>GridView::TARGET_BLANK,
+    ],
+
     'pjax' => true, // pjax is set to always true for this demo
     'showPageSummary'=>true,
     'panel' => [
@@ -152,6 +171,25 @@ th{
         ],
     'persistResize' => false,
     'toggleDataOptions' => ['minCount' => 10],
+    'exportConfig' => [
+        GridView::EXCEL => [
+            'label' => 'Excel',
+            'icon' => 'file-excel-o',
+            'iconOptions' => ['class' => 'text-success'],
+            'showHeader' => true,
+            'showPageSummary' => true,
+            'showFooter' => true,
+            'showCaption' => true,
+            'filename' => 'grid-export',
+            'alertMsg' => 'The EXCEL export file will be generated for download.',
+            'options' => ['title' => 'Microsoft Excel 95+'],
+            'mime' => 'application/vnd.ms-excel',
+            'config' => [
+                'worksheet' => 'ExportWorksheet',
+                'cssFile' => ''
+            ]
+        ],
+    ],
 
     // 'pjaxSettings' => ['options' => ['id' => 'kv-pjax-container']],
 

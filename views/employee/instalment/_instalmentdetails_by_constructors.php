@@ -29,6 +29,8 @@ th{
     cursor: pointer;
 }
 </style>
+<?= Html::a('Profile', ['employee/instalment/export-excel', 'models' => $models], ['class' => 'profile-link']) ?>
+
  <h3>
     ตั้งเบิก  ค่าใช้จ่ายประจำวันที่  
 

@@ -26,7 +26,7 @@ $listData=ArrayHelper::map($wg,'id','wg_name');
     <?= $form->field($model, 'work_control_statement')->textInput(['maxlength' => true]) ?>
 
     <div class="form-group">
-        <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>
+        <?= Html::submitButton('บันทึก', ['class' => 'btn btn-success']) ?>
     </div>
 
     <?php ActiveForm::end(); ?>

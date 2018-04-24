@@ -30,7 +30,7 @@ class Works extends \yii\db\ActiveRecord
     {
         return [
             [['work_name', 'wg_id'], 'required'],
-            [['wg_id', 'work_control_statement, status'], 'integer'],
+            [['wg_id', 'work_control_statement', 'status'], 'integer'],
             [['work_name'], 'string', 'max' => 255],
         ];
     }

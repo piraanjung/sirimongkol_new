@@ -190,8 +190,8 @@ class InstalmentController extends Controller
         $rows = $command->queryAll();
 
         // \app\models\Methods::print_array($rows); 
-        $paidbycash = $this->getpaidByCashOrBank(1, $instalment_id);//paidtype =1, instalment_id
-        $paidbybanks = $this->getpaidByCashOrBank(2, $instalment_id);
+        $paidbycash = $this->getpaidByCashOrBank(1, $instalment_id, 6);//paidtype =1, instalment_id
+        $paidbybanks = $this->getpaidByCashOrBank(2, $instalment_id, 6);
         
         // getข้อมูลการโอนเงินให้ช่างแยกเป็นธนาคาร(bank_id, instalment_id, paid_type)
         $ktb = $this->getTransferDivideBank(1, $instalment_id, 2);
@@ -238,8 +238,8 @@ class InstalmentController extends Controller
         
 
         // \app\models\Methods::print_array($rows); 
-        $paidbycash = $this->getpaidByCashOrBank(1, $instalment_id);//paidtype =1, instalment_id
-        $paidbybanks = $this->getpaidByCashOrBank(2, $instalment_id);
+        $paidbycash = $this->getpaidByCashOrBank(1, $instalment_id, 6);//paidtype =1, instalment_id
+        $paidbybanks = $this->getpaidByCashOrBank(2, $instalment_id, 6);
         
         // getข้อมูลการโอนเงินให้ช่างแยกเป็นธนาคาร(bank_id, instalment_id, paid_type)
         $ktb = $this->getTransferDivideBank(1, $instalment_id, 2);
@@ -386,35 +386,51 @@ class InstalmentController extends Controller
         }
     }
 
-    private function getpaidByCashOrBank($paidtype, $instalment_id){
+    private function getpaidByCashOrBank($paidtype, $instalment_id, $project_id){
         // รายงานการจ่ายเงินงวดงานโดยจ่ายเงินสด
         $query = new Query();
-        $query->select('a.*, b.contructor_id, c.name, d.total, 
-                        e.paid_type, e.paid_amount,e.id')
+        $query->select('a.instalment as a_inst,a.monthly, a.project_id,
+                        b.instalment_id as sum_inst, b.total, b.id, b.contructor_id,
+                        c.summoney_id as c_sum_id, c.paid_type, c.paid_amount, c.update_date,
+                        d.name'
+                        )
                 ->from('instalment a')
-                ->leftJoin('instalmentcostdetails b', 'a.id = b.instalment_id')
-                ->leftJoin('profile c', 'b.contructor_id = c.user_id')
-                ->leftJoin('summoney d', 'c.user_id = d.contructor_id')
-                ->leftJoin('paidtype e', 'd.id = e.summoney_id')
-                ->where(['a.id' => $instalment_id])
-                ->andWhere(['e.paid_type' => $paidtype])
-                ->groupBy('e.id', 'asc');
-        $command = $query->createCommand();
-        $model   = $command->queryAll();
-
-        $query2 = new Query();
-        $query2->select('a.*, b.contructor_id, c.name, d.total, 
-                        e.paid_type, e.paid_amount,e.id')
-                ->from('instalment a')
-                ->leftJoin('instalmentcostdetails b', 'a.id = b.instalment_id')
-                ->leftJoin('profile c', 'b.contructor_id = c.user_id')
-                ->leftJoin('summoney d', 'c.user_id = d.contructor_id')
-                ->leftJoin('paidtype e', 'd.id = e.summoney_id')
-                ->where(['a.id' => $instalment_id])
-                ->andWhere(['<>','e.paid_type',$paidtype])
-                ->groupBy('e.id', 'asc');
-        $command2 = $query2->createCommand();
-        $model2   = $command2->queryAll();
+                ->leftJoin('summoney b', 'a.instalment = b.instalment_id')
+                ->leftJoin('paidtype c', 'b.id = c.summoney_id')
+                ->leftJoin('profile d', 'b.contructor_id = d.user_id')
+                ->where(['a.instalment'=> $instalment_id]) 
+                ->andWhere(['c.paid_type' => $paidtype])
+                ->andWhere(['a.project_id' => $project_id]);
+                
+                $command = $query->createCommand();
+                $model   = $command->queryAll();
+                return $model;
+        // $query->select('a.*, b.contructor_id, c.name, d.total, 
+        //                 e.paid_type, e.paid_amount,e.id')
+        //         ->from('instalment a')
+        //         ->leftJoin('instalmentcostdetails b', 'a.id = b.instalment_id')
+        //         ->leftJoin('profdile c', 'b.contructor_id = c.user_id')
+        //         ->leftJoin('summoney d', 'c.user_id = d.contructor_id')
+        //         ->leftJoin('paidtype e', 'd.id = e.summoney_id')
+        //         ->where(['a.id' => $instalment_id])
+        //         ->andWhere(['e.paid_type' => $paidtype])
+        //         ->groupBy('e.id', 'asc');
+        // $command = $query->createCommand();
+        // $model   = $command->queryAll();
+        // \app\models\Methods::print_array($model);
+        // $query2 = new Query();
+        // $query2->select('a.*, b.contructor_id, c.name, d.total, 
+        //                 e.paid_type, e.paid_amount,e.id')
+        //         ->from('instalment a')
+        //         ->leftJoin('instalmentcostdetails b', 'a.id = b.instalment_id')
+        //         ->leftJoin('profile c', 'b.contructor_id = c.user_id')
+        //         ->leftJoin('summoney d', 'c.user_id = d.contructor_id')
+        //         ->leftJoin('paidtype e', 'd.id = e.summoney_id')
+        //         ->where(['a.id' => $instalment_id])
+        //         ->andWhere(['<>','e.paid_type',$paidtype])
+        //         ->groupBy('e.id', 'asc');
+        // $command2 = $query2->createCommand();
+        // $model2   = $command2->queryAll();
         return $model;
         // echo "<pre>";
         // print_r($model2);
@@ -496,6 +512,15 @@ class InstalmentController extends Controller
             'works' => $works
 
         ]);
+    }
+
+
+    public function actionExportExcel(){
+        // print_r($_REQUEST['models']);
+        return $this->render('export-excel',[
+            'models' => $_REQUEST['models'],
+        ]);
+
     }
     
 }

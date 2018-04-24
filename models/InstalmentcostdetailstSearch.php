@@ -22,7 +22,7 @@ class InstalmentcostdetailstSearch extends Instalmentcostdetails
     public function rules()
     {
         return [
-            [['id', 'instalment_id', 'contructor_id', 'house_id', 'workclassify_id', 'worktype_id', 'money_type_id', 'summoney_id', 'saver_id'], 'integer'],
+            [['id', 'instalment_id', 'contructor_id', 'house_id', 'workclassify_id', 'worktype_id', 'money_type_id', 'summoney_id', 'saver_id', 'status'], 'integer'],
             [['amount'], 'number'],
             [['comment'], 'string'],
             [['create_date', 'update_date', 'wg_name', 'houses', 'constructor', 'workGroup'], 'safe'],
@@ -52,6 +52,7 @@ class InstalmentcostdetailstSearch extends Instalmentcostdetails
         // add conditions that should always apply here
         $query->joinWith(['houses', 'constructor', 'workGroup']);
         $query->where(['instalmentcostdetails.instalment_id' => $params]);
+        $query->andWhere(['instalmentcostdetails.status' => 1]);
         $query->orderBy('instalmentcostdetails.contructor_id, instalmentcostdetails.house_id,instalmentcostdetails.money_type_id', 'asc');
         // $query->groupBy(['instalmentcostdetails.id']);
         // $query->orderBy('instalmentcostdetails.house_id', 'ASC');

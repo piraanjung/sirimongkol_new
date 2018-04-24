@@ -5,6 +5,7 @@ use yii\bootstrap\Modal;
 use kartik\grid\GridView;
 use kartik\export\ExportMenu;
 use kartik\editable\Editable;
+use kartik\dialog\Dialog;
 use yii\widgets\Pjax;
 ?>
 <style>
@@ -20,16 +21,20 @@ th{
     text-align:center;
     font-weight:bold
 }
-.edit-money-icon{
+.edit-money-icon, .delete-money-icon{
     font-size:14px;
-    border:1px solid red;
+    border:1px solid green;
     border-radius:5px 5px;
-    color:red;
+    color:green;
     margin-left:5px;
     cursor: pointer;
 }
+.delete-money-icon{
+    color:red;
+    border:1px solid red;
+}
 </style>
-<?= Html::a('Profile', ['employee/instalment/export-excel', 'models' => $models], ['class' => 'profile-link']) ?>
+<?= Html::a('Profile', ['employee/instalment/export-excel', 'instalment_id' => $models[0]['instalment']], ['class' => 'profile-link']) ?>
 
  <h3>
     ตั้งเบิก  ค่าใช้จ่ายประจำวันที่  
@@ -118,31 +123,19 @@ th{
             'value' => function($model){
                 return '<i class="material-icons edit-money-icon" 
                 value="'.\yii\helpers\Url::to(['employee/instalment/change-money-value', 
-                'id'=>$model['id']]).'">create</i>';
+                'id'=>$model['id']]).'">create</i>
+                <i class="material-icons delete-money-icon" value="'.$model['id'].'">delete</i>';
             },
 
         ],
 
     
     ];
-
-    // echo ExportMenu::widget([
-    //     'dataProvider' => $dataProvider,
-    //     'columns' => $gridColumns,
-    //     'fontAwesome' => true,
-    //     'dropdownOptions' => [
-    //         'label' => 'Export',
-    //         'class' => 'btn btn-info'
-    //     ],
-    //     'exportConfig' => [
-    //         ExportMenu::FORMAT_TEXT => false,
-    //         ExportMenu::FORMAT_CSV => false,
-    //         ExportMenu::FORMAT_EXCEL => false,
-    //         ExportMenu::FORMAT_HTML => false,
-            
-    //     ]
-    // ]) . "<hr>\n".
-    
+    echo ExportMenu::widget([
+        'dataProvider' => $dataProvider,
+        'columns' => $gridColumns,
+        'fontAwesome' => true,
+    ]);
     
     echo GridView::widget([
     'dataProvider' => $dataProvider,
@@ -150,35 +143,7 @@ th{
     'containerOptions' => ['style' => 'overflow: auto'], // only set when $responsive = false
     'headerRowOptions' => ['class' => 'kartik-sheet-style'],
     'filterRowOptions' => ['class' => 'kartik-sheet-style'],
-    'toolbar' =>  [
-        '{toggleData}',
-
-        ['content' => 
-            ExportMenu::widget([
-                'dataProvider' => $dataProvider,
-                'columns' => $gridColumns,
-                'fontAwesome' => true,
-                'showColumnSelector' =>true,
-                'dropdownOptions' => [
-                    'label' => 'Export',
-                    'class' => 'btn btn-info'
-                ],
-                'exportConfig' => [
-                    ExportMenu::FORMAT_TEXT => false,
-                    ExportMenu::FORMAT_CSV => false,
-                    ExportMenu::FORMAT_EXCEL => false,
-                    ExportMenu::FORMAT_HTML => false,                    
-                ]
-            ])
-        ],
-        
-    ],
-    // set export properties
-    'export' => [
-        'fontAwesome' => true,
-    ],
-
-
+    
     'pjax' => true, // pjax is set to always true for this demo
     'showPageSummary'=>true,
     'panel' => [
@@ -188,7 +153,7 @@ th{
     'persistResize' => false,
     'toggleDataOptions' => ['minCount' => 10],
 
-    'pjaxSettings' => ['options' => ['id' => 'kv-pjax-container']],
+    // 'pjaxSettings' => ['options' => ['id' => 'kv-pjax-container']],
 
         'columns' => $gridColumns
     ]); 
@@ -219,7 +184,28 @@ $this->registerJs("
         $('.modal').modal('show')
             .find('#modelContent')
             .load($(this).attr('value'));
+});
+
+$('.delete-money-icon').click(function(){
+    var id = $(this).attr('value')
+    krajeeDialog.confirm('คุณต้องการลบข้อมูลใช่หรือไม่?', function (result) {
+        if (result) {
+            $.ajax({
+                type : 'POST',
+                url  : 'index.php?r=employee/instalment/delete-money-value',
+                data : {id: id},
+                   success : function(data){
+                      krajeeDialog.alert('ทำการลบข้อมูลเรียบร้อยแล้ว')
+                      location.reload();
+                }
+    
+            })
+        } else {
+            // alert('Oops! You declined!');
+        }
     });
+});
+
 $('#printbtn').click(function(){
     var printContents = document.getElementById('print').innerHTML;
     var originalContents = document.body.innerHTML;

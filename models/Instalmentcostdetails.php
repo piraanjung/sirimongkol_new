@@ -17,6 +17,7 @@ use Yii;
  * @property double $amount
  * @property integer $summoney_id
  * @property integer $saver_id
+ * @property integer $status
  * @property string $comment
  * @property string $create_date
  * @property string $update_date
@@ -38,7 +39,7 @@ class Instalmentcostdetails extends \yii\db\ActiveRecord
     {
         return [
             [['instalment_id', 'contructor_id', 'house_id', 'workclassify_id', 'worktype_id', 'money_type_id', 'amount', 'summoney_id', 'saver_id'], 'required'],
-            [['instalment_id', 'contructor_id', 'house_id', 'workclassify_id', 'worktype_id', 'work_id',  'money_type_id', 'summoney_id', 'saver_id'], 'integer'],
+            [['instalment_id', 'contructor_id', 'house_id', 'workclassify_id', 'worktype_id', 'work_id',  'money_type_id', 'summoney_id', 'saver_id', 'status'], 'integer'],
             [['comment'], 'string'],
             [['amount'], 'number'],
             [['create_date', 'update_date'], 'safe'],
@@ -62,6 +63,7 @@ class Instalmentcostdetails extends \yii\db\ActiveRecord
             'amount' => 'จำนวนเงิน',
             'summoney_id' => 'Summoney ID',
             'saver_id' => 'Saver ID',
+            'status' => 'status',
             'comment' => 'หมายเหตุ',
             'create_date' => 'Create Date',
             'update_date' => 'Update Date',

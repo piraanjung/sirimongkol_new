@@ -278,6 +278,7 @@ class InstalmentController extends Controller
         // ->leftJoin('instalmentcostdetails a', 'a.instalment_id = a.instalment_id')
         ->leftJoin('instalment c', 'a.instalment_id = c.id')
         ->where(['a.instalment_id'=> $_REQUEST['instalment_id']])
+        ->andWhere(['a.status' => 1])
         ->orderBy('a.contructor_id, a.house_id,a.money_type_id', 'asc')
         ->groupBy('a.id')
         ->all();
@@ -405,36 +406,9 @@ class InstalmentController extends Controller
                 $command = $query->createCommand();
                 $model   = $command->queryAll();
                 return $model;
-        // $query->select('a.*, b.contructor_id, c.name, d.total, 
-        //                 e.paid_type, e.paid_amount,e.id')
-        //         ->from('instalment a')
-        //         ->leftJoin('instalmentcostdetails b', 'a.id = b.instalment_id')
-        //         ->leftJoin('profdile c', 'b.contructor_id = c.user_id')
-        //         ->leftJoin('summoney d', 'c.user_id = d.contructor_id')
-        //         ->leftJoin('paidtype e', 'd.id = e.summoney_id')
-        //         ->where(['a.id' => $instalment_id])
-        //         ->andWhere(['e.paid_type' => $paidtype])
-        //         ->groupBy('e.id', 'asc');
-        // $command = $query->createCommand();
-        // $model   = $command->queryAll();
-        // \app\models\Methods::print_array($model);
-        // $query2 = new Query();
-        // $query2->select('a.*, b.contructor_id, c.name, d.total, 
-        //                 e.paid_type, e.paid_amount,e.id')
-        //         ->from('instalment a')
-        //         ->leftJoin('instalmentcostdetails b', 'a.id = b.instalment_id')
-        //         ->leftJoin('profile c', 'b.contructor_id = c.user_id')
-        //         ->leftJoin('summoney d', 'c.user_id = d.contructor_id')
-        //         ->leftJoin('paidtype e', 'd.id = e.summoney_id')
-        //         ->where(['a.id' => $instalment_id])
-        //         ->andWhere(['<>','e.paid_type',$paidtype])
-        //         ->groupBy('e.id', 'asc');
-        // $command2 = $query2->createCommand();
-        // $model2   = $command2->queryAll();
+       
         return $model;
-        // echo "<pre>";
-        // print_r($model2);
-        // \app\models\Methods::print_array($model);
+
     }
 
     private function getTransferDivideBank($bank_id, $instalment_id, $paidtype){
@@ -479,6 +453,7 @@ class InstalmentController extends Controller
         
         if(isset($_REQUEST['change_amount'])){
             // \app\models\Methods::print_array($_REQUEST);
+            $model->house_id = $_REQUEST['house_id'];
             $model->workclassify_id = $_REQUEST['workclassify_id'];
             $model->worktype_id = $_REQUEST['Laborcostdetails']['workgroup']; 
             $model->work_id = $_REQUEST['Laborcostdetails']['works'];
@@ -503,22 +478,41 @@ class InstalmentController extends Controller
             $workgroup = \app\models\WorkGroup::find()
                         ->where(['wc_id' => $model['workclassify_id']])->all();
             $works = \app\models\Works::find()->where(['wg_id' => $model['worktype_id']])->all();
+            $houses = \app\models\Houses::find()->all();
         }
 
         return $this->renderAjax('change-money-value',[
             'model' => $model,
             'workclassify' =>$workclassify,
             'workgroup' => $workgroup,
-            'works' => $works
+            'works' => $works,
+            'houses' => $houses
 
         ]);
     }
 
+    public function actionDeleteMoneyValue(){
+        $model =  \app\models\Instalmentcostdetails::find()
+                ->where(['id' => $_REQUEST['id']])->one();
+        
+        $model->status = 0;
+        $model->save();
+    }
 
     public function actionExportExcel(){
-        // print_r($_REQUEST['models']);
+        $query = new Query;
+        $query->select('a.*,a.create_date as aa, c.instalment, c.monthly, c.year')
+        ->from('instalmentcostdetails a')
+        // ->leftJoin('instalmentcostdetails a', 'a.instalment_id = a.instalment_id')
+        ->leftJoin('instalment c', 'a.instalment_id = c.id')
+        ->where(['a.instalment_id'=> $_REQUEST['instalment_id']])
+        ->andWhere(['a.status' => 1])
+        ->orderBy('a.contructor_id, a.house_id,a.money_type_id', 'asc')
+        ->groupBy('a.id')
+        ->all();
+        $models = $query->all();
         return $this->render('export-excel',[
-            'models' => $_REQUEST['models'],
+            'models' =>$models,
         ]);
 
     }

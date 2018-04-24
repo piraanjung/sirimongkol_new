@@ -82,18 +82,13 @@ $config = [
                 'User' => 'app\models\User',
             ],
         ],
-        'dynagrid'=> [
-            'class'=>'\kartik\dynagrid\Module',
-            // other module settings
-        ],
         'gridview' =>  [
             'class' => '\kartik\grid\Module',
-            // your other grid module settings
         ],
-       'gridviewKrajee' =>  [
-            'class' => '\kartik\grid\Module',
-            // your other grid module settings
-        ]
+    //    'gridviewKrajee' =>  [
+    //         'class' => '\kartik\grid\Module',
+    //         // your other grid module settings
+    //     ]
     ],
     
     

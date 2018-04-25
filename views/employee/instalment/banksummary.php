@@ -1,9 +1,10 @@
 
 <?php if(count($bank) > 0){ $_total=0;?>
-    <button class="btn btn-info btn-raised pull-right" id="printbtn">Print</button>
+    <button class="btn btn-info btn-raised pull-right" id="<?=$bankname_eng?>btn">Print</button>
     <br style="clear:both">
+    <div id="_<?=$bankname_eng?>">
     <h3><?=$bankname;?></h3>
-    <div>
+   
         <table class="table table-bordered table-hover">
             <tr>
                 <th>#</th>
@@ -35,3 +36,26 @@
 }//else ?>
 
 
+            <?php
+// Form::print_array($models);
+$this->registerJs("
+    
+
+    $('#".$bankname_eng."btn').click(function(){
+        var printContents = document.getElementById('_".$bankname_eng."').innerHTML;
+        var originalContents = document.body.innerHTML;
+
+        document.body.innerHTML = printContents;
+
+        window.print();
+
+        document.body.innerHTML = originalContents;
+
+    })
+
+
+
+
+    
+", $this::POS_READY); 
+?>

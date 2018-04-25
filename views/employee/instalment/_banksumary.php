@@ -1,5 +1,7 @@
-
+<button class="btn btn-info btn-raised pull-right" id="banksummarybtn">Print</button>
+    <div id="_banksummary">
 <?php foreach($allbanks as $bank){ ?>
+    
     <?php $sum =0; ?>
     <table class="table table-bordered table-hover">
     <tr>
@@ -30,5 +32,31 @@
         </tr>
     <?php }//else ?>
     </table>
+   
     <br>
 <?php }//for?>
+
+ </div>
+
+<?php
+$this->registerJs("
+    
+
+    $('#banksummarybtn').click(function(){
+        var printContents = document.getElementById('_banksummary').innerHTML;
+        var originalContents = document.body.innerHTML;
+
+        document.body.innerHTML = printContents;
+
+        window.print();
+
+        document.body.innerHTML = originalContents;
+
+    })
+
+
+
+
+    
+", $this::POS_READY); 
+?>

@@ -12,3 +12,4 @@ $('.navbar_open').click(function(){
     $('.logo').css('display', 'block')
     $('.navbar_close').css('display','inline-block')
 })  
+

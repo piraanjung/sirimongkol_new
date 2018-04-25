@@ -1,18 +1,6 @@
-<style>
-    .r{
-        text-align:right
-    }
-    .l{
-        text-align:left
-    }
-    _total{
-        background:blue
-    }
-</style>
+
 <?php if(count($paidbybanks) > 0){  $sum =0; ?>
-    <button class="btn btn-info btn-raised pull-right" id="printbtn">Print</button>
-    <br style="clear:both">
-<div class="">
+<div id="_paidbybank">
     <h3>สรุปการจ่ายเงินให้ช่าง โดยโอนเงิน</h3>
 
     <table class="table table-bordered table-striped">

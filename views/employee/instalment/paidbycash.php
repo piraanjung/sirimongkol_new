@@ -1,18 +1,7 @@
-<style>
-    .r{
-        text-align:right
-    }
-    .l{
-        text-align:left
-    }
-    _total{
-        background:blue
-    }
-</style>
+
 <?php if(count($paidbycashs) > 0){  $sum =0; ?>
-    <button class="btn btn-info btn-raised pull-right" id="printbtn">Print</button>
     <br style="clear:both">
-<div class="">
+<div id="_paidbycash">
     <h3>สรุปการจ่ายเงินให้ช่าง โดยจ่ายเงินสด</h3>
 
     <table class="table table-bordered table-striped">

@@ -8,33 +8,7 @@ use kartik\editable\Editable;
 use kartik\dialog\Dialog;
 use yii\widgets\Pjax;
 ?>
-<style>
-.paidmethod{
-    color:#000000;
-    font-weight:bold;
-    text-align:right
-}
-._number{
-    text-align:right
-}
-th{
-    text-align:center;
-    font-weight:bold
-}
-.edit-money-icon, .delete-money-icon{
-    font-size:14px;
-    border:1px solid green;
-    border-radius:5px 5px;
-    color:green;
-    margin-left:5px;
-    cursor: pointer;
-}
-.delete-money-icon{
-    color:red;
-    border:1px solid red;
-}
-</style>
-<?= Html::a('Profile', ['employee/instalment/export-excel', 'instalment_id' => $models[0]['instalment']], ['class' => 'profile-link']) ?>
+
 
  <h3>
     ตั้งเบิก  ค่าใช้จ่ายประจำวันที่  
@@ -211,7 +185,6 @@ th{
     
     Modal::end();
 ?>
-<!-- <button class="btn btn-info btn-raised pull-right" id="printbtn">Print</button> -->
 <br style="clear:both">
 
 
@@ -244,17 +217,7 @@ $('.delete-money-icon').click(function(){
     });
 });
 
-$('#printbtn').click(function(){
-    var printContents = document.getElementById('print').innerHTML;
-    var originalContents = document.body.innerHTML;
 
-    document.body.innerHTML = printContents;
-
-    window.print();
-
-    document.body.innerHTML = originalContents;
-
-})
     
 ", $this::POS_READY); 
 ?>

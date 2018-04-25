@@ -103,15 +103,21 @@ $this->params['breadcrumbs'][] = $this->title;
                                 </div>
 
                                  <div id="paidcash" class="tab-pane">
-                                    <?=$this->render("paidbycash",[
-                                            'paidbycashs' => $paidbycash
-                                    ]);?>
+                                    <button class="btn btn-info btn-raised pull-right" id="paidcashbtn">Print</button>
+                                    <div id="_paidcash">
+                                        <?=$this->render("paidbycash",[
+                                                'paidbycashs' => $paidbycash
+                                        ]);?>
+                                    </div>
                                 </div>
 
                                 <div id="transferbank" class="tab-pane">
-                                    <?=$this->render("paidbybank",[
-                                        'paidbybanks' => $paidbybanks
-                                    ]);?>
+                                    <button class="btn btn-info btn-raised pull-right" id="transferbankbtn">Print</button>
+                                    <div id="_paidbank">
+                                        <?=$this->render("paidbybank",[
+                                            'paidbybanks' => $paidbybanks
+                                        ]);?>
+                                    </div>
                                 </div>
 
                                 <div id="allbanks" class="tab-pane">
@@ -132,43 +138,50 @@ $this->params['breadcrumbs'][] = $this->title;
                                 <div id="bbl" class="tab-pane">
                                     <?=$this->render("banksummary",[
                                             'bank' => $bkb,
-                                            'bankname' => 'ธนาคารกรุงเทพ'
+                                            'bankname' => 'ธนาคารกรุงเทพ',
+                                            'bankname_eng'=> 'bkb'
                                     ]);?>
                                 </div>
                                 <div id="ktb" class="tab-pane">
                                     <?=$this->render("banksummary",[
                                             'bank' => $ktb,
-                                            'bankname' => 'ธนาคารกรุงไทย'
+                                            'bankname' => 'ธนาคารกรุงไทย',
+                                            'bankname_eng' => 'ktb'
                                     ]);?>
                                 </div>
                                 <div id="kb" class="tab-pane fade">
                                     <?=$this->render("banksummary",[
                                             'bank' => $kb,
-                                            'bankname' => 'ธนาคารกสิกรไทย'
+                                            'bankname' => 'ธนาคารกสิกรไทย',
+                                            'bankname_eng' => 'kb'
                                         ]);?>
                                 </div>
                                 <div id="scb" class="tab-pane">
                                     <?=$this->render("banksummary",[
                                             'bank' => $scb,
-                                            'bankname' => 'ธนาคารไทยพาณิชย์'
+                                            'bankname' => 'ธนาคารไทยพาณิชย์',
+                                            'bankname_eng' => 'scb'
                                         ]);?>
                                 </div>
                                 <div id="tmb" class="tab-pane">
                                     <?=$this->render("banksummary",[
                                             'bank' => $tmb,
-                                            'bankname' => 'ธนาคารทหารไทย'
+                                            'bankname' => 'ธนาคารทหารไทย',
+                                            'bankname_eng' => 'tmb'
                                         ]);?>
                                 </div>
                                 <div id="gsb" class="tab-pane">
                                     <?=$this->render("banksummary",[
                                             'bank' => $gsb,
-                                            'bankname' => 'ธนาคารออมสิน'
+                                            'bankname' => 'ธนาคารออมสิน',
+                                            'bankname_eng' => 'gsb'
                                         ]);?>
                                 </div>
                                 <div id="bay" class="tab-pane">
                                     <?=$this->render("banksummary",[
                                             'bank' => $ksb,
-                                            'bankname' => 'ธนาคารกรุงศรีอยุธยา'
+                                            'bankname' => 'ธนาคารกรุงศรีอยุธยา',
+                                            'bankname_eng' => 'bay'
                                         ]);?>
                                 </div>
                             </div>
@@ -195,8 +208,15 @@ $this->registerJs("
         $('#paymethod'+id).toggle('fadein')
     })
 
-    $('#printbtn').click(function(){
-        var printContents = document.getElementById('print').innerHTML;
+    $('#paidcashbtn').click(function(){
+        _print('_paidcash')
+    })
+    $('#transferbankbtn').click(function(){
+        _print('_paidbybank')
+    })
+    
+    function _print(div){
+        var printContents = document.getElementById(div).innerHTML;
         var originalContents = document.body.innerHTML;
 
         document.body.innerHTML = printContents;
@@ -205,7 +225,7 @@ $this->registerJs("
 
         document.body.innerHTML = originalContents;
 
-    })
+    }
 
 
 

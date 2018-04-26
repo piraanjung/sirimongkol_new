@@ -24,8 +24,8 @@
     </tr>
 </thead>
 <tbody>
-    <?php $c=0;$i=1;?>
-     
+<!-- \app\models\Methods::print_array($addlist) -->
+    <?php $c=0;$i=1; ?>
     <?php foreach($addlist as $ls){ ?>
     <tr>
         <td><?=$i++;?></td>
@@ -67,19 +67,19 @@
         <td>
             <?php 
                 $worktype = \app\models\WorkGroup::find()->select('wg_name')
-                    ->where(['id'=> $ls['Laborcostdetails']['workgroup']])->one();
+                    ->where(['id'=> $ls['Instalmentcostdetails']['worktype_id']])->one();
                     echo count($worktype) == 0 ? "-" : $worktype['wg_name'];
             ?>
-            <input type="hidden" name="aa[work_type][]"  value="<?=$ls['Laborcostdetails']['workgroup'];?>">
+            <input type="hidden" name="aa[work_type][]"  value="<?=$ls['Instalmentcostdetails']['worktype_id'];?>">
         </td>            
         <td>
             <?php 
                 $work = \app\models\Works::find()->select('work_name')
-                    ->where(['id'=> $ls['Laborcostdetails']['works']])->one();
+                    ->where(['id'=> $ls['Instalmentcostdetails']['work_id']])->one();
                 echo count($work) == 0 ? "-" : $work['work_name'];
             ?>
             <input type="hidden" name="aa[works][]"  
-                value="<?=$ls['Laborcostdetails']['works'];?>">
+                value="<?=$ls['Instalmentcostdetails']['work_id'];?>">
         </td>
         <td style="text-align:right">
             <?php 

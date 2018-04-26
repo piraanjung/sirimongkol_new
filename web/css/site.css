@@ -267,3 +267,15 @@ th {
 _total{
     background:blue
 }
+
+
+
+/* @media (min-width: 992px){ */
+    #infoform .form-group {
+        padding-bottom: 0px !important; 
+        margin: 0 0 0 0 !important;
+    }
+    /* #infoform .card form [class*="col-"] {
+        padding: 0px !important;
+    }
+} */

@@ -139,22 +139,22 @@ class InstalmentController extends Controller
             $instalment = Instalment::find()
                         ->where(['id' => $_REQUEST['instalment_id']])->one();
         }
-
+        // unset($_SESSION['laborcostlist']);
         $session = Yii::$app->session;
         if (!$session->has('laborcostlist')){
             $_SESSION['laborcostlist'] =array();
         }
-
+        // \app\models\Methods::print_array($_REQUEST);
         if ($model->load(Yii::$app->request->post()) || isset($_REQUEST['hidden'])) {
             if($_REQUEST['hidden'] =="addlists"){
                 array_push( $_SESSION['laborcostlist'], Yii::$app->request->post());
                 $_REQUEST['hidden'] = "";
                 $model->workclassify_id ='';
                 $model->amount= 0;
-                
+                // \app\models\Methods::print_array($_SESSION['laborcostlist']);   
             }else if($_REQUEST['hidden'] =="savelists"){
                 //ทำการบันทึกข้อมูลการจ่ายงวดรายช่าง
-
+                // \app\models\Methods::print_array($_SESSION['laborcostlist']);
                 $inst =  $this->saveInstalmentDetails($_SESSION['laborcostlist']);
                 
                 unset($_SESSION['laborcostlist']);
@@ -333,8 +333,8 @@ class InstalmentController extends Controller
             $model->contructor_id      = $req['Instalmentcostdetails']['contructor_id'];
             $model->house_id           = $req['Instalmentcostdetails']['house_id'];
             $model->workclassify_id    = $req['Instalmentcostdetails']['workclassify_id'];
-            $model->worktype_id        = $req['Laborcostdetails']['workgroup'];
-            $model->work_id            = $req['Laborcostdetails']['works'];
+            $model->worktype_id        = $req['Instalmentcostdetails']['worktype_id'];
+            $model->work_id            = $req['Instalmentcostdetails']['work_id'];
             $model->money_type_id      = $m_type;
             if($m_type == 3 ){ //เงินยืม
                 $model->amount         = $req['deduction']['loan_deduction']['amount'];

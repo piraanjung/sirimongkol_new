@@ -45,7 +45,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
                             [
                                 'class' => 'kartik\grid\ActionColumn',
-                                'template' => '{add_item} {instalment_sum} {paid_by} {details} ',
+                                'template' => '{add_item} {instalment_sum} {paid_by} {details}',
                                 'width' => '45%',
                                 'header' => '',
                                 'buttons'=>[

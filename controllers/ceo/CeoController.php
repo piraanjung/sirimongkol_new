@@ -124,6 +124,24 @@ class CeoController extends \yii\web\Controller
     public function actionProjectdetail($project_id){
         $this->layout = 'ceo_layout';
 
+    $res = $this::_projectdetail($project_id);
+        // \app\models\Form::print_array($houseCount);
+        return $this->render('projectdetail', [
+            'houseCount' => $res['houseCount'],
+            'noneBuildedHouses' => $res['noneBuildedHouses'],
+            'duringBuildedHouses' => $res['duringBuildedHouses'],
+            'completeBuildedHoueses' => $res['completeBuildedHoueses'],
+            // 'sumControlStatement' => $res['sumControlStatement'],
+            'sumPaidAmountByProject' => $res['sumPaidAmountByProject'],
+            'provider' => $res['provider'],
+            'dataProvider' => $res['dataProvider'],
+            'project' => $res['project'],
+            // 'searchModel' =>$searchModel
+        ]);
+    }
+
+    public static function _projectdetail($project_id){
+        $res=array();
         $sql_grid = 'select 
             a.*, 
             b.hm_name,b.hm_control_statment,
@@ -166,26 +184,17 @@ class CeoController extends \yii\web\Controller
                 ],
             ]);
 
-        
-        $houseCount = Houses::find()->all();
-        $noneBuildedHouses = Houses::countHousesByStatus(0, $project_id);
-        $duringBuildedHouses = Houses::countHousesByStatus(1,$project_id);
-        $completeBuildedHoueses  = Houses::countHousesByStatus(2, $project_id);
+        $res['houseCount'] = Houses::find()->all();
+        $res['noneBuildedHouses'] = Houses::countHousesByStatus(0, $project_id);
+        $res['duringBuildedHouses'] = Houses::countHousesByStatus(1,$project_id);
+        $res['completeBuildedHoueses']  = Houses::countHousesByStatus(2, $project_id);
         // $sumControlStatement = Houses::sumControllStatement();
-        $sumPaidAmountByProject = Houses::sumPaidAmountByProject($project_id);
-        // \app\models\Form::print_array($houseCount);
-        return $this->render('projectdetail', [
-            'houseCount' => $houseCount,
-            'noneBuildedHouses' => $noneBuildedHouses,
-            'duringBuildedHouses' => $duringBuildedHouses,
-            'completeBuildedHoueses' => $completeBuildedHoueses,
-            // 'sumControlStatement' => $sumControlStatement,
-            'sumPaidAmountByProject' => $sumPaidAmountByProject,
-            'provider' => $provider,
-            'dataProvider' => $dataProvider,
-            'project' => $project,
-            // 'searchModel' =>$searchModel
-        ]);
+        $res['sumPaidAmountByProject'] = Houses::sumPaidAmountByProject($project_id);
+        $res['provider']= $provider;
+        $res['dataProvider']= $dataProvider;
+        $res['project']= $project;
+        
+        return $res;
     }
 }
 

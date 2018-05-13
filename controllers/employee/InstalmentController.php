@@ -172,6 +172,24 @@ class InstalmentController extends Controller
         ]);
     }
 
+    public function actionProjectdetail($project_id){
+        $this->layout = 'employee_layout';
+        $res = \app\controllers\ceo\CeoController::_projectdetail(6);
+        
+        return $this->render('projectdetail/projectdetail', [
+            'houseCount' => $res['houseCount'],
+            'noneBuildedHouses' => $res['noneBuildedHouses'],
+            'duringBuildedHouses' => $res['duringBuildedHouses'],
+            'completeBuildedHoueses' => $res['completeBuildedHoueses'],
+            // 'sumControlStatement' => $res['sumControlStatement'],
+            'sumPaidAmountByProject' => $res['sumPaidAmountByProject'],
+            'provider' => $res['provider'],
+            'dataProvider' => $res['dataProvider'],
+            'project' => $res['project'],
+            // 'searchModel' =>$searchModel
+        ]);
+    }
+
     public function actionInstalment_by_instructor_detail_backup($instalment_id){
         $this->layout = "employee_layout";
         $query = new Query;
@@ -516,5 +534,16 @@ class InstalmentController extends Controller
         ]);
 
     }
-    
+
+    public function actionInstalmentdetail_by_house(){
+        $searchModel = new \app\models\WorkGroupSearch();
+        $this->layout = 'employee_layout';
+        // $instalment = $this->_instalment_by_house($_REQUEST);
+        $instalment = \app\controllers\ceo\LaborcostdetailsController::_instalment_by_house($_REQUEST);
+        return $this->render('instalmentdetail_by_house',[
+            'instalment' => empty($instalment['instalment']) ? $instalment['empty_instalment'] : $instalment['instalment'],
+            'instalment_sum_provider' => $instalment['instalment_sum_provider'],
+            'searchModel' => $searchModel
+        ]);
+    }    
 }

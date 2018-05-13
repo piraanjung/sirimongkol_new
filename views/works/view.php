@@ -36,7 +36,13 @@ $this->params['breadcrumbs'][] = $this->title;
             'id',
             'work_name',
             'workGroup.wg_name',
-            'work_control_statement'
+            'work_control_statement',
+            [
+                'attribute' => 'status',
+                'value' => function($model){
+                    return \app\models\Works::workStatus($model['status']);
+                }
+            ]
         ],
     ]) ?>
 </div><!--card-->

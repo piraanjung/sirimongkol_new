@@ -92,74 +92,75 @@ class LaborcostdetailsController extends Controller
     public function actionInstalmentdetail_by_house(){
         $searchModel = new WorkGroupSearch();
         $this->layout = 'ceo_layout';
-        $query = new Query;
-        $query->select('a.*, (select sum(amount) from instalmentcostdetails 
-                               where house_id='.$_REQUEST['id'].') as sum_amount,
-                b.name ,
-                c.wc_name,
-                d.wg_name, d.id as wg_id,
-                e.id as inst_id, e.instalment, e.monthly as instalment_monthly, e.year as instalment_year,
-                f.name as moneytype,
-                g.id, g.project_id, g.house_name,
-                h.hm_name, h.id as hm_id, h.hm_control_statment,
-                i.work_name,i.work_control_statement,
-                j.projectname
-            ')
-            ->from('instalmentcostdetails a')
-            ->leftJoin('profile b', 'a.contructor_id = b.user_id')
-            ->leftJoin('work_category c', 'a.workclassify_id = c.id ')
-            ->leftJoin('work_group d', 'a.worktype_id = d.id')
-            ->leftJoin('works i', 'a.work_id = i.id')
-            ->leftJoin('instalment e', 'a.instalment_id = e.id')
-            ->leftJoin('money_type f', 'a.money_type_id = f.id')
-            ->leftJoin('houses g', 'a.house_id = g.id')
-            ->leftJoin('house_model h', 'g.house_model_id = h.id')
-            ->leftJoin('project j', 'e.project_id = j.project_id')
-            ->where(['a.house_id' => $_REQUEST['id']])
-            ->groupBy('a.instalment_id')
-            // ->andWhere(['a.instalment_id' => $_REQUEST['instalment_id']])
-            ;
-        $instalment = $query->all(); 
-        if(empty($instalment)){
-            $query2 = new Query;
-            $query2->select('a.id, a.project_id')
-                ->from('houses a')
-                ->leftJoin('project b', 'a.project_id = b.id')
-                ->where(['a.id' => $_REQUEST['id']]);
-            $empty_instalment = $query2->all();
-            $empty_instalment['empty_instalment'] = true;
+        $instalment = $this->_instalment_by_house($_REQUEST);
+        // $query = new Query;
+        // $query->select('a.*, (select sum(amount) from instalmentcostdetails 
+        //                        where house_id='.$_REQUEST['id'].') as sum_amount,
+        //         b.name ,
+        //         c.wc_name,
+        //         d.wg_name, d.id as wg_id,
+        //         e.id as inst_id, e.instalment, e.monthly as instalment_monthly, e.year as instalment_year,
+        //         f.name as moneytype,
+        //         g.id, g.project_id, g.house_name,
+        //         h.hm_name, h.id as hm_id, h.hm_control_statment,
+        //         i.work_name,i.work_control_statement,
+        //         j.projectname
+        //     ')
+        //     ->from('instalmentcostdetails a')
+        //     ->leftJoin('profile b', 'a.contructor_id = b.user_id')
+        //     ->leftJoin('work_category c', 'a.workclassify_id = c.id ')
+        //     ->leftJoin('work_group d', 'a.worktype_id = d.id')
+        //     ->leftJoin('works i', 'a.work_id = i.id')
+        //     ->leftJoin('instalment e', 'a.instalment_id = e.id')
+        //     ->leftJoin('money_type f', 'a.money_type_id = f.id')
+        //     ->leftJoin('houses g', 'a.house_id = g.id')
+        //     ->leftJoin('house_model h', 'g.house_model_id = h.id')
+        //     ->leftJoin('project j', 'e.project_id = j.project_id')
+        //     ->where(['a.house_id' => $_REQUEST['id']])
+        //     ->groupBy('a.instalment_id')
+        //     // ->andWhere(['a.instalment_id' => $_REQUEST['instalment_id']])
+        //     ;
+        // $instalment = $query->all(); 
+        // if(empty($instalment)){
+        //     $query2 = new Query;
+        //     $query2->select('a.id, a.project_id')
+        //         ->from('houses a')
+        //         ->leftJoin('project b', 'a.project_id = b.id')
+        //         ->where(['a.id' => $_REQUEST['id']]);
+        //     $empty_instalment = $query2->all();
+        //     $empty_instalment['empty_instalment'] = true;
 
-        }
-        $sql = "
-            SELECT  a.id as house_id, a.house_name,
-                b.hm_name, b.hm_control_statment ,
-                c.wg_id , d.wg_name, c.cost_control ,
-                (SELECT SUM(cost_control) FROM house_model_have_workgroup WHERE house_model_id = b.id ) as sum_cost_control,
-                (SELECT SUM(amount) FROM instalmentcostdetails WHERE house_id = ". $_REQUEST['id']." AND worktype_id = c.wg_id) as paid_amount,
-                (SELECT SUM(amount) FROM instalmentcostdetails WHERE house_id = ". $_REQUEST['id'].") as sum_paid_amount,
-                ((SELECT SUM(amount) FROM instalmentcostdetails WHERE house_id = ". $_REQUEST['id']." AND worktype_id = c.wg_id)/c.cost_control)*100 as progress_percent
-            FROM houses a
-            LEFT JOIN house_model b ON a.house_model_id = b.id
-            LEFT JOIN house_model_have_workgroup c ON b.id = c.house_model_id
-            LEFT JOIN work_group d ON c.wg_id = d.id
-            LEFT JOIN instalmentcostdetails e ON a.id = e.house_id
-            WHERE a.id=". $_REQUEST['id']." 
-            Group By c.wg_id";
+        // }
+        // $sql = "
+        //     SELECT  a.id as house_id, a.house_name,
+        //         b.hm_name, b.hm_control_statment ,
+        //         c.wg_id , d.wg_name, c.cost_control ,
+        //         (SELECT SUM(cost_control) FROM house_model_have_workgroup WHERE house_model_id = b.id ) as sum_cost_control,
+        //         (SELECT SUM(amount) FROM instalmentcostdetails WHERE house_id = ". $_REQUEST['id']." AND worktype_id = c.wg_id) as paid_amount,
+        //         (SELECT SUM(amount) FROM instalmentcostdetails WHERE house_id = ". $_REQUEST['id'].") as sum_paid_amount,
+        //         ((SELECT SUM(amount) FROM instalmentcostdetails WHERE house_id = ". $_REQUEST['id']." AND worktype_id = c.wg_id)/c.cost_control)*100 as progress_percent
+        //     FROM houses a
+        //     LEFT JOIN house_model b ON a.house_model_id = b.id
+        //     LEFT JOIN house_model_have_workgroup c ON b.id = c.house_model_id
+        //     LEFT JOIN work_group d ON c.wg_id = d.id
+        //     LEFT JOIN instalmentcostdetails e ON a.id = e.house_id
+        //     WHERE a.id=". $_REQUEST['id']." 
+        //     Group By c.wg_id";
 
-            $instalment_sum_provider =$this->generateSqlDataProvider($sql);
-        // \app\models\Methods::print_array($instalment);
-        //บวก sum work group
-        foreach($instalment as $key => $ints){
-            $query2 = new Query;
-            $query2->select('SUM(work_control_statement) AS ww')
-                ->from('works')
-                ->where(['wg_id' => $ints['wg_id']]);
-            $w_statement = $query2->one();             
-            $instalment[$key]['work_control_statement'] =$w_statement['ww'];
-        }
+        //     $instalment_sum_provider =$this->generateSqlDataProvider($sql);
+        // // \app\models\Methods::print_array($instalment);
+        // //บวก sum work group
+        // foreach($instalment as $key => $ints){
+        //     $query2 = new Query;
+        //     $query2->select('SUM(work_control_statement) AS ww')
+        //         ->from('works')
+        //         ->where(['wg_id' => $ints['wg_id']]);
+        //     $w_statement = $query2->one();             
+        //     $instalment[$key]['work_control_statement'] =$w_statement['ww'];
+        // }
         return $this->render('instalmentdetail_by_house',[
-            'instalment' => empty($instalment) ? $empty_instalment : $instalment,
-            'instalment_sum_provider' => $instalment_sum_provider,
+            'instalment' => empty($instalment['instalment']) ? $instalment['empty_instalment'] : $instalment['instalment'],
+            'instalment_sum_provider' => $instalment['instalment_sum_provider'],
             'searchModel' => $searchModel
         ]);
     }
@@ -333,7 +334,78 @@ class LaborcostdetailsController extends Controller
         return $provider;
     }
 
-    public function actionExpandrowdetails(){
-        echo "dfsdfsd";
+    public function _instalment_by_house($REQUEST){
+        $empty_instalment['empty_instalment'] = false;
+        $query = new Query;
+        $query->select('a.*, (select sum(amount) from instalmentcostdetails 
+                               where house_id='.$REQUEST['id'].') as sum_amount,
+                b.name ,
+                c.wc_name,
+                d.wg_name, d.id as wg_id,
+                e.id as inst_id, e.instalment, e.monthly as instalment_monthly, e.year as instalment_year,
+                f.name as moneytype,
+                g.id, g.project_id, g.house_name,
+                h.hm_name, h.id as hm_id, h.hm_control_statment,
+                i.work_name,i.work_control_statement,
+                j.projectname
+            ')
+            ->from('instalmentcostdetails a')
+            ->leftJoin('profile b', 'a.contructor_id = b.user_id')
+            ->leftJoin('work_category c', 'a.workclassify_id = c.id ')
+            ->leftJoin('work_group d', 'a.worktype_id = d.id')
+            ->leftJoin('works i', 'a.work_id = i.id')
+            ->leftJoin('instalment e', 'a.instalment_id = e.id')
+            ->leftJoin('money_type f', 'a.money_type_id = f.id')
+            ->leftJoin('houses g', 'a.house_id = g.id')
+            ->leftJoin('house_model h', 'g.house_model_id = h.id')
+            ->leftJoin('project j', 'e.project_id = j.project_id')
+            ->where(['a.house_id' => $REQUEST['id']])
+            ->groupBy('a.instalment_id')
+            // ->andWhere(['a.instalment_id' => $REQUEST['instalment_id']])
+            ;
+        $instalment = $query->all(); 
+        if(empty($instalment)){
+            $query2 = new Query;
+            $query2->select('a.id, a.project_id')
+                ->from('houses a')
+                ->leftJoin('project b', 'a.project_id = b.id')
+                ->where(['a.id' => $REQUEST['id']]);
+            $empty_instalment = $query2->all();
+            $empty_instalment['empty_instalment'] = true;
+
+        }
+        $sql = "
+            SELECT  a.id as house_id, a.house_name,
+                b.hm_name, b.hm_control_statment ,
+                c.wg_id , d.wg_name, c.cost_control ,
+                (SELECT SUM(cost_control) FROM house_model_have_workgroup WHERE house_model_id = b.id ) as sum_cost_control,
+                (SELECT SUM(amount) FROM instalmentcostdetails WHERE house_id = ". $REQUEST['id']." AND worktype_id = c.wg_id) as paid_amount,
+                (SELECT SUM(amount) FROM instalmentcostdetails WHERE house_id = ". $REQUEST['id'].") as sum_paid_amount,
+                ((SELECT SUM(amount) FROM instalmentcostdetails WHERE house_id = ". $REQUEST['id']." AND worktype_id = c.wg_id)/c.cost_control)*100 as progress_percent
+            FROM houses a
+            LEFT JOIN house_model b ON a.house_model_id = b.id
+            LEFT JOIN house_model_have_workgroup c ON b.id = c.house_model_id
+            LEFT JOIN work_group d ON c.wg_id = d.id
+            LEFT JOIN instalmentcostdetails e ON a.id = e.house_id
+            WHERE a.id=". $REQUEST['id']." 
+            Group By c.wg_id";
+
+            $instalment_sum_provider =\app\controllers\ceo\LaborcostdetailsController::generateSqlDataProvider($sql);
+        // \app\models\Methods::print_array($instalment);
+        //บวก sum work group
+        foreach($instalment as $key => $ints){
+            $query2 = new Query;
+            $query2->select('SUM(work_control_statement) AS ww')
+                ->from('works')
+                ->where(['wg_id' => $ints['wg_id']]);
+            $w_statement = $query2->one();             
+            $instalment[$key]['work_control_statement'] =$w_statement['ww'];
+
+            $inst = array();
+            $inst['instalment'] = $instalment;
+            $inst['instalment_sum_provider'] = $instalment_sum_provider;
+            $inst['empty_instalment'] = $empty_instalment['empty_instalment'];
+            return $inst;
+        }
     }
 }

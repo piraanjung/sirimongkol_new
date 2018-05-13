@@ -82,7 +82,7 @@ $class = $percent < 100 ? 'bg-yellow' : '';
                         return GridView::ROW_COLLAPSED;
                     },
                     'detail' => function ($model, $key, $index, $column) {
-                        return Yii::$app->controller->renderPartial('_expand-row-details', ['model' => $model]);
+                        return Yii::$app->controller->renderPartial('/ceo/laborcostdetails/_expand-row-details', ['model' => $model]);
                     },
                     'headerOptions' => ['class' => 'kartik-sheet-style'], 
                     'expandOneOnly' => true

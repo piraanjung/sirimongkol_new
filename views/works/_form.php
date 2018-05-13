@@ -19,12 +19,17 @@ $listData=ArrayHelper::map($wg,'id','wg_name');
 
     <?= $form->field($model, 'wg_id')->dropDownList(
             $listData,
-            ['prompt'=>'Select...']
+            ['prompt'=>'เลือก...']
         );
     ?>
 
     <?= $form->field($model, 'work_control_statement')->textInput(['maxlength' => true]) ?>
-
+    
+    <?= $form->field($model, 'status')->dropDownList(
+            [0 => 'ยังไม่เปิดใช้งาน', 1 => 'เปิดใช้งาน'],
+            ['prompt'=>'เลือก...']
+        );
+    ?>
     <div class="form-group">
         <?= Html::submitButton('บันทึก', ['class' => 'btn btn-success']) ?>
     </div>

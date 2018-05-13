@@ -24,9 +24,13 @@ $listData=ArrayHelper::map($wc,'id','wc_name');
             ['prompt'=>'Select...']
         );
     ?>
+    <?=$form->field($model, 'wg_status')->dropDownList(
+        [0=>'ยังไม่เปิดใช้งาน' , 1 => 'เปิดใช้งาน'],
+        ['prompt' => 'เลือก...']
+    ) ?>
 
     <div class="form-group">
-        <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>
+        <?= Html::submitButton('บันทึก', ['class' => 'btn btn-success']) ?>
     </div>
 
     <?php ActiveForm::end(); ?>

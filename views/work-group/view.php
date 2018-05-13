@@ -19,11 +19,11 @@ $this->params['breadcrumbs'][] = $this->title;
             ])
             ?>
     <p>
-        <?= Html::a('Update', ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
-        <?= Html::a('Delete', ['delete', 'id' => $model->id], [
+        <?= Html::a('แก้ไข', ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
+        <?= Html::a(' ลบ', ['delete', 'id' => $model->id], [
             'class' => 'btn btn-danger',
             'data' => [
-                'confirm' => 'Are you sure you want to delete this item?',
+                'confirm' => 'คุณต้องการลบข้อมูลนี้หรือไม่?',
                 'method' => 'post',
             ],
         ]) ?>
@@ -35,6 +35,12 @@ $this->params['breadcrumbs'][] = $this->title;
             'id',
             'wg_name',
             'workCategory.wc_name',
+            [
+                'attribute' => 'wg_status',
+                'value' => function($model){
+                    return \app\models\WorkGroup::workGroupStatus($model['wg_status']);
+                }
+            ]
         ],
     ]) ?>
 </div><!--card-->

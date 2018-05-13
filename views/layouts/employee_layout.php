@@ -51,6 +51,11 @@ if (class_exists('ramosisw\CImaterial\web\MaterialAsset')) {
                             <p>จ่ายเงินงวดงานรายช่าง</p>',['employee/instalment/index']);?>
 
                         </li>
+                        <li>
+                            <?=Html::a('<i class="material-icons">dashboard</i>
+                            <p>สรุปการจ่ายงวดรายแปลง</p>',['employee/instalment/projectdetail','project_id'=>6]);?>
+
+                        </li>
                     </ul>
                 </div>
                 <div class="sidebar-background"></div>

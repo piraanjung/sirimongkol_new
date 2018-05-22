@@ -20,7 +20,7 @@ use yii\bootstrap\Nav;
     ],
     'items' => [
         [
-            'label' => Yii::t('user', 'Users'),
+            'label' => Yii::t('user', 'ผู้ใช้งานระบบ'),
             'url' => ['/user/admin/index'],
         ],
         [

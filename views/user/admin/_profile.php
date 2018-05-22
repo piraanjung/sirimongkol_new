@@ -35,15 +35,15 @@ use yii\helpers\Html;
 <?= $form->field($profile, 'name')->label('ชื่อ-สกุล') ?>
 <?= $form->field($profile, 'location')->label('ที่อยู่') ?>
 <?= $form->field($profile, 'phone')->label('เบอร์โทรศัพท์') ?>
-<!-- <?= $form->field($profile, 'public_email') ?>
-<?= $form->field($profile, 'website') ?> -->
+<!-- <= $form->field($profile, 'public_email') ?>
+<= $form->field($profile, 'website') ?> -->
 
 <!-- <?= $form->field($profile, 'gravatar_email') ?>
 <?= $form->field($profile, 'bio')->textarea() ?> -->
 
 <div class="form-group">
     <div class="col-lg-offset-3 col-lg-9">
-        <?= Html::submitButton(Yii::t('user', 'Update'), ['class' => 'btn btn-block btn-success']) ?>
+        <?= Html::submitButton(Yii::t('user', 'บันทึก'), ['class' => 'btn btn-block btn-success']) ?>
     </div>
 </div>
 

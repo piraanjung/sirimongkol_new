@@ -18,8 +18,8 @@ use yii\helpers\Html;
  * @var dektrium\user\models\User $user
  */
 
-$this->title = Yii::t('user', 'Create a user account');
-$this->params['breadcrumbs'][] = ['label' => Yii::t('user', 'Users'), 'url' => ['index']];
+$this->title = Yii::t('user', 'สร้างข้อมูลผู้ใช้งานระบบ');
+$this->params['breadcrumbs'][] = ['label' => Yii::t('user', 'ผู้ใช้งานระบบ'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 
@@ -36,12 +36,12 @@ $this->params['breadcrumbs'][] = $this->title;
                         'class' => 'nav-pills nav-stacked',
                     ],
                     'items' => [
-                        ['label' => Yii::t('user', 'Account details'), 'url' => ['/user/admin/create']],
-                        ['label' => Yii::t('user', 'Profile details'), 'options' => [
+                        ['label' => Yii::t('user', 'ข้อมูลสำหรับใช้เข้าสู้ระบบ'), 'url' => ['/user/admin/create']],
+                        ['label' => Yii::t('user', 'ข้อมูลผู้ใช้งานระบบ'), 'options' => [
                             'class' => 'disabled',
                             'onclick' => 'return false;',
                         ]],
-                        ['label' => Yii::t('user', 'Information'), 'options' => [
+                        ['label' => Yii::t('user', 'ข้้อมูลอื่นๆการใช้งานระบบ'), 'options' => [
                             'class' => 'disabled',
                             'onclick' => 'return false;',
                         ]],
@@ -53,10 +53,10 @@ $this->params['breadcrumbs'][] = $this->title;
     <div class="col-md-9">
         <div class="panel panel-default">
             <div class="panel-body">
-                <div class="alert alert-info">
-                    <?= Yii::t('user', 'Credentials will be sent to the user by email') ?>.
-                    <?= Yii::t('user', 'A password will be generated automatically if not provided') ?>.
-                </div>
+                <!-- <div class="alert alert-info">
+                     < Yii::t('user', 'Credentials will be sent to the user by email') ?>. -->
+                    <!-- <= Yii::t('user', 'A password will be generated automatically if not provided') ?>. 
+                </div> -->
                 <?php $form = ActiveForm::begin([
                     'layout' => 'horizontal',
                     'enableAjaxValidation' => true,
@@ -72,7 +72,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
                 <div class="form-group">
                     <div class="col-lg-offset-3 col-lg-9">
-                        <?= Html::submitButton(Yii::t('user', 'Save'), ['class' => 'btn btn-block btn-success']) ?>
+                        <?= Html::submitButton(Yii::t('user', 'บันทึก'), ['class' => 'btn btn-block btn-success']) ?>
                     </div>
                 </div>
 

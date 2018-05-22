@@ -17,8 +17,8 @@ use yii\bootstrap\Nav;
  * @var string $content
  */
 
-$this->title = Yii::t('user', 'Update user account');
-$this->params['breadcrumbs'][] = ['label' => Yii::t('user', 'Users'), 'url' => ['index']];
+$this->title = Yii::t('user', 'แก้ไขบัญชีเข้าสู่ระบบ');
+$this->params['breadcrumbs'][] = ['label' => Yii::t('user', 'ผู้ใช้งานระบบ'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 
@@ -36,14 +36,14 @@ $this->params['breadcrumbs'][] = $this->title;
                     ],
                     'items' => [
                         [
-                            'label' => Yii::t('user', 'Account details'),
+                            'label' => Yii::t('user', 'ข้อมูลสำหรับใช้เข้าสู้ระบบ'),
                             'url' => ['/user/admin/update', 'id' => $user->id]
                         ],
                         [
-                            'label' => Yii::t('user', 'Profile details'),
+                            'label' => Yii::t('user', 'ข้้อมูลอื่นๆการใช้งานระบบ'),
                             'url' => ['/user/admin/update-profile', 'id' => $user->id]
                         ],
-                        ['label' => Yii::t('user', 'Information'), 'url' => ['/user/admin/info', 'id' => $user->id]],
+                        ['label' => Yii::t('user', 'ข้้อมูลอื่นๆการใช้งานระบบ'), 'url' => ['/user/admin/info', 'id' => $user->id]],
                         [
                             'label' => Yii::t('user', 'Assignments'),
                             'url' => ['/user/admin/assignments', 'id' => $user->id],
@@ -51,7 +51,7 @@ $this->params['breadcrumbs'][] = $this->title;
                         ],
                         '<hr>',
                         [
-                            'label' => Yii::t('user', 'Confirm'),
+                            'label' => Yii::t('user', 'ยืนยันการใช้งานให้ผู้ใช้งาน'),
                             'url' => ['/user/admin/confirm', 'id' => $user->id],
                             'visible' => !$user->isConfirmed,
                             'linkOptions' => [
@@ -61,7 +61,7 @@ $this->params['breadcrumbs'][] = $this->title;
                             ],
                         ],
                         [
-                            'label' => Yii::t('user', 'Block'),
+                            'label' => Yii::t('user', 'ยกเลิกการใช้งานของผู้ใช้งาน'),
                             'url' => ['/user/admin/block', 'id' => $user->id],
                             'visible' => !$user->isBlocked,
                             'linkOptions' => [
@@ -71,7 +71,7 @@ $this->params['breadcrumbs'][] = $this->title;
                             ],
                         ],
                         [
-                            'label' => Yii::t('user', 'Unblock'),
+                            'label' => Yii::t('user', 'อนุญาตผู้ใช้งานใช้งานระบบ'),
                             'url' => ['/user/admin/block', 'id' => $user->id],
                             'visible' => $user->isBlocked,
                             'linkOptions' => [
@@ -81,7 +81,7 @@ $this->params['breadcrumbs'][] = $this->title;
                             ],
                         ],
                         [
-                            'label' => Yii::t('user', 'Delete'),
+                            'label' => Yii::t('user', 'ลบผู้ใช้งานระบบ'),
                             'url' => ['/user/admin/delete', 'id' => $user->id],
                             'linkOptions' => [
                                 'class' => 'text-danger',

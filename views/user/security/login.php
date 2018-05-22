@@ -20,7 +20,7 @@ use yii\widgets\ActiveForm;
  * @var dektrium\user\Module $module
  */
 
-$this->title = Yii::t('user', 'Sign in');
+$this->title = Yii::t('user', 'เข้าสู่ระบบ');
 $this->params['breadcrumbs'][] = $this->title;
 ?>
     <?= $this->render('/_alert', ['module' => Yii::$app->getModule('user')]) ?>
@@ -53,14 +53,15 @@ $this->params['breadcrumbs'][] = $this->title;
                             'inputOptions' => [
                                 'autofocus' => 'autofocus',
                                 'class' => 'form-control',
-                                'tabindex' => '1']])->dropDownList(LoginForm::loginList());
+                                'tabindex' => '1']])->dropDownList(LoginForm::loginList())
+                                ->label(Yii::t('user', $this->title));
                         ?>
 
                             <?php else: ?>
 
                             <?= $form->field($model, 'login',
                                 ['inputOptions' => ['autofocus' => 'autofocus', 'class' => 'form-control', 'tabindex' => '1']]
-                            );
+                            ) ->label(Yii::t('user', $this->title));
                             ?>
 
                                 <?php endif ?>
@@ -76,10 +77,10 @@ $this->params['breadcrumbs'][] = $this->title;
                                     ['inputOptions' => ['class' => 'form-control', 'tabindex' => '2']])
                                     ->passwordInput()
                                     ->label(
-                                        Yii::t('user', 'Password')
+                                        Yii::t('user', 'รหัสผ่าน')
                                         . ($module->enablePasswordRecovery ?
                                             ' (' . Html::a(
-                                                Yii::t('user', 'Forgot password?'),
+                                                Yii::t('user', 'ลืมรหัสผ่าน?'),
                                                 ['/user/recovery/request'],
                                                 ['tabindex' => '5']
                                             )
@@ -87,10 +88,10 @@ $this->params['breadcrumbs'][] = $this->title;
                                     ) ?>
                                     <?php endif ?>
 
-                                    <?= $form->field($model, 'rememberMe')->checkbox(['tabindex' => '3']) ?>
+                                    <!-- < $form->field($model, 'rememberMe')->checkbox(['tabindex' => '3']) ?> -->
 
                                         <?= Html::submitButton(
-                                            Yii::t('user', 'Sign in'),
+                                            Yii::t('user', 'เข้าสู่ระบบ'),
                                             ['class' => 'btn btn-primary btn-block', 'tabindex' => '4']
                                         ) ?>
 

@@ -43,11 +43,11 @@ if (class_exists('ramosisw\CImaterial\web\MaterialAsset')) {
     echo Nav::widget([
         'options' => ['class' => 'navbar-nav navbar-right'],
         'items' => [
-            ['label' => 'Home', 'url' => ['/site/index']],
+            ['label' => 'หน้าแรก', 'url' => ['/site/index']],
             // ['label' => 'About', 'url' => ['/site/about']],
             // ['label' => 'Contact', 'url' => ['/site/contact']],
             Yii::$app->user->isGuest ?
-            ['label' => 'Sign in', 'url' => ['/user/security/login']] :
+            ['label' => 'เข้าสู่ระบบ', 'url' => ['/user/security/login']] :
             ['label' => 'Account(' . Yii::$app->user->identity->username . ')', 'items'=>[
                 ['label' => 'Profile', 'url' => ['/user/settings/profile']],
                 ['label' => 'Account', 'url' => ['/user/settings/account']],

@@ -125,9 +125,20 @@ class CeoController extends \yii\web\Controller
     public function actionProjectdetail($project_id){
         $this->layout = 'ceo_layout';
         $searchModel = new HousesSearch();
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
         $res = $this::_projectdetail($project_id);
         // \app\models\Form::print_array($houseCount);
         return $this->render('projectdetail', [
+            // 'houseCount' => $res['houseCount'],
+            // 'noneBuildedHouses' => $res['noneBuildedHouses'],
+            // 'duringBuildedHouses' => $res['duringBuildedHouses'],
+            // 'completeBuildedHoueses' => $res['completeBuildedHoueses'],
+            // // 'sumControlStatement' => $res['sumControlStatement'],
+            // 'sumPaidAmountByProject' => $res['sumPaidAmountByProject'],
+            // 'provider' => $res['provider'],
+            // 'dataProvider' => $res['dataProvider'],
+            // 'project' => $res['project'],
+            // 'searchModel' =>$searchModel
             'houseCount' => $res['houseCount'],
             'noneBuildedHouses' => $res['noneBuildedHouses'],
             'duringBuildedHouses' => $res['duringBuildedHouses'],
@@ -135,9 +146,10 @@ class CeoController extends \yii\web\Controller
             // 'sumControlStatement' => $res['sumControlStatement'],
             'sumPaidAmountByProject' => $res['sumPaidAmountByProject'],
             'provider' => $res['provider'],
-            'dataProvider' => $res['dataProvider'],
+            'dataProvider2' => $res['dataProvider'],
             'project' => $res['project'],
-            'searchModel' =>$searchModel
+            'searchModel' =>$searchModel,
+            'dataProvider' => $dataProvider
         ]);
     }
 

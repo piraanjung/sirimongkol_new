@@ -104,7 +104,7 @@ class Methods extends Model
             <div class="card-header" data-background-color="purple">
                 <div class="row">
                     <div class="col-md-9">
-                        <h4 class="title">
+                        <h4 class="title" style="text-align:left !important">
                             '.$title.'
                         </h4>
                         <p class="category">'.$subtitle.'</p>

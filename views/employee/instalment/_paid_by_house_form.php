@@ -8,6 +8,9 @@ use kartik\widgets\Select2;
     .text-alert{
         color:green
     }
+    #w_paid{
+        color:red
+    }
 </style>
 <?php yii\widgets\Pjax::begin(['id' => 'new_country']) ?>
 <div class="card card-stats" style="background-color:#EAF7FB; border-radius:10px 10px">
@@ -53,7 +56,7 @@ use kartik\widgets\Select2;
                     
                       
             </div>
-            <div class="col-md-9 col-xs-12"   style="padding-left:10px; border-radius:10px;">
+            <div class="col-md-9 col-xs-12" style="padding-left:10px; border-radius:10px;">
                 <div id="activity">
                     
                     <div class="row">

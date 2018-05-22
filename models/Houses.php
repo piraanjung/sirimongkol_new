@@ -54,6 +54,8 @@ class Houses extends \yii\db\ActiveRecord
             'house_status' => 'สถานะ',
             'create_date' => 'วันที่บันทึกข้อมูล',
             'update_date' => 'วันที่แก้ไขข้อมูล',
+            'house_model' => 'แบบบ้าน',
+            // 'number_of_workgroup' => 'จำนวนกลุ่มงาน'
         ];
     }
 
@@ -61,7 +63,7 @@ class Houses extends \yii\db\ActiveRecord
         return $this->hasOne(Project::className(), ['project_id' => 'project_id']);
     }
 
-    public function getHousemodels(){
+    public function getHouse_model(){
         return $this->hasOne(HouseModel::className(), ['id' => 'house_model_id']);
     }
 

@@ -58,4 +58,9 @@ class Project extends \yii\db\ActiveRecord
             'update_date' => 'Update Date',
         ];
     }
+
+
+    public function getHouses(){
+        return $this->hasMany(House::className(),['project_id' => 'project_id']);
+    }
 }

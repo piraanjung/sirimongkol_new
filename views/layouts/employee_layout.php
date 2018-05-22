@@ -54,7 +54,6 @@ if (class_exists('ramosisw\CImaterial\web\MaterialAsset')) {
                         <li>
                             <?=Html::a('<i class="material-icons">dashboard</i>
                             <p>สรุปการจ่ายงวดรายแปลง</p>',['employee/instalment/projectdetail','project_id'=>6]);?>
-
                         </li>
                     </ul>
                 </div>

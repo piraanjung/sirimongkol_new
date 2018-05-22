@@ -142,8 +142,9 @@ $script = <<< JS
                             constructor_id :$('#instalmentcostdetails-contructor_id').val(), 
                             house_id :$('select#instalmentcostdetails-house_id').val()
                         },success : function(_data){
-                            $('#w_paid').val(_data)
-                            remain = w_controlstatement - _data;
+                            _paid  = _data =="" ? 0 : _data
+                            $('#w_paid').val(_paid)
+                            remain = w_controlstatement - _paid;
                             $('#w_remain').val(remain)
                         }
                     })

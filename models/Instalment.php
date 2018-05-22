@@ -75,4 +75,5 @@ class Instalment extends \yii\db\ActiveRecord
         return $this->hasOne(Project::className(),['project_id' => 'project_id']);
     }
 
+
 }

@@ -172,8 +172,24 @@ class InstalmentController extends Controller
         ]);
     }
 
+    public function actionProjectdetail_($project_id){
+        $this->layout = 'employee_layout';
+        $searchModel = new \app\models\ProjectSearch();
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+
+        return $this->render('projectdetail/projectdetail', [
+            'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider
+        ]);
+    }
+
     public function actionProjectdetail($project_id){
         $this->layout = 'employee_layout';
+        $searchModel = new \app\models\HousesSearch();
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+    //     echo "<pre>";
+    //     print_r($dataProvider->getModels());
+    //    die();
         $res = \app\controllers\ceo\CeoController::_projectdetail(6);
         
         return $this->render('projectdetail/projectdetail', [
@@ -184,9 +200,10 @@ class InstalmentController extends Controller
             // 'sumControlStatement' => $res['sumControlStatement'],
             'sumPaidAmountByProject' => $res['sumPaidAmountByProject'],
             'provider' => $res['provider'],
-            'dataProvider' => $res['dataProvider'],
+            'dataProvider2' => $res['dataProvider'],
             'project' => $res['project'],
-            // 'searchModel' =>$searchModel
+            'searchModel' =>$searchModel,
+            'dataProvider' => $dataProvider
         ]);
     }
 

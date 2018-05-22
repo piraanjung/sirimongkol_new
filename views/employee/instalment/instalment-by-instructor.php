@@ -127,12 +127,26 @@ $script = <<< JS
     });
 
     $('#instalmentcostdetails-work_id').change(function(){
+        w_id = $(this).val()
         $.ajax({
             type : 'POST',
             url  : 'index.php?r=works/get-work-control-statement',
-            data : {w_id: $(this).val()},
-               success : function(data){
-                $( "#w_controlstatement" ).val( data );
+            data : {w_id: w_id},
+                success : function(data){
+                    $( "#w_controlstatement" ).val( data );
+                    w_controlstatement = data
+                    $.ajax({
+                        type : 'POST',
+                        url  : 'index.php?r=works/get-sum-instalment-paid',
+                        data : {w_id:w_id, 
+                            constructor_id :$('#instalmentcostdetails-contructor_id').val(), 
+                            house_id :$('select#instalmentcostdetails-house_id').val()
+                        },success : function(_data){
+                            $('#w_paid').val(_data)
+                            remain = w_controlstatement - _data;
+                            $('#w_remain').val(remain)
+                        }
+                    })
             }
 
         })

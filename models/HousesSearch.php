@@ -15,11 +15,13 @@ class HousesSearch extends Houses
     /**
      * @inheritdoc
      */
+
+    public $housemodels; 
     public function rules()
     {
         return [
             [['id', 'house_model_id', 'project_id', 'house_status'], 'integer'],
-            [['house_name', 'create_date', 'update_date'], 'safe'],
+            [['house_name', 'create_date', 'update_date', 'housemodels'], 'safe'],
         ];
     }
 
@@ -42,12 +44,20 @@ class HousesSearch extends Houses
     public function search($params)
     {
         $query = Houses::find();
+        $query->joinWith(['house_model']);
 
         // add conditions that should always apply here
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
         ]);
+        $dataProvider->sort->attributes['housemodels'] = [
+            // The tables are the ones our relation are configured to
+            // in my case they are prefixed with "tbl_"
+            'asc' => ['house_model.hm_name' => SORT_ASC],
+            'desc' => ['house_model.hm_name' => SORT_DESC],
+
+        ];
 
         $this->load($params);
 
@@ -62,13 +72,13 @@ class HousesSearch extends Houses
             'id' => $this->id,
             'house_model_id' => $this->house_model_id,
             'project_id' => $this->project_id,
+            'house_name' => $this->house_name,
             'house_status' => $this->house_status,
             'create_date' => $this->create_date,
             'update_date' => $this->update_date,
         ]);
 
-        $query->andFilterWhere(['like', 'house_name', $this->house_name]);
-
+        $query->andFilterWhere(['like', 'house_model.hm_name', $this->housemodels]);
         return $dataProvider;
     }
 }

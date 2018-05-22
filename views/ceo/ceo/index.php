@@ -142,7 +142,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
                     <div class="card-footer">
                         <h4>
-                            เริ่มการก่อสร้าง   : <?=\app\models\Methods::createDate($box['start_date']);?>
+                            เริ่มการก่อสร้าง   : <?=\app\models\Methods::createDate($box['start_date']);?><br>
                             สิ้นสุดการก่อสร้าง: <?=\app\models\Methods::createDate($box['end_date']);?>   
                         </h4>
                     </div>

@@ -126,6 +126,16 @@ class WorksController extends Controller
         echo $w['work_control_statement'];
     }
 
+    public function actionGetSumInstalmentPaid(){
+        $sum = \app\models\Instalmentcostdetails::find()
+                ->where(['work_id' => $_REQUEST['w_id']])
+                ->andWhere(['contructor_id' => $_REQUEST['constructor_id']])
+                ->andWhere(['house_id' => $_REQUEST['house_id']])
+                ->sum('amount');
+                
+        echo $sum;
+    }
+
     /**
      * Finds the Works model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.

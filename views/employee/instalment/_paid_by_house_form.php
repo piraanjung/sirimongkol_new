@@ -5,6 +5,9 @@ use kartik\widgets\Select2;
     .card-stats .card-content{
         text-align:left !important
     }
+    .text-alert{
+        color:green
+    }
 </style>
 <?php yii\widgets\Pjax::begin(['id' => 'new_country']) ?>
 <div class="card card-stats" style="background-color:#EAF7FB; border-radius:10px 10px">
@@ -68,12 +71,20 @@ use kartik\widgets\Select2;
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-md-4 col-xs-12">
+                        <div class="col-md-3 col-xs-12">
                             <?= $form->field($model, 'amount')->textInput()->label('จำนวนจ่าย');?>
                         </div>
-                        <div class="col-md-4 col-xs-12 form-group">
+                        <div class="col-md-3 col-xs-12 form-group">
                             <label class="control-label">งบควบคุม</label>
                             <input type="text" value="" class="form-control" id="w_controlstatement" name="w_controlstatement" readonly="readonly">
+                        </div>
+                        <div class="col-md-3 col-xs-12 form-group">
+                            <label class="control-label">เบิกจ่ายแล้ว</label>
+                            <input type="text" value="" class="form-control" id="w_paid" name="w_paid" readonly="readonly">
+                        </div>
+                        <div class="col-md-3 col-xs-12 form-group">
+                            <label class="control-label">เหลือที่เบิกจ่ายได้</label>
+                            <input type="text" value="" class="form-control text-alert" id="w_remain" name="w_remain" readonly="readonly">
                         </div>
                     </div>
                     <div class="row">

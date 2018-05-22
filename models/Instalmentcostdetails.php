@@ -14,7 +14,7 @@ use Yii;
  * @property integer $workclassify_id
  * @property integer $worktype_id
  * @property integer $money_type_id
- * @property double $amount
+ * @property double  $amount
  * @property integer $summoney_id
  * @property integer $saver_id
  * @property integer $status

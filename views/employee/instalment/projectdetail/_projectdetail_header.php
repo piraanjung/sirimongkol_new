@@ -11,15 +11,15 @@
         </h3>
       </div>
 
-      <div class="card-footer">
+      <!-- <div class="card-footer">
         <h4 class="title">
             <small>
-              <?=\app\models\Methods::createDate($project['start_date']);?>
+              <=\app\models\Methods::createDate($project['start_date']);?>
               <br>
-              <?=\app\models\Methods::createDate($project['end_date']);?>  
+              <=\app\models\Methods::createDate($project['end_date']);?>  
             </small>
         </h4>
-      </div>
+      </div> -->
     </div><!--card-->
   </div><!--col -->
   <div class="col-lg-3 col-md-6 col-sm-6">

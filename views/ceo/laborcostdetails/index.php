@@ -23,7 +23,7 @@ $this->params['breadcrumbs'][] = $this->title;
             </h2>
             
         <!-- < \app\models\Methods::print_array($provider->getModels());?> -->
-            <?= GridView::widget([
+        <?= GridView::widget([
         'dataProvider' => $provider,
         'columns' => [
             

@@ -13,6 +13,7 @@ use app\models\ContactForm;
 use app\models\WorkType;
 use app\models\Housemodels;
 use app\models\Houses;
+use app\models\HousesSearch;
 
 
 class CeoController extends \yii\web\Controller
@@ -123,8 +124,8 @@ class CeoController extends \yii\web\Controller
 
     public function actionProjectdetail($project_id){
         $this->layout = 'ceo_layout';
-
-    $res = $this::_projectdetail($project_id);
+        $searchModel = new HousesSearch();
+        $res = $this::_projectdetail($project_id);
         // \app\models\Form::print_array($houseCount);
         return $this->render('projectdetail', [
             'houseCount' => $res['houseCount'],
@@ -136,7 +137,7 @@ class CeoController extends \yii\web\Controller
             'provider' => $res['provider'],
             'dataProvider' => $res['dataProvider'],
             'project' => $res['project'],
-            // 'searchModel' =>$searchModel
+            'searchModel' =>$searchModel
         ]);
     }
 
@@ -169,6 +170,18 @@ class CeoController extends \yii\web\Controller
                 'pageSize' => 20,
             ],
         ]);
+        // $query = new Query();
+        // $provider = new ActiveDataProvider([
+        //     'query' => $query
+        //                 ->select('a.id, a.house_name,
+        //                     b.hm_name        
+        //                 ')
+        //                 ->from('houses a')
+        //                 ->leftJoin('house_model b','a.house_model_id = b.id'),
+        //     'pagination' => [
+        //         'pageSize' => 20,
+        //     ],
+        // ]);
         
         $query2 = new Query;
         $query2->select('a.*, b.*')

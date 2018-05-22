@@ -13,10 +13,10 @@
 
       <div class="card-footer">
         <h4 class="title">
-            <small>
-              <?=\app\models\Methods::createDate($project['start_date']);?>
+            <small>&nbsp;
+              <!-- <=\app\models\Methods::createDate($project['start_date']);?>
               <br>
-              <?=\app\models\Methods::createDate($project['end_date']);?>  
+              <=\app\models\Methods::createDate($project['end_date']);?>   -->
             </small>
         </h4>
       </div>

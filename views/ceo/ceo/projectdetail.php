@@ -52,13 +52,12 @@ $this->params['breadcrumbs'][] = $this->title;
                 [
                     'attribute' =>'house_name',
                     'header' => 'แปลงบ้าน',
-                    'filter'=>array("1"=>"Active","2"=>"Inactive"),
                     'value' => function($model){
                         return $model['house_name'];
                     }
                 ],
                 [
-                    'attribute' =>'hm_name',
+                    'attribute' =>'housemodels',
                     'header' => 'แบบบ้าน',
                     'value' => function($model){
                         return $model['hm_name'];

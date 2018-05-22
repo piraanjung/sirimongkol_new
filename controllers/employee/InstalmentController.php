@@ -191,7 +191,7 @@ class InstalmentController extends Controller
     //     print_r($dataProvider->getModels());
     //    die();
         $res = \app\controllers\ceo\CeoController::_projectdetail(6);
-        
+        // \app\models\Methods::print_array($res['dataProvider']); 
         return $this->render('projectdetail/projectdetail', [
             'houseCount' => $res['houseCount'],
             'noneBuildedHouses' => $res['noneBuildedHouses'],

@@ -145,7 +145,7 @@ body,h1, h2,h3,h4 ,h5{
                     ?>
                     <li>
                         <?=Html::a('<i class="material-icons">dashboard</i>
-                            <p>'.$project['projectname'].'</p>','#');?>
+                            <p>'.$project['projectname'].'</p>','index.php?r=ceo/ceo/index&project_id='.$project['project_id']);?>
                             
                         </a>
                     </li>

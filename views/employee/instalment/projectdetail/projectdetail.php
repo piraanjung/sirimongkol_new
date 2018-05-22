@@ -12,16 +12,39 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 <br>
 <div class="owner-default-index">
+    <?php
+        //หาจำนวนบ้านที่มีการจ่ายเงินผิดปกติ
+        $paid_abnormal_houses0 =0;
+        $paid_abnormal_houses1 =0;
+        $paid_abnormal_houses2 =0;
+        // print_r($dataProvider->getModels());
+        foreach($dataProvider->getModels() as $a){
+            $i = \app\models\Methods::get_amount_over($a['id']);
+            if($i > 0){
+                if($a['house_status'] ==0 ){
+                    $paid_abnormal_houses0+=1;
+                }else if($a['house_status'] ==1 ){
+                    $paid_abnormal_houses1+=1;
+                }else if($a['house_status'] ==2){
+                    $paid_abnormal_houses2+=1;
+                }
+            }
+            // $i <= 0 ? $paid_abnormal_houses+=0 : $paid_abnormal_houses+=1;
+        }
+    ?>
     <?= $this->render('_projectdetail_header',[
         'houseCount' => $houseCount,
         'completeBuildedHoueses' => $completeBuildedHoueses,
         'duringBuildedHouses' => $duringBuildedHouses,
         'project' => $project,
-        'sumPaidAmountByProject' => $sumPaidAmountByProject
+        'sumPaidAmountByProject' => $sumPaidAmountByProject,
+        'paid_abnormal_houses0' => $paid_abnormal_houses0,
+        'paid_abnormal_houses1' => $paid_abnormal_houses1,
+        'paid_abnormal_houses2' => $paid_abnormal_houses2
     ]);
     ?>
 </div>
-   
+
    <?=$this->render('_card',[
                 'title'=> $this->title,
                 'subtitle' => '',

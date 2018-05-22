@@ -11,15 +11,15 @@
         </h3>
       </div>
 
-      <div class="card-footer">
+      <!-- <div class="card-footer">
         <h4 class="title">
-            <small>&nbsp;
-              <!-- <=\app\models\Methods::createDate($project['start_date']);?>
+            <small>
+              <=\app\models\Methods::createDate($project['start_date']);?>
               <br>
-              <=\app\models\Methods::createDate($project['end_date']);?>   -->
+              <=\app\models\Methods::createDate($project['end_date']);?>  
             </small>
         </h4>
-      </div>
+      </div> -->
     </div><!--card-->
   </div><!--col -->
   <div class="col-lg-3 col-md-6 col-sm-6">
@@ -107,13 +107,17 @@
       </div>
       <div class="card-content" style="padding:15px 5px !important">
         <h4 class="title">
-        ยังไม่ดำเนินการ
+        <?php $nobuilt = count($houseCount)-($completeBuildedHoueses+$duringBuildedHouses);?>
+        ยังไม่ดำเนินการ <?=$nobuilt;?> &nbsp;หลัง
         </h4>
       </div>
 
       <div class="card-footer">
         <h3 class="title">
-        <small><?=count($houseCount)-($completeBuildedHoueses+$duringBuildedHouses);?>&nbsp;หลัง</small>
+          <small style="color:green">ปกติ : <?=$nobuilt - $paid_abnormal_houses0;?>&nbsp;หลัง</small>
+        </h3>
+        <h3 class="title">
+          <small style="color:red">จ่ายเกินงบ : <?=$paid_abnormal_houses0;?>&nbsp;หลัง</small>
         </h3>
       </div>
     </div><!--card-->
@@ -126,13 +130,16 @@
       </div>
       <div class="card-content">
         <h4 class="title">
-        บ้านแล้วเสร็จ
+        บ้านแล้วเสร็จ <?=$completeBuildedHoueses;?>&nbsp;หลัง
         </h4>
       </div>
 
       <div class="card-footer">
         <h3 class="title">
-        <small><?=$completeBuildedHoueses;?>&nbsp;หลัง</small>
+          <small style="color:green">ปกติ : <?=$completeBuildedHoueses - $paid_abnormal_houses2;?>&nbsp;หลัง</small>
+        </h3>
+        <h3 class="title">
+          <small style="color:red">จ่ายเกินงบ : <?=$paid_abnormal_houses2;?>&nbsp;หลัง</small>
         </h3>
       </div>
     </div><!--card-->
@@ -145,17 +152,19 @@
       </div>
       <div class="card-content">
         <h4 class="title">
-        กำลังก่อสร้าง
+        กำลังก่อสร้าง <?=$duringBuildedHouses;?>&nbsp;หลัง
         </h4>
       </div>
 
       <div class="card-footer">
         <h3 class="title">
-        <small><?=$duringBuildedHouses;?>&nbsp;หลัง</small>
+          <small style="color:green">ปกติ : <?=$duringBuildedHouses - $paid_abnormal_houses1;?>&nbsp;หลัง</small>
+        </h3>
+        <h3 class="title">
+          <small style="color:red">จ่ายเกินงบ : <?=$paid_abnormal_houses1;?>&nbsp;หลัง</small>
         </h3>
       </div>
     </div><!--card-->
   </div><!--col -->    
 </div><!--row-->
 
-     

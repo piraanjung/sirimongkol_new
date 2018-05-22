@@ -62,19 +62,23 @@ class CeoController extends \yii\web\Controller
     public function actionIndex()
     {
         $this->layout = "ceo_layout";
+        $searchModel = new HousesSearch();
 
+        $dataProvider2 = $searchModel->search(Yii::$app->request->queryParams);
+        $project_id = !isset($_REQUEST['project_id']) ? 6 : $_REQUEST['project_id'];
         $sql_one = 'select a.project_id,
         a.projectname, a.start_date, a.end_date,a.control_statement,
         count(b.id) as unit_count
         from project a
         left join houses b on a.project_id = b.project_id
-        group by a.projectname,a.control_statement,b.project_id;';
+        where a.project_id = '.$project_id.' 
+         group by a.projectname,a.control_statement,b.project_id;';
         $data_one = Yii::$app->db->createCommand($sql_one)->queryAll();
-        // \app\models\Methods::print_array($data_one);
+       
 
         $sql = 'select b.wc_name,sum(a.amount) as paid 
                 from instalmentcostdetails a
-                inner join work_category b on a.workclassify_id = b.id
+                inner join work_category b on a.workclassify_id = b.id 
                 group by a.workclassify_id
                 order by b.id asc;';
         $data = Yii::$app->db->createCommand($sql)->queryAll();
@@ -88,7 +92,7 @@ class CeoController extends \yii\web\Controller
         
         $sql_payee = 'select b.username,sum(a.amount) as paid 
                     from instalmentcostdetails a
-                    inner join user b on a.saver_id = b.id
+                    inner join user b on a.saver_id = b.id 
                     group by b.username';
         $data_payee = Yii::$app->db->createCommand($sql_payee)->queryAll();
         
@@ -99,24 +103,29 @@ class CeoController extends \yii\web\Controller
             array_push($arr_payee, $d1);
         }
         
-        $sql_grid = 'select a.projectname,
+        $sql_grid = 'select a.projectname, a.project_id,
                     ifnull(sum(d.work_control_statement),0)as fixpaid,
                     ifnull(sum(c.amount),0)as paid 
                     from project a
                     left join instalment b on a.project_id = b.project_id
                     left join instalmentcostdetails c on b.id = c.instalment_id
-                    left join works d on c.work_id = d.id
+                    left join works d on c.work_id = d.id 
+                    where a.project_id = '.$project_id.' 
                     group by a.projectname;';
         $data_grid = Yii::$app->db->createCommand($sql_grid)->queryAll();
         $dataProvider = new \yii\data\ArrayDataProvider([
             'allModels' => $data_grid
         ]);
-        
+
+        $projectdetails =$this::_projectdetail($project_id);
+        //  \app\models\Methods::print_array($dataProvider2->getModels());
         return $this->render('index',[
             'boxs' => $data_one,
             'chart1' => array_values($arr_data),
             'chart_payee' => array_values($arr_payee),
-            'dataProvider' => $dataProvider
+            'dataProvider' => $dataProvider,
+            'dataProvider2' => $dataProvider2,
+            'projectdetails' => $projectdetails['dataProvider']
         ]);
     }
 
@@ -129,16 +138,6 @@ class CeoController extends \yii\web\Controller
         $res = $this::_projectdetail($project_id);
         // \app\models\Form::print_array($houseCount);
         return $this->render('projectdetail', [
-            // 'houseCount' => $res['houseCount'],
-            // 'noneBuildedHouses' => $res['noneBuildedHouses'],
-            // 'duringBuildedHouses' => $res['duringBuildedHouses'],
-            // 'completeBuildedHoueses' => $res['completeBuildedHoueses'],
-            // // 'sumControlStatement' => $res['sumControlStatement'],
-            // 'sumPaidAmountByProject' => $res['sumPaidAmountByProject'],
-            // 'provider' => $res['provider'],
-            // 'dataProvider' => $res['dataProvider'],
-            // 'project' => $res['project'],
-            // 'searchModel' =>$searchModel
             'houseCount' => $res['houseCount'],
             'noneBuildedHouses' => $res['noneBuildedHouses'],
             'duringBuildedHouses' => $res['duringBuildedHouses'],
@@ -182,18 +181,6 @@ class CeoController extends \yii\web\Controller
                 'pageSize' => 20,
             ],
         ]);
-        // $query = new Query();
-        // $provider = new ActiveDataProvider([
-        //     'query' => $query
-        //                 ->select('a.id, a.house_name,
-        //                     b.hm_name        
-        //                 ')
-        //                 ->from('houses a')
-        //                 ->leftJoin('house_model b','a.house_model_id = b.id'),
-        //     'pagination' => [
-        //         'pageSize' => 20,
-        //     ],
-        // ]);
         
         $query2 = new Query;
         $query2->select('a.*, b.*')

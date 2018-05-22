@@ -3,8 +3,7 @@
 use yii\helpers\Html;
 use kartik\grid\GridView;
 
-// echo "<pre>";
-// print_r($instalment);die();
+
 ?>
 <div class="box box-success">
 

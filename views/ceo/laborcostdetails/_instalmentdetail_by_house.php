@@ -39,11 +39,15 @@ if(!isset($instalment['empty_instalment'])){ ?>
             ?>
         </div>
         <div class="tab-pane" id="_by_instalment">
-            <?=$this->render('_instalment_by_instalment',[
+            <?php 
+            if(!empty($instalment)){
+                echo $this->render('_instalment_by_instalment',[
                     'instalment' => $instalment,
                     // 'instalment_sum_provider' => $instalment_sum_provider,
                     // 'searchModel' => $searchModel
                 ]);
+            }
+           
             ?>
         </div>
 
@@ -97,7 +101,9 @@ if(!isset($instalment['empty_instalment'])){ ?>
                             $total_amount =0;
                             $total_ceiling =0;
                         ?>
-                        <?php foreach($instalment as $key => $ins){?> 
+                        <?php 
+                            if(!empty($instalment)){
+                            foreach($instalment as $key => $ins){?> 
                             <?php if($curr_wc_name != $ins['wc_name']){ ?>
                                     <tr class="row_sum_by_wc">
                                         <td colspan="2">รวม</td>
@@ -155,7 +161,7 @@ if(!isset($instalment['empty_instalment'])){ ?>
                                     ?>
                             <?php } //if $curr_wc_name != $ins['wc_name']  ?>
                         
-                        <?php } //foreach?>
+                        <?php } }//foreach?>
                     </tbody>
                 </table> 	
             </section>

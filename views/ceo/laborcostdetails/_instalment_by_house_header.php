@@ -6,7 +6,7 @@
 </style>
 
 <?php if(count($instalment)> 0){  
-    $percent = ($instalment[0]['sum_amount']/$instalment[0]['hm_control_statment'])*100    
+    $percent = $instalment[0]['hm_control_statment']== '' ? 0 : ($instalment[0]['sum_amount']/$instalment[0]['hm_control_statment'])*100    
 ?>
 
 

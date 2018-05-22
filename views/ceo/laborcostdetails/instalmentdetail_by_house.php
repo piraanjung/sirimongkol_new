@@ -9,7 +9,7 @@ use yii\db\Query;
 /* @var $this yii\web\View */
 /* @var $searchModel app\modules\ceo\models\LaborcostdetailsSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
-if(!isset($instalment['empty_instalment'])){
+if(!isset($instalment['empty_instalment']) && !empty($instalment)){
 $this->title = 'สรุปการจ่ายค่าแรง แปลงที่'.$instalment[0]['house_id'];
                 // " งวดที่ ".$instalment[0]['instalment_monthly']."/".$instalment[0]['instalment'].
                 // ".".$instalment[0]['instalment_year'];
@@ -27,4 +27,6 @@ $this->params['breadcrumbs'][] = $this->title;
                     'searchModel' => $searchModel
                 ])
         ?>
-<?php } ?>
+<?php }else{
+        echo "sdfsdfd";
+} ?>

@@ -364,9 +364,9 @@ class LaborcostdetailsController extends Controller
             // ->andWhere(['a.instalment_id' => $REQUEST['instalment_id']])
             ;
         $instalment = $query->all(); 
-        if(empty($instalment)){
+        if(count($instalment) == 0){
             $query2 = new Query;
-            $query2->select('a.id, a.project_id')
+            $query2->select('a.id as house_id, a.project_id')
                 ->from('houses a')
                 ->leftJoin('project b', 'a.project_id = b.id')
                 ->where(['a.id' => $REQUEST['id']]);
@@ -390,8 +390,8 @@ class LaborcostdetailsController extends Controller
             WHERE a.id=". $REQUEST['id']." 
             Group By c.wg_id";
 
-            $instalment_sum_provider =\app\controllers\ceo\LaborcostdetailsController::generateSqlDataProvider($sql);
-        // \app\models\Methods::print_array($instalment);
+        $instalment_sum_provider =\app\controllers\ceo\LaborcostdetailsController::generateSqlDataProvider($sql);
+        // \app\models\Methods::print_array($empty_instalment);
         //บวก sum work group
         foreach($instalment as $key => $ints){
             $query2 = new Query;
@@ -400,12 +400,13 @@ class LaborcostdetailsController extends Controller
                 ->where(['wg_id' => $ints['wg_id']]);
             $w_statement = $query2->one();             
             $instalment[$key]['work_control_statement'] =$w_statement['ww'];
-
-            $inst = array();
-            $inst['instalment'] = $instalment;
-            $inst['instalment_sum_provider'] = $instalment_sum_provider;
-            $inst['empty_instalment'] = $empty_instalment['empty_instalment'];
-            return $inst;
         }
+        $inst = array();
+        $inst['instalment'] = $instalment;
+        $inst['instalment_sum_provider'] = $instalment_sum_provider;
+        $inst['empty_instalment'] = $empty_instalment;
+        // \app\models\Methods::print_array($inst['empty_instalment']);
+        return $inst;
+        
     }
 }

@@ -129,17 +129,20 @@ class HousesSearch extends Houses
             $data = Yii::$app->db->createCommand($sql)->queryAll();
             array_push($datas, $data);
         }
+
         $_house_id =[];
         if(count($datas[0]) > 0){
-            foreach($datas as $data){
-               foreach($data as $d){
-                    $percent = empty($d['progress_percent']) ? 0 : $d['progress_percent'];
-                    if($percent > 100){
-                        array_push($_house_id, $d['house_id']);
-                    }
-               }
+            $i=0;
+            
+            foreach($datas as $key => $data){
+                if($data[$key]['progress_percent']> 0){
+                    $over=$data[$key]['paid_amount'] - $data[$key]['cost_control'];
+                    $over > 0 ? $i++ : $i+0; 
+                    array_push($_house_id, $data[$key]['house_id']);
+                }
             }
         }
+                // \app\models\Methods::print_array($_house_id);
         return $_house_id;
     }
 }

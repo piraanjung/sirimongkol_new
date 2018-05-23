@@ -92,8 +92,12 @@ $this->params['breadcrumbs'][] = $this->title;
                                     <?=$noneBuildedHouses - $paid_abnormal_houses0;?>&nbsp;หลัง</small>
                             </h3>
                             <h3 class="title">
-                                <small style="color:red">จ่ายเกินงบ :
-                                    <?=$paid_abnormal_houses0;?>&nbsp;หลัง</small>
+                                <small>
+                                <?= Html::a('จ่ายเกินงบ : '.$paid_abnormal_houses0.' หลัง',
+                                    ['ceo/ceo/projectdetail','project_id' => $box['project_id'], 
+                                    'abnormal_house_status' => 0], ['style'=>"color:red"]) ?>
+
+                                </small>
                             </h3>
                         </div>
                     </div>
@@ -119,8 +123,12 @@ $this->params['breadcrumbs'][] = $this->title;
                                     <?=$completeBuildedHoueses - $paid_abnormal_houses2;?>&nbsp;หลัง</small>
                             </h3>
                             <h3 class="title">
-                                <small style="color:red">จ่ายเกินงบ :
-                                    <?=$paid_abnormal_houses2;?>&nbsp;หลัง</small>
+                                <small>
+                                <?= Html::a('จ่ายเกินงบ : '.$paid_abnormal_houses2.' หลัง',
+                                    ['ceo/ceo/projectdetail','project_id' => $box['project_id'], 
+                                    'abnormal_house_status' => 2], ['style'=>"color:red"]) ?>
+
+                                </small>
                             </h3>
                         </div>
                     </div>
@@ -146,8 +154,12 @@ $this->params['breadcrumbs'][] = $this->title;
                                     <?=$duringBuildedHouses - $paid_abnormal_houses1;?>&nbsp;หลัง</small>
                             </h3>
                             <h3 class="title">
-                                <small style="color:red">จ่ายเกินงบ :
-                                    <?=$paid_abnormal_houses1;?>&nbsp;หลัง</small>
+                                <small >
+                                    <?= Html::a('จ่ายเกินงบ : '.$paid_abnormal_houses1.' หลัง',
+                                    ['ceo/ceo/projectdetail','project_id' => $box['project_id'], 
+                                    'abnormal_house_status' => 1], ['style'=>"color:red"]) ?>
+
+                               </small>
                             </h3>
                         </div>
                     </div>

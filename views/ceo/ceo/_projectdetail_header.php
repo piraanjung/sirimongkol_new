@@ -1,3 +1,6 @@
+<?php 
+use yii\helpers\Html;
+?>
 <div class="row">
 
   <div class="col-lg-3 col-md-6 col-sm-6">
@@ -116,9 +119,12 @@
         <h3 class="title">
           <small style="color:green">ปกติ : <?=$nobuilt - $paid_abnormal_houses0;?>&nbsp;หลัง</small>
         </h3>
-        <h3 class="title">
-          <small style="color:red">จ่ายเกินงบ : <?=$paid_abnormal_houses0;?>&nbsp;หลัง</small>
-        </h3>
+        <h4 class="title">
+        <?= Html::a('จ่ายเกินงบ : '.$paid_abnormal_houses0.' หลัง',
+              ['ceo/ceo/projectdetail','project_id' => $project['project_id'], 
+              'abnormal_house_status' => 0], ['style'=>"color:red"]) ?>
+
+        </h4>
       </div>
     </div><!--card-->
   </div><!--col -->
@@ -138,9 +144,13 @@
         <h3 class="title">
           <small style="color:green">ปกติ : <?=$completeBuildedHoueses - $paid_abnormal_houses2;?>&nbsp;หลัง</small>
         </h3>
-        <h3 class="title">
-          <small style="color:red">จ่ายเกินงบ : <?=$paid_abnormal_houses2;?>&nbsp;หลัง</small>
-        </h3>
+        <h4 class="title">
+        <?= Html::a('จ่ายเกินงบ : '.$paid_abnormal_houses2.' หลัง',
+              ['ceo/ceo/projectdetail','project_id' => $project['project_id'], 
+              'abnormal_house_status' => 2], ['style'=>"color:red"]) ?>
+
+        </h4>
+       
       </div>
     </div><!--card-->
   </div><!--col -->
@@ -160,9 +170,12 @@
         <h3 class="title">
           <small style="color:green">ปกติ : <?=$duringBuildedHouses - $paid_abnormal_houses1;?>&nbsp;หลัง</small>
         </h3>
-        <h3 class="title">
-          <small style="color:red">จ่ายเกินงบ : <?=$paid_abnormal_houses1;?>&nbsp;หลัง</small>
-        </h3>
+        <h4 class="title">
+        <?= Html::a('จ่ายเกินงบ : '.$paid_abnormal_houses1.' หลัง',
+              ['ceo/ceo/projectdetail','project_id' => $project['project_id'], 
+              'abnormal_house_status' => 1], ['style'=>"color:red"]) ?>
+
+        </h4>
       </div>
     </div><!--card-->
   </div><!--col -->    

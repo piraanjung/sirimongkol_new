@@ -14,6 +14,8 @@ if(!isset($instalment['empty_instalment'])){ ?>
 <br>
 
 <div class="box box-success">
+
+
 <div class='box-body'>
   
     <div>

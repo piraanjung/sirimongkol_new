@@ -14,6 +14,7 @@ use app\models\WorkType;
 use app\models\Housemodels;
 use app\models\Houses;
 use app\models\HousesSearch;
+use app\models\Project;
 
 
 class CeoController extends \yii\web\Controller
@@ -116,16 +117,19 @@ class CeoController extends \yii\web\Controller
         $dataProvider = new \yii\data\ArrayDataProvider([
             'allModels' => $data_grid
         ]);
+        // แสดงรายการโครงการทั้งหมด
+        $project_list = Project::find()->all();
 
         $projectdetails =$this::_projectdetail($project_id);
-        //  \app\models\Methods::print_array($dataProvider2->getModels());
+        //  \app\models\Methods::print_array($project_list);
         return $this->render('index',[
             'boxs' => $data_one,
             'chart1' => array_values($arr_data),
             'chart_payee' => array_values($arr_payee),
             'dataProvider' => $dataProvider,
             'dataProvider2' => $dataProvider2,
-            'projectdetails' => $projectdetails['dataProvider']
+            'projectdetails' => $projectdetails['dataProvider'],
+            'project_list' => $project_list
         ]);
     }
 

@@ -133,6 +133,7 @@ $script = <<< JS
             url  : 'index.php?r=works/get-work-control-statement',
             data : {w_id: w_id},
                 success : function(data){
+                  
                     $( "#w_controlstatement" ).val( data );
                     w_controlstatement = data
                     $.ajax({
@@ -142,17 +143,24 @@ $script = <<< JS
                             constructor_id :$('#instalmentcostdetails-contructor_id').val(), 
                             house_id :$('select#instalmentcostdetails-house_id').val()
                         },success : function(_data){
-                            _paid  = _data =="" ? 0 : _data
-                            $('#w_paid').val(_paid)
-                            remain = w_controlstatement - _paid;
-                            $('#w_remain').val(remain)
+                            data = _data.replace(",","");
+                            _w_controlstatement = w_controlstatement.replace(",","");
+                            _paid  =  data
+                            remain = parseFloat(_w_controlstatement) - parseFloat(_paid);
+                            _remain = "0.00"
+                            if(!isNaN(remain)){
+                                // _remain = remain%2 == 0 ? remain+".00" : remain;
+                                _remain = (remain).toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,');
+                            }
+                            
+                            $('#w_remain').val(_remain.toString())
+                            $('#w_paid').val(_paid);
                         }
                     })
             }
 
         })
     });
-
 
     $('#paid_amount_id').keyup(function(){
         var checkzero = $(this).val();

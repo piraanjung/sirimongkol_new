@@ -123,7 +123,7 @@ class WorksController extends Controller
 
     public function actionGetWorkControlStatement(){
         $w = Works::find()->where(['id' => $_REQUEST['w_id']])->one();
-        echo $w['work_control_statement'];
+        echo number_format($w['work_control_statement'],2);
     }
 
     public function actionGetSumInstalmentPaid(){
@@ -132,8 +132,7 @@ class WorksController extends Controller
                 ->andWhere(['contructor_id' => $_REQUEST['constructor_id']])
                 ->andWhere(['house_id' => $_REQUEST['house_id']])
                 ->sum('amount');
-                
-        echo $sum;
+        echo number_format($sum,2);
     }
 
     /**

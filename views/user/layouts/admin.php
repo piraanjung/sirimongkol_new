@@ -313,7 +313,7 @@ if (class_exists('ramosisw\CImaterial\web\MaterialAsset')) {
                                         'class'=>'btn btn-primary btn-round',
                                         'data'=>['method' => 'post','user_id' => Yii::$app->user->identity->id]
                                     ]);?>
-                                            <?=Html::a('Log out', ['user/security/logout'],[
+                                            <?=Html::a('Log out', ['security/logout'],[
                                         'class'=>'btn btn-danger btn-round',
                                         'data'=>['method' => 'post']
                                     ]);?>

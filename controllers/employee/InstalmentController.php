@@ -139,7 +139,6 @@ class InstalmentController extends Controller
             $instalment = Instalment::find()
                         ->where(['id' => $_REQUEST['instalment_id']])->one();
         }
-        // unset($_SESSION['laborcostlist']);
         $session = Yii::$app->session;
         if (!$session->has('laborcostlist')){
             $_SESSION['laborcostlist'] =array();
@@ -562,5 +561,12 @@ class InstalmentController extends Controller
             'instalment_sum_provider' => $instalment['instalment_sum_provider'],
             'searchModel' => $searchModel
         ]);
-    }    
+    }   
+    
+    public function actionTestexportexcel(){
+        $instalment = \app\controllers\ceo\LaborcostdetailsController::_instalment_by_house($_REQUEST);
+        return $this->renderPartial('_exceltest',[
+            'instalment_sum_provider' => $instalment['instalment_sum_provider']
+        ]);
+    }
 }

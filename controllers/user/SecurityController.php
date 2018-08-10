@@ -11,6 +11,7 @@ class SecurityController extends BaseSecurityController
 {
     public function actionLogin()
     {
+        \Yii::$app->session->destroy();
         if (!\Yii::$app->user->isGuest) {
             $this->goHome();
         }
@@ -55,7 +56,7 @@ class SecurityController extends BaseSecurityController
         \Yii::$app->getUser()->logout();
 
         $this->trigger(self::EVENT_AFTER_LOGOUT, $event);
-
+        \Yii::$app->session->destroy();
         return $this->goHome();
     }
 }

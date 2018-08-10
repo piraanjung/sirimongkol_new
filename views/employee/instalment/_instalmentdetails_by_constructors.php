@@ -49,19 +49,26 @@ use yii\widgets\Pjax;
 
         [
             'attribute' => 'houses',
-            'value' =>  'houses.house_name',
+            'value' =>  function($model){
+                return $model->houses['house_name'] == "" ? "-" : $model->houses['house_name'];
+            },//'houses.house_name',
             'group'=>true,  // enable grouping
             'subGroupOf'=>1 
         ],
         [
             'attribute' => 'workGroup',
-            'value' => 'workGroup.wg_name',
+            'value' => function($model){
+                return $model->workGroup['wg_name'] == "" ? "-" : $model->workGroup['wg_name'];
+            },//'workGroup.wg_name',
             'group'=>true,  // enable grouping
             'subGroupOf'=>2 
         ],
         [
             'attribute' => 'work',
-            'value' => 'workOne.work_name',
+            'width'=>'10%',
+            'value' => function($model){
+                return $model->workOne['work_name'] == "" ? "-" : $model->workOne['work_name'];
+            },//'workOne.work_name',
             'group'=>true,
             'subGroupOf'=>3
         ],
@@ -75,18 +82,27 @@ use yii\widgets\Pjax;
         [
             'attribute' => 'workControlStatement',
             'format' => ['decimal', 2],
+            'width'=>'10%',
             'hAlign' => 'right', 
             'group'=>true,  // enable grouping
             'subGroupOf'=>4,
-
-            'value' => 'workOne.work_control_statement',
+            'value' => function($model){
+                return $model->workOne['work_control_statement'] == "" ? 0 : $model->workOne['work_control_statement'];
+            },//'workOne.work_control_statement',
             'pageSummary'=>true,
         ],
         [
             'attribute' => 'amount',
-            'format' => ['decimal', 2],
+            'format' =>['decimal', 2],
             'hAlign' => 'right', 
-            'value' => 'amount',
+            'value' => function($model){
+                //ถ้าชนิดเงินเป็น เงินหักกู้ยืม หรือเป็น หักค่าเครื่องมือ	ให้ใส่เครื่องหมาย - 
+                if($model->money_type_id ==3 || $model->money_type_id ==4){
+                    return "-".number_format($model->amount,2);
+                }else{
+                    return number_format($model->amount,2);
+                }
+            },//amount',
             'pageSummary'=>true,
         ],
         'comment',

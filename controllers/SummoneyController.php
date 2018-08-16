@@ -8,7 +8,7 @@ use app\models\SummoneySearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
-
+use yii\filters\AccessControl;
 /**
  * SummoneyController implements the CRUD actions for Summoney model.
  */
@@ -26,6 +26,15 @@ class SummoneyController extends Controller
                     'delete' => ['POST'],
                 ],
             ],
+            'access' => [
+                'class' => AccessControl::className(),
+                'rules' => [
+                    [
+                        'allow' => false,
+                        'roles' => ['?'],
+                    ],
+                ],
+            ]
         ];
     }
 

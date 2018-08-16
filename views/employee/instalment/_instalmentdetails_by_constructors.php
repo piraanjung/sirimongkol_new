@@ -7,6 +7,7 @@ use kartik\export\ExportMenu;
 use kartik\editable\Editable;
 use kartik\dialog\Dialog;
 use yii\widgets\Pjax;
+
 ?>
 
 
@@ -96,12 +97,7 @@ use yii\widgets\Pjax;
             'format' =>['decimal', 2],
             'hAlign' => 'right', 
             'value' => function($model){
-                //ถ้าชนิดเงินเป็น เงินหักกู้ยืม หรือเป็น หักค่าเครื่องมือ	ให้ใส่เครื่องหมาย - 
-                if($model->money_type_id ==3 || $model->money_type_id ==4){
-                    return "-".number_format($model->amount,2);
-                }else{
-                    return number_format($model->amount,2);
-                }
+                return $model->amount;
             },//amount',
             'pageSummary'=>true,
         ],
@@ -113,7 +109,7 @@ use yii\widgets\Pjax;
             'value' => function($model){
                 return '<i class="material-icons edit-money-icon" 
                 value="'.\yii\helpers\Url::to(['employee/instalment/change-money-value', 
-                'id'=>$model['id']]).'">create</i>
+                'id'=>$model['id'],'money_type_id'=>$model['money_type_id']]).'">create</i>
                 <i class="material-icons delete-money-icon" value="'.$model['id'].'">delete</i>';
             },
 

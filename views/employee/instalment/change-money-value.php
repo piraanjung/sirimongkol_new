@@ -9,58 +9,78 @@ use yii\helpers\ArrayHelper;
 <div class="instalment-form">
 
     <?php $form = ActiveForm::begin(); ?>
+    <?php 
+        if($model['money_type_id'] ==3 || $model['money_type_id'] ==4){
+            $_amount = explode("-", $model['amount']);
+    ?>
+        <div class="row">
+            <div class="col-md-4 col-xs-12">
+                <label class="label-control" >ชนิดเงิน</label>
+                <select name="money_type" class="form-control">
+                    <option value="<?=$model['money_type_id'];?>" selected><?=$model['money_type_name'];?></option>
+                </select>
+            </div>
+            <div class="col-md-4 col-xs-12">
+                <label class="label-control">จำนวนเงินที่ต้องการเปลี่ยน</label>
+                <input type="text" value="<?=$_amount[1];?>" name="change_amount" class="form-control">
+            </div>
+        </div>
+    <?php
+        }else{
+    ?>
+        <div class="row">
+            <div class="col-md-4 col-xs-12">
+                <label class="label-control">แปลงบ้าน</label>
+                <select name="house_id" class="form-control" id="house_id">
+                    <option>เลือก...</option>
+                    <?php foreach($houses as $house){ ?>
+                    <option value="<?=$house['id'];?>" <?=$model['house_id'] ==$house['id'] ? 'selected' : '';?>><?=$house['house_name'];?></option>
+                    <?php } ?>
+                </select>
+            </div>
+            <div class="col-md-4 col-xs-12">
+                <label class="label-control">กลุ่มงาน</label>
+                <select name="workclassify_id" class="form-control" id="workclassify_id">
+                    <option>เลือก...</option>
+                    <?php foreach($workclassify as $wc){ ?>
+                    <option value="<?=$wc['id'];?>" <?=$model['workclassify_id'] ==$wc['id'] ? 'selected' : '';?>><?=$wc['wc_name'];?></option>
+                    <?php } ?>
+                </select>
+            </div>
+            <div class="col-md-4 col-xs-12">
+                <label class="label-control ">หมวดงาน</label>
+                <select id="workgroup" name="Laborcostdetails[workgroup]" class="form-control">
+                    <?php foreach($workgroup as $wg){ ?>
+                    <option value="<?=$wg['id'];?>" <?=$model['worktype_id'] ==$wg['id'] ? 'selected' : '';?>><?=$wg['wg_name'];?></option>
+                    <?php } ?>
+                </select>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-4 col-xs-12">
+                <label class="label-control ">งาน</label>
+                <select id="works" name="Laborcostdetails[works]" class="form-control">
+                    <?php foreach($works as $work){ ?>
+                    <option value="<?=$work['id'];?>" <?=$model['work_id'] ==$work['id'] ? 'selected' : '';?>><?=$work['work_name'];?></option>
+                    <?php } ?>
+                </select>
+            </div>
 
-    <div class="row">
-        <div class="col-md-4 col-xs-12">
-            <label class="label-control">แปลงบ้าน</label>
-            <select name="house_id" class="form-control" id="house_id">
-                <option>เลือก...</option>
-                <?php foreach($houses as $house){ ?>
-                <option value="<?=$house['id'];?>" <?=$model['house_id'] ==$house['id'] ? 'selected' : '';?>><?=$house['house_name'];?></option>
-                <?php } ?>
-            </select>
+            <div class="col-md-4 col-xs-12">
+                <label class="label-control" >ชนิดเงิน</label>
+                <select name="money_type" class="form-control">
+                    <option value="1" <?=$model['money_type_id'] ==1 ? 'selected' : '';?>>ระหว่างงวด</option>
+                    <option value="2" <?=$model['money_type_id'] ==2 ? 'selected' : '';?>>จบงวด</option>
+                </select>
+            </div>
+            <div class="col-md-4 col-xs-12">
+                <label class="label-control">จำนวนเงินที่ต้องการเปลี่ยน</label>
+                <input type="text" value="<?=$model['amount'];?>" name="change_amount" class="form-control">
+            </div>
         </div>
-        <div class="col-md-4 col-xs-12">
-            <label class="label-control">กลุ่มงาน</label>
-            <select name="workclassify_id" class="form-control" id="workclassify_id">
-                <option>เลือก...</option>
-                <?php foreach($workclassify as $wc){ ?>
-                <option value="<?=$wc['id'];?>" <?=$model['workclassify_id'] ==$wc['id'] ? 'selected' : '';?>><?=$wc['wc_name'];?></option>
-                <?php } ?>
-            </select>
-        </div>
-        <div class="col-md-4 col-xs-12">
-            <label class="label-control ">หมวดงาน</label>
-            <select id="workgroup" name="Laborcostdetails[workgroup]" class="form-control">
-                <?php foreach($workgroup as $wg){ ?>
-                <option value="<?=$wg['id'];?>" <?=$model['worktype_id'] ==$wg['id'] ? 'selected' : '';?>><?=$wg['wg_name'];?></option>
-                <?php } ?>
-            </select>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-md-4 col-xs-12">
-            <label class="label-control ">งาน</label>
-            <select id="works" name="Laborcostdetails[works]" class="form-control">
-                <?php foreach($works as $work){ ?>
-                <option value="<?=$work['id'];?>" <?=$model['work_id'] ==$work['id'] ? 'selected' : '';?>><?=$work['work_name'];?></option>
-                <?php } ?>
-            </select>
-        </div>
-
-        <div class="col-md-4 col-xs-12">
-            <label class="label-control" >ชนิดเงิน</label>
-            <select name="money_type" class="form-control">
-                <option value="1" <?=$model['money_type_id'] ==1 ? 'selected' : '';?>>ระหว่างงวด</option>
-                <option value="2" <?=$model['money_type_id'] ==2 ? 'selected' : '';?>>จบงวด</option>
-            </select>
-        </div>
-        <div class="col-md-4 col-xs-12">
-            <label class="label-control">จำนวนเงินที่ต้องการเปลี่ยน</label>
-            <input type="text" value="<?=$model['amount'];?>" name="change_amount" class="form-control">
-        </div>
-    </div>
-   
+    <?php 
+        }//else
+    ?>
 
 
     <div class="form-group">

@@ -20,7 +20,7 @@
         <th style="width:15%;text-align:center">งาน</th>
         <th style="width:12%;text-align:center">จำนวนจ่าย(บาท)</th>
         <th style="width:14%;text-align:center">ประเภทงวด</th>
-        <th style="text-align:center"></th>
+        <th style="text-align:center">หมายเหตุ</th>
     </tr>
 </thead>
 <tbody>
@@ -85,13 +85,13 @@
             <?php 
             if($ls['Instalmentcostdetails']['money_type_id'] == 3){
                 //แสดงจำนวนเงินหักค่ากู้ยืม
-            echo $ls['deduction']['loan_deduction']['amount'] !="" ? number_format($ls['deduction']['loan_deduction']['amount'],2) : "";
+            echo $ls['deduction']['loan_deduction']['amount'] !="" ? "-".number_format($ls['deduction']['loan_deduction']['amount'],2) : "";
             ?>
                 <input type="hidden" name="aa[amount][]" value="<?=$ls['deduction']['loan_deduction']['amount'];?>">
             <?php
             }else if($ls['Instalmentcostdetails']['money_type_id'] == 4){
                 //แสดงจำนวนเงินหักค่าอุปกรณ์
-            echo $ls['deduction']['equipment_deduction']['amount'] !="" ? number_format($ls['deduction']['equipment_deduction']['amount'],2) : "";
+            echo $ls['deduction']['equipment_deduction']['amount'] !="" ? "-".number_format($ls['deduction']['equipment_deduction']['amount'],2) : "";
             ?>
                 <input type="hidden" name="aa[amount][]" value="<?=$ls['deduction']['equipment_deduction']['amount'];?>">
             <?php
@@ -104,6 +104,7 @@
             }//else
             ?>
         </td>
+        
         <td>
             <?php
             $money_type = \app\models\MoneyType::find()->select('name')
@@ -111,6 +112,12 @@
             echo $money_type['name'];
             ?>
             <input type="hidden" name="aa[money_type_id][]" value="<?=$ls['Instalmentcostdetails']['money_type_id'];?>">
+        </td>
+        <td>
+            <?php
+                echo $ls['Instalmentcostdetails']['comment'];
+            ?>
+            <input type="hidden" name="aa[comment][]" value $ls['Instalmentcostdetails']['comment'];?>
         </td>
         <td style="width:10%">
             <?= \yii\helpers\Html::a('<i class="material-icons">delete_forever</i>',['unset-array', 'id'=>$c++, 'instalment_id' => $ls['Instalmentcostdetails']['instalment_id']], 

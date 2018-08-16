@@ -5,6 +5,7 @@ namespace app\controllers\employee;
 use Yii;
 use app\models\Instalment;
 use app\models\InstalmentSearch;
+// use yii\filters\AccessControl;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -36,6 +37,15 @@ class InstalmentController extends Controller
                     'delete' => ['POST'],
                 ],
             ],
+            // 'access' => [
+            //     'class' => AccessControl::className(),
+            //     'rules' => [
+            //         [
+            //             'allow' => true,
+            //             'roles' => ['@'],
+            //         ],
+            //     ],
+            // ]
         ];
     }
 
@@ -125,8 +135,7 @@ class InstalmentController extends Controller
      * @param integer $id
      * @return mixed
      */
-    public function actionDelete($id)
-    {
+    public function actionDelete($id){
         $this->findModel($id)->delete();
 
         return $this->redirect(['index']);
@@ -186,9 +195,9 @@ class InstalmentController extends Controller
         $this->layout = 'employee_layout';
         $searchModel = new \app\models\HousesSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-    //     echo "<pre>";
-    //     print_r($dataProvider->getModels());
-    //    die();
+        //     echo "<pre>";
+        //     print_r($dataProvider->getModels());
+        //    die();
         $res = \app\controllers\ceo\CeoController::_projectdetail(6);
         // \app\models\Methods::print_array($res['dataProvider']); 
         return $this->render('projectdetail/projectdetail', [
@@ -371,9 +380,9 @@ class InstalmentController extends Controller
             $model->work_id            = $req['Instalmentcostdetails']['work_id'];
             $model->money_type_id      = $m_type;
             if($m_type == 3 ){ //เงินยืม
-                $model->amount         = $req['deduction']['loan_deduction']['amount'];
+                $model->amount         = "-".$req['deduction']['loan_deduction']['amount'];
             }else if($m_type == 4){ //เงินค่าอุปกรณ์
-                $model->amount         = $req['deduction']['equipment_deduction']['amount'];
+                $model->amount         = "-".$req['deduction']['equipment_deduction']['amount'];
             }else{
                 $model->amount         = $req['Instalmentcostdetails']['amount'];
             }
@@ -477,6 +486,7 @@ class InstalmentController extends Controller
     public function actionEquipment(){
         return $this->renderAjax('_equipment');
     }
+
     public function actionLoan(){
         return $this->renderAjax('_loan');
     }
@@ -484,25 +494,33 @@ class InstalmentController extends Controller
     public function actionChangeMoneyValue(){
         $model =  \app\models\Instalmentcostdetails::find()
                 ->where(['id' => $_REQUEST['id']])->one();
-        
+                
+      
         if(isset($_REQUEST['change_amount'])){
             // \app\models\Methods::print_array($_REQUEST);
-            $model->house_id = $_REQUEST['house_id'];
-            $model->workclassify_id = $_REQUEST['workclassify_id'];
-            $model->worktype_id = $_REQUEST['Laborcostdetails']['workgroup']; 
-            $model->work_id = $_REQUEST['Laborcostdetails']['works'];
-            $model->amount = $_REQUEST['change_amount'];
+            $minus = true;
+            if($_REQUEST['money_type_id']==1 || $_REQUEST['money_type_id']==2){
+                $minus =  false;
+
+                $model->house_id = $_REQUEST['house_id'];
+                $model->workclassify_id = $_REQUEST['workclassify_id'];
+                $model->worktype_id = $_REQUEST['Laborcostdetails']['workgroup']; 
+                $model->work_id = $_REQUEST['Laborcostdetails']['works'];
+            }
+            
+            $model->amount = $minus == true ? "-".$_REQUEST['change_amount'] : $_REQUEST['change_amount'];
             $model->money_type_id = $_REQUEST['money_type'];
             $model->save();
 
             return $this->redirect(['employee/instalment/instalment-summary','instalment_id'=>$model['instalment_id']]);
         }else{
             $query2 = new Query;
-            $query2->select('a.*, b.wg_name, c.work_name, d.house_name')
+            $query2->select('a.*, b.wg_name, c.work_name, e.house_name, d.name as money_type_name')
             ->from('instalmentcostdetails a')
             ->leftJoin('work_group b', 'a.worktype_id = b.id')
-            ->leftJoin('works c', 'a.work_id = b.id')
-            ->leftJoin('houses d', 'a.house_id = d.id')
+            ->leftJoin('works c', 'a.work_id = c.id')
+            ->leftJoin('money_type d', 'a.money_type_id = d.id')
+            ->leftJoin('houses e', 'a.house_id = e.id')
             ->where(['a.id'=>$_REQUEST['id']]);
 
             $rows = $query2->all();
@@ -516,6 +534,7 @@ class InstalmentController extends Controller
         }
 
         return $this->renderAjax('change-money-value',[
+
             'model' => $model,
             'workclassify' =>$workclassify,
             'workgroup' => $workgroup,
@@ -565,8 +584,8 @@ class InstalmentController extends Controller
     
     public function actionTestexportexcel(){
         $instalment = \app\controllers\ceo\LaborcostdetailsController::_instalment_by_house($_REQUEST);
-        return $this->renderPartial('_exceltest',[
-            'instalment_sum_provider' => $instalment['instalment_sum_provider']
+        return $this->render('_exceltest',[
+           'instalment_sum_provider' => $instalment['instalment_sum_provider']
         ]);
     }
 }

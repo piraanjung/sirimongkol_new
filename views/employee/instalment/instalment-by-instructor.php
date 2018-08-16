@@ -177,6 +177,8 @@ $script = <<< JS
 
         $("#equipment_div").css("display", "none");
         $("#equipment_div input").prop("disabled", true);
+        
+        $('#instalmentcostdetails-comment').val("")
 
         // $('#instalmentcostdetails-workclassify_id').val("");
     });
@@ -266,6 +268,8 @@ $script = <<< JS
         //     document.getElementById('modalHeader').innerHTML = '<h4>' + $(this).attr('title') + '</h4>';
         // }
     });
+
+    
 
 JS;
 $this->registerJs($script);

@@ -7,8 +7,7 @@ use yii\db\Query;
  
 class WithDrawnController extends \yii\web\Controller
 {
-    public function actionIndex($instalment_id)
-    {
+    public function actionIndex($instalment_id){
         $this->layout = "employee_layout";
         $query = new Query;
         // compose the query
@@ -16,6 +15,7 @@ class WithDrawnController extends \yii\web\Controller
             ->from('instalmentcostdetails')
             ->where(['instalment_id'=> $instalment_id])
             ->andWhere(['summoney_id' => isset($_REQUEST['edit']) ? 1 : 0])
+            ->andWhere(['status' => 1])
             ->orderBy('contructor_id,money_type_id', 'asc')
             ->groupBy('id');
         $command = $query->createCommand();

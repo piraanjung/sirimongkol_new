@@ -1,7 +1,7 @@
 <?php
 use yii\db\Query;
 header("Content-type: application/vnd.ms-excel");
-header("Content-Disposition: attachment; filename=excel_daily_orders.xls");
+header("Content-Disposition: attachment; filename=สรุปการจ่ายค่าแรง_แปลงที่_".$instalment_sum_provider->getModels()[0]['house_name'].".xls");
 header("Pragma: public");
 header("Cache-Control: max-age=0");
 set_time_limit(0)
@@ -9,10 +9,7 @@ set_time_limit(0)
 <div>
     <table border=1>
         <tr>
-            <th colspan="6">สรุปการจ่ายค่าแรง แปลงที่</th>
-        </tr>
-        <tr>
-            <th colspan="6">งวดที่</th>
+            <th colspan="6">สรุปการจ่ายค่าแรง แปลงที่ <?=$instalment_sum_provider->getModels()[0]['house_name'];?></th>
         </tr>
         <tr>
             <th>กลุ่มงาน</th>
@@ -25,9 +22,9 @@ set_time_limit(0)
         <?php foreach($instalment_sum_provider->getModels() as $key => $i){ ?>
                 <tr>
                     <td><?=$i['wg_name'];?></td>
-                    <td><?=$i['cost_control'];?></td>
-                    <td><?=$i['paid_amount'];?></td>
-                    <td><?=$i['progress_percent'];?></td>
+                    <td><?=number_format($i['cost_control'],2);?></td>
+                    <td><?=number_format($i['paid_amount'],2);?></td>
+                    <td><?=number_format($i['progress_percent'],2);?></td>
                     <td></td>
                     <td>&nbsp;</td>
                 </tr>

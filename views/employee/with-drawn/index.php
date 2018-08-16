@@ -178,11 +178,11 @@ th{
                 <td class="_number">
                 <?php 
                     echo number_format($model['amount'],2);
-                    if($model['money_type_id'] == 3 || $model['money_type_id'] ==4){
-                        $sum_by_payee -= $model['amount'];
-                    }else{
+                    // if($model['money_type_id'] == 3 || $model['money_type_id'] ==4){
+                    //     $sum_by_payee -= $model['amount'];
+                    // }else{
                         $sum_by_payee += $model['amount'];
-                    }
+                   // }
                     
                 ?>
                 </td>
@@ -234,11 +234,11 @@ th{
                     <td class="_number">
                     <?php 
                         echo number_format($model['amount'],2);
-                        if($model['money_type_id'] == 3 || $model['money_type_id'] ==4){
-                            $sum_by_payee -= $model['amount'];
-                        }else{
+                        // if($model['money_type_id'] == 3 || $model['money_type_id'] ==4){
+                        //     $sum_by_payee -= $model['amount'];
+                        // }else{
                             $sum_by_payee += $model['amount'];
-                        }
+                       // }
                         
                     ?>
                     </td>

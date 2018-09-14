@@ -15,7 +15,7 @@
             <?php foreach($bank as $key =>  $b){ ?>
             <tr>
                 <td><?=++$key;?></td>
-                <td><?=$b['name'];?></td>
+                <td><?=$b['constructor_name'];?></td>
                 <td><?=$b['account_bank'];?></td>
                 <td class="_number"><?=number_format($b['paid_amount'],2); $_total+=$b['paid_amount'];?></td>
             </tr>

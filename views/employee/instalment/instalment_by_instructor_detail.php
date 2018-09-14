@@ -123,13 +123,13 @@ $this->params['breadcrumbs'][] = $this->title;
                                 <div id="allbanks" class="tab-pane">
                                     <?=$this->render("_banksumary",[
                                             'allbanks'=>['
-                                                bkb' =>['data'=>$bkb, 'name' => 'กรุงเทพ'],
+                                                bkk' =>['data'=>$bkk, 'name' => 'กรุงเทพ'],
                                                 'ktb' =>['data'=>$ktb, 'name' => 'กรุงไทย'],
                                                 'kb'  =>['data'=>$kb, 'name' => 'กสิกรไทย'],
                                                 'scb' =>['data'=>$scb, 'name' => 'ไทยพาณิชย์'],
                                                 'tmb' => ['data'=>$tmb, 'name' => 'ทหารไทย'],
                                                 'gsb' => ['data'=>$gsb, 'name' => 'ออมสิน'],
-                                                'ksb' => ['data'=>$ksb, 'name' => 'กรุงศรีอยุทธยา'],
+                                                'krungsri' => ['data'=>$krungsri, 'name' => 'กรุงศรีอยุทธยา'],
                                             ]
 
                                     ]);?>
@@ -137,9 +137,9 @@ $this->params['breadcrumbs'][] = $this->title;
 
                                 <div id="bbl" class="tab-pane">
                                     <?=$this->render("banksummary",[
-                                            'bank' => $bkb,
+                                            'bank' => $bkk,
                                             'bankname' => 'ธนาคารกรุงเทพ',
-                                            'bankname_eng'=> 'bkb'
+                                            'bankname_eng'=> 'bkk'
                                     ]);?>
                                 </div>
                                 <div id="ktb" class="tab-pane">
@@ -179,7 +179,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                 </div>
                                 <div id="bay" class="tab-pane">
                                     <?=$this->render("banksummary",[
-                                            'bank' => $ksb,
+                                            'bank' => $krungsri,
                                             'bankname' => 'ธนาคารกรุงศรีอยุธยา',
                                             'bankname_eng' => 'bay'
                                         ]);?>

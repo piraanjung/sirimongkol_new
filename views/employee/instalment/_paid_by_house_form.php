@@ -114,6 +114,9 @@ use kartik\widgets\Select2;
                                             id="loan_deduction_money" class="form-control" required>
                                         <input type="hidden" name="deduction[loan_deduction][type]" value="3">
                                     </div>
+                                    <div class="col-md-10 col-xs-12">
+                            <?= $form->field($model, 'comment')->textArea(['rows' => 1])->label('หมายเหตุ');?>
+                        </div>
                                     
                                     <div class="col-md-3 col-xs-12">
                                         <input type="hidden" name="hidden" value="addlists">

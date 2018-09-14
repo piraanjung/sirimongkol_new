@@ -10,11 +10,13 @@
             <th>จำนวนเงิน</th>
         </tr>
         <?php foreach($paidbycashs as $paidbycash){ ?>
+        <?php if($paidbycash['paid_amount'] > 0){ ?>
         <tr>
             <td><?=$paidbycash['name'];?></td>
             <td class="r"><?=number_format($paidbycash['paid_amount'],2);?></td>
         </tr>
         <?php $sum += $paidbycash['paid_amount']; ?>
+        <?php } ?>
         <?php }//foreach ?>
         <tr>
             <td colspan="2" class="_total">
@@ -26,4 +28,5 @@
         </tr>
     </table>
 </div>
+
 <?php } ?>

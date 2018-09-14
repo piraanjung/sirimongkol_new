@@ -33,6 +33,12 @@ th{
     margin-left:5px;
     cursor: pointer;
 }
+tr._total td, th{
+    background:blue;
+    color:#FFFFFF;
+    font-size :1.2em
+}
+
 </style>
 
 <?php Modal::begin([
@@ -75,7 +81,7 @@ th{
     <div class="tabel table-responsive">
         <table class="table table-condensed table-bordered">
             <thead >
-                <tr  id="tr_paid_list">
+                <tr  id="tr_paid_list" class="_total">
                     <th width="20">ลำดับ</th>
                     <th>ชื่อช่าง</th>   
                     <th width="100">เลขแปลงบ้าน</th>

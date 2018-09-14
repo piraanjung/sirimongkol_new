@@ -5,7 +5,7 @@ namespace app\controllers\employee;
 use Yii;
 use app\models\Instalment;
 use app\models\InstalmentSearch;
-// use yii\filters\AccessControl;
+use yii\filters\AccessControl;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -37,15 +37,15 @@ class InstalmentController extends Controller
                     'delete' => ['POST'],
                 ],
             ],
-            // 'access' => [
-            //     'class' => AccessControl::className(),
-            //     'rules' => [
-            //         [
-            //             'allow' => true,
-            //             'roles' => ['@'],
-            //         ],
-            //     ],
-            // ]
+            'access' => [
+                'class' => AccessControl::className(),
+                'rules' => [
+                    [
+                        'allow' => true,
+                        'roles' => ['@'],
+                    ],
+                ],
+            ]
         ];
     }
 
@@ -53,6 +53,7 @@ class InstalmentController extends Controller
      * Lists all Instalment models.
      * @return mixed
      */
+    
     public function actionIndex()
     {
         $this->layout = "employee_layout";
@@ -198,7 +199,7 @@ class InstalmentController extends Controller
         //     echo "<pre>";
         //     print_r($dataProvider->getModels());
         //    die();
-        $res = \app\controllers\ceo\CeoController::_projectdetail(6);
+        $res = \app\controllers\ceo\CeoController::_projectdetail($project_id);
         // \app\models\Methods::print_array($res['dataProvider']); 
         return $this->render('projectdetail/projectdetail', [
             'houseCount' => $res['houseCount'],
@@ -283,16 +284,16 @@ class InstalmentController extends Controller
         // \app\models\Methods::print_array($rows); 
         $paidbycash = $this->getpaidByCashOrBank(1, $instalment_id, 6);//paidtype =1, instalment_id
         $paidbybanks = $this->getpaidByCashOrBank(2, $instalment_id, 6);
-        
+
         // getข้อมูลการโอนเงินให้ช่างแยกเป็นธนาคาร(bank_id, instalment_id, paid_type)
         $ktb = $this->getTransferDivideBank(1, $instalment_id, 2);
-        $scb = $this->getTransferDivideBank(2, $instalment_id, 2);
-        $tmb = $this->getTransferDivideBank(3, $instalment_id, 2);
-        $kb  = $this->getTransferDivideBank(4, $instalment_id, 2);
-        $ksb = $this->getTransferDivideBank(5, $instalment_id, 2);
-        $bkb = $this->getTransferDivideBank(6, $instalment_id, 2);
+        $bkk = $this->getTransferDivideBank(2, $instalment_id, 2);//  ธนาคารกรุงเทพ
+        $kb = $this->getTransferDivideBank(3, $instalment_id, 2); //กสิกรไทย
+        $krungsri  = $this->getTransferDivideBank(4, $instalment_id, 2);
+        $tmb = $this->getTransferDivideBank(5, $instalment_id, 2);
+        $scb = $this->getTransferDivideBank(6, $instalment_id, 2);
         $gsb = $this->getTransferDivideBank(7, $instalment_id, 2);
-        // \app\models\Methods::print_array($ktb);
+        // \app\models\Methods::print_array($tmb);
         return $this->render('instalment_by_instructor_detail',[
             'models' => $rows,
             'paidbycash' => $paidbycash,
@@ -301,12 +302,74 @@ class InstalmentController extends Controller
             'scb' => $scb,
             'tmb' => $tmb,
             'kb' =>  $kb ,
-            'ksb' => $ksb,
-            'bkb' => $bkb,
+            'krungsri' => $krungsri,
+            'bkk' => $bkk,
             'gsb' => $gsb, 
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
         ]);
+
+    }
+
+    private function getTransferDivideBank($bank_id, $instalment_id, $paidtype){
+        $query = new Query();
+        $query->select(' 
+            summoney.*, 
+            paidtype.paid_amount, 
+            paidtype.paid_type,
+            profile.name as constructor_name,
+            user_bookbank_info.bank_id,
+            user_bookbank_info.account_bank,
+            banks.name as bank_name
+        ')
+        ->from('summoney') 
+        ->leftJoin('paidtype', 'summoney.id = paidtype.summoney_id')
+        ->leftJoin('profile', 'summoney.contructor_id = profile.user_id')
+        ->leftJoin('user_bookbank_info', 'summoney.contructor_id = user_bookbank_info.user_id')
+        ->leftJoin('banks', 'user_bookbank_info.bank_id = banks.id')
+        ->where(['summoney.instalment_id' => $instalment_id])
+        ->andWhere(['paidtype.paid_type' => $paidtype])
+        ->andWhere(['banks.id' => $bank_id])
+        ->orderBy('instalment_id', 'ASC');
+
+        $command = $query->createCommand();
+        $model   = $command->queryAll();
+        // \app\models\Methods::print_array($model);
+        return count($model)> 0 ? $model : array();
+                    
+
+    }
+
+    private function getpaidByCashOrBank($paidtype, $instalment_id, $project_id){
+        // รายงานการจ่ายเงินงวดงานโดยจ่ายเงินสด
+        $query = new Query();
+        $query->select('
+            a.instalment as a_inst,
+            a.monthly, 
+            a.project_id,
+            b.instalment_id as sum_inst, 
+            b.total, 
+            b.id, 
+            b.contructor_id,
+            c.summoney_id as c_sum_id, 
+            c.paid_type, 
+            c.paid_amount, 
+            c.update_date,
+            d.name
+        ')
+        ->from('instalment a')
+        ->leftJoin('summoney b', 'b.instalment_id = a.id')
+        ->leftJoin('paidtype c', 'c.summoney_id = b.id')
+        ->leftJoin('profile d', 'b.contructor_id = d.user_id')
+        
+        ->where(['a.id'=> $instalment_id]) 
+        ->andWhere(['c.paid_type' => $paidtype])
+        ->andWhere(['a.project_id' => $project_id]);
+                
+        $command = $query->createCommand();
+        $model   = $command->queryAll();
+
+        return $model;
 
     }
 
@@ -428,59 +491,6 @@ class InstalmentController extends Controller
                 $command->execute();
             }
         }
-    }
-
-    private function getpaidByCashOrBank($paidtype, $instalment_id, $project_id){
-        // รายงานการจ่ายเงินงวดงานโดยจ่ายเงินสด
-        $query = new Query();
-        $query->select('a.instalment as a_inst,a.monthly, a.project_id,
-                        b.instalment_id as sum_inst, b.total, b.id, b.contructor_id,
-                        c.summoney_id as c_sum_id, c.paid_type, c.paid_amount, c.update_date,
-                        d.name'
-                        )
-                ->from('instalment a')
-                ->leftJoin('summoney b', 'a.instalment = b.instalment_id')
-                ->leftJoin('paidtype c', 'b.id = c.summoney_id')
-                ->leftJoin('profile d', 'b.contructor_id = d.user_id')
-                ->where(['a.instalment'=> $instalment_id]) 
-                ->andWhere(['c.paid_type' => $paidtype])
-                ->andWhere(['a.project_id' => $project_id]);
-                
-                $command = $query->createCommand();
-                $model   = $command->queryAll();
-                return $model;
-       
-        return $model;
-
-    }
-
-    private function getTransferDivideBank($bank_id, $instalment_id, $paidtype){
-        $query = new Query();
-        $query->select('a.*, 
-                        b.contructor_id,
-                        c.name,
-                        d.total,
-                        e.paid_type,e.paid_amount,e.id,
-                        f.account_bank,
-                        g.id as bank_id, g.name as bank')
-                       
-            ->from('instalment a')
-            ->leftJoin('instalmentcostdetails b', 'a.id = b.instalment_id')
-            ->leftJoin('profile c', 'b.contructor_id = c.user_id')
-            ->leftJoin('summoney d', 'c.user_id = d.contructor_id')
-            ->leftJoin('paidtype e', 'd.id = e.summoney_id')
-            ->leftJoin('user_bookbank_info f', 'c.user_id = f.user_id')
-            ->leftJoin('banks g', 'f.bank_id = g.id')
-            ->where(['a.id' => $instalment_id])
-            ->andWhere(['e.paid_type' => $paidtype])
-            ->andWhere(['g.id' => $bank_id])
-            ->groupBy('e.id', 'asc');
-            
-        $command = $query->createCommand();
-        $model   = $command->queryAll();
-         return count($model)> 0 ? $model : array();
-                    // \app\models\Methods::print_array($model);
-
     }
 
     public function actionEquipment(){

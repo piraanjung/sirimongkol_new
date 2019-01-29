@@ -91,7 +91,7 @@
             <div class="card-footer">
                 <h3 class="title">
                     <small><?=number_format($percent,2);?>&nbsp;%
-                    [ <?=$percent > 100 ?'เกินงบควบคุม' : 'ปกติ' ?> ]</small> 
+                    : <?=$percent > 100 ?'เกินงบควบคุม' : 'ปกติ' ?> </small> 
                 </h3>
             </div>
         </div>

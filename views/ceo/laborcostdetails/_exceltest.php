@@ -2,7 +2,7 @@
 use yii\db\Query;
 header("Content-type: application/vnd.ms-excel");
 header("Content-Disposition: attachment; filename=สรุปการจ่ายค่าแรง_แปลงที่_".$instalment_sum_provider->getModels()[0]['house_name'].".xls");
-header("Pragma:no-cache");
+header("Pragma: public");
 header("Cache-Control: max-age=0");
 set_time_limit(0)
 ?>

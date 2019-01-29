@@ -121,6 +121,9 @@ class CeoController extends \yii\web\Controller
         $project_list = Project::find()->all();
 
         $projectdetails =$this::_projectdetail($project_id);
+        $house_status['empty'] = \app\models\Methods::find_abnormal_house_status(0);
+        $house_status['buliding'] = \app\models\Methods::find_abnormal_house_status(1);
+        $house_status['complete'] = \app\models\Methods::find_abnormal_house_status(2);
         //  \app\models\Methods::print_array($project_list);
         return $this->render('index',[
             'boxs' => $data_one,
@@ -129,7 +132,8 @@ class CeoController extends \yii\web\Controller
             'dataProvider' => $dataProvider,
             'dataProvider2' => $dataProvider2,
             'projectdetails' => $projectdetails['dataProvider'],
-            'project_list' => $project_list
+            'project_list' => $project_list,
+            'house_status' => $house_status
         ]);
     }
 
@@ -140,6 +144,21 @@ class CeoController extends \yii\web\Controller
         $searchModel = new HousesSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
         $res = $this::_projectdetail($project_id);
+
+
+        // $sql = 'SELECT houses.*, house_model.hm_name, SUM(instalmentcostdetails.amount) 
+        //         FROM `houses` LEFT JOIN house_model ON houses.house_model_id = house_model.id 
+        //         LEFT JOIN instalmentcostdetails ON instalmentcostdetails.house_id = houses.id 
+        //         GROUP BY instalmentcostdetails.house_id';
+        // $data = Yii::$app->db->createCommand($sql)->queryAll();
+        // $a =array();
+        // foreach($data as $d){
+        //     array_push($a,\app\models\Methods::get_amount_over($d['id']));
+        // }
+        $house_status['empty'] = \app\models\Methods::find_abnormal_house_status(0);
+        $house_status['buliding'] = \app\models\Methods::find_abnormal_house_status(1);
+        $house_status['complete'] = \app\models\Methods::find_abnormal_house_status(2);
+        // \app\models\Methods::print_array($bb);
         // \app\models\Form::print_array($houseCount);
         return $this->render('projectdetail', [
             'houseCount' => $res['houseCount'],
@@ -152,7 +171,8 @@ class CeoController extends \yii\web\Controller
             'dataProvider2' => $res['dataProvider'],
             'project' => $res['project'],
             'searchModel' =>$searchModel,
-            'dataProvider' => $dataProvider
+            'dataProvider' => $dataProvider,
+            'house_status' => $house_status
         ]);
     }
 

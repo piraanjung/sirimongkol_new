@@ -409,4 +409,13 @@ class LaborcostdetailsController extends Controller
         return $inst;
         
     }
+
+    public function actionTestexportexcel(){
+        $instalment = \app\controllers\ceo\LaborcostdetailsController::_instalment_by_house($_REQUEST);
+        print_r($instalment);die();
+
+        return $this->render('_exceltest',[
+           'instalment_sum_provider' => $instalment['instalment_sum_provider']
+        ]);
+    }
 }

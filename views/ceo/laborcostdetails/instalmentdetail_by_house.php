@@ -9,8 +9,7 @@ use yii\db\Query;
 /* @var $this yii\web\View */
 /* @var $searchModel app\modules\ceo\models\LaborcostdetailsSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
-
-$this->title = 'สรุปการจ่ายค่าแรง แปลงที่'.$instalment[0]['house_id'];
+$this->title = 'สรุปการจ่ายค่าแรง แปลงที่ '.$instalment[0]['house_name'];
                 // " งวดที่ ".$instalment[0]['instalment_monthly']."/".$instalment[0]['instalment'].
                 // ".".$instalment[0]['instalment_year'];
 $this->params['breadcrumbs'][] = ['label' => 'หน้าแรก ความคืบหน้าโครงการ'.$instalment[0]['project_id'], 'url' => ['/ceo/ceo/index']];

@@ -120,9 +120,7 @@ use yii\helpers\Html;
           <small style="color:green">ปกติ : <?=$nobuilt - $paid_abnormal_houses0;?>&nbsp;หลัง</small>
         </h3>
         <h4 class="title">
-        <?= Html::a('จ่ายเกินงบ : '.$paid_abnormal_houses0.' หลัง',
-              ['ceo/ceo/projectdetail','project_id' => $project['project_id'], 
-              'abnormal_house_status' => 0], ['style'=>"color:red"]) ?>
+        <?= Html::a('&nbsp;','') ?>
 
         </h4>
       </div>
@@ -145,9 +143,9 @@ use yii\helpers\Html;
           <small style="color:green">ปกติ : <?=$completeBuildedHoueses - $paid_abnormal_houses2;?>&nbsp;หลัง</small>
         </h3>
         <h4 class="title">
-        <?= Html::a('จ่ายเกินงบ : '.$paid_abnormal_houses2.' หลัง',
+        <?= Html::a('จ่ายเกินงบ : '.count($house_status['complete']).' หลัง',
               ['ceo/ceo/projectdetail','project_id' => $project['project_id'], 
-              'abnormal_house_status' => 2], ['style'=>"color:red"]) ?>
+              'abnormal_house_status' => 2], ['style'=>"color:red"]) //$paid_abnormal_houses2 ?>
 
         </h4>
        
@@ -171,7 +169,7 @@ use yii\helpers\Html;
           <small style="color:green">ปกติ : <?=$duringBuildedHouses - $paid_abnormal_houses1;?>&nbsp;หลัง</small>
         </h3>
         <h4 class="title">
-        <?= Html::a('จ่ายเกินงบ : '.$paid_abnormal_houses1.' หลัง',
+        <?= Html::a('จ่ายเกินงบ : '.count($house_status['buliding']).' หลัง',
               ['ceo/ceo/projectdetail','project_id' => $project['project_id'], 
               'abnormal_house_status' => 1], ['style'=>"color:red"]) ?>
 

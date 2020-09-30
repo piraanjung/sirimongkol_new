@@ -158,6 +158,49 @@ class Methods extends Model
         return $i;
         // \app\models\Methods::print_array($datas);
     }
+
+
+    public function find_abnormal_house_status($ab_house_status){
+        // $aa = \app\controllers\ceo\CeoController::_projectdetail(6);
+        $houses = \app\models\Houses::find()->select('houses.id')
+                ->innerJoin('instalmentcostdetails', 'houses.id = instalmentcostdetails.house_id')
+                ->where(['houses.project_id' => 6])
+                ->all();
+        $datas =[];
+        foreach($houses as $h){
+        
+            $sql = "
+                SELECT  a.id as house_id, a.house_name,
+                    b.hm_name, b.hm_control_statment ,
+                    c.wg_id , d.wg_name, c.cost_control ,
+                    (SELECT SUM('cost_control') FROM house_model_have_workgroup WHERE house_model_id = b.id ) as sum_cost_control,
+                    (SELECT SUM('amount') FROM instalmentcostdetails WHERE house_id = 1 AND worktype_id = c.wg_id) as paid_amount,
+                    (SELECT SUM(amount) FROM instalmentcostdetails WHERE house_id = ".$h['id'].") as sum_paid_amount,
+                    ((SELECT SUM(amount) FROM instalmentcostdetails WHERE house_id = ".$h['id']." AND worktype_id = c.wg_id)/c.cost_control)*100 as progress_percent
+                FROM houses a
+                LEFT JOIN house_model b ON a.house_model_id = b.id
+                LEFT JOIN house_model_have_workgroup c ON b.id = c.house_model_id
+                LEFT JOIN work_group d ON c.wg_id = d.id
+                LEFT JOIN instalmentcostdetails e ON a.id = e.house_id
+                LEFT JOIN works f ON e.work_id = f.id
+                WHERE a.id=".$h['id']."  AND a.house_status=".$ab_house_status." 
+                Group By c.wg_id";
+            $data = Yii::$app->db->createCommand($sql)->queryAll();
+            array_push($datas, $data);
+        }
+        $_house_id =[];
+        if(count($datas[0]) > 0){
+            foreach($datas as $data){
+               foreach($data as $d){
+                    $percent = empty($d['progress_percent']) ? 0 : $d['progress_percent'];
+                    if($percent > 100){
+                        array_push($_house_id, $d['house_id']);
+                    }
+               }
+            }
+        }
+        return $_house_id;
+    }
     
 }
 

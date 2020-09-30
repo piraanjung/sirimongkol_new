@@ -18,6 +18,7 @@ $this->params['breadcrumbs'][] = $this->title;
         $paid_abnormal_houses0 =0;
         $paid_abnormal_houses1 =0;
         $paid_abnormal_houses2 =0;
+        // echo "<pre>";
         // print_r($dataProvider->getModels());
         foreach($dataProvider->getModels() as $a){
             $i = \app\models\Methods::get_amount_over($a['id']);
@@ -41,7 +42,9 @@ $this->params['breadcrumbs'][] = $this->title;
         'sumPaidAmountByProject' => $sumPaidAmountByProject,
         'paid_abnormal_houses0' => $paid_abnormal_houses0,
         'paid_abnormal_houses1' => $paid_abnormal_houses1,
-        'paid_abnormal_houses2' => $paid_abnormal_houses2
+        'paid_abnormal_houses2' => $paid_abnormal_houses2,
+        'house_status' => $house_status
+        
     ]);
     ?>
 </div>

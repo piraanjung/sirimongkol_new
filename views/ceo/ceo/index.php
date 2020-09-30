@@ -93,9 +93,7 @@ $this->params['breadcrumbs'][] = $this->title;
                             </h3>
                             <h3 class="title">
                                 <small>
-                                <?= Html::a('จ่ายเกินงบ : '.$paid_abnormal_houses0.' หลัง',
-                                    ['ceo/ceo/projectdetail','project_id' => $box['project_id'], 
-                                    'abnormal_house_status' => 0], ['style'=>"color:red"]) ?>
+                                <?= Html::a('&nbsp;','') ?>
 
                                 </small>
                             </h3>
@@ -124,7 +122,7 @@ $this->params['breadcrumbs'][] = $this->title;
                             </h3>
                             <h3 class="title">
                                 <small>
-                                <?= Html::a('จ่ายเกินงบ : '.$paid_abnormal_houses2.' หลัง',
+                                <?= Html::a('จ่ายเกินงบ : '.count($house_status['complete']).' หลัง',
                                     ['ceo/ceo/projectdetail','project_id' => $box['project_id'], 
                                     'abnormal_house_status' => 2], ['style'=>"color:red"]) ?>
 
@@ -155,7 +153,7 @@ $this->params['breadcrumbs'][] = $this->title;
                             </h3>
                             <h3 class="title">
                                 <small >
-                                    <?= Html::a('จ่ายเกินงบ : '.$paid_abnormal_houses1.' หลัง',
+                                    <?= Html::a('จ่ายเกินงบ : '.count($house_status['buliding']).' หลัง',
                                     ['ceo/ceo/projectdetail','project_id' => $box['project_id'], 
                                     'abnormal_house_status' => 1], ['style'=>"color:red"]) ?>
 

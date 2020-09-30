@@ -3,12 +3,14 @@
 use yii\helpers\Html;
 use yii\helpers\Url;
 use kartik\grid\GridView;
+use app\models\Methods;
 /* @var $this yii\web\View */
 /* @var $searchModel app\models\InstalmentSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
 $this->title = 'เบิกจ่ายงวด';
 $this->params['breadcrumbs'][] = $this->title;
+$methodModel = new Methods();
 ?>
 
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
@@ -22,7 +24,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 $action= "create";
                 $btn_color = "btn-info";
                 $display = true;
-                \app\models\Methods::card_header($title,  $subtitle, $a_text, $action, $btn_color, $display); 
+               $methodModel->card_header($title,  $subtitle, $a_text, $action, $btn_color, $display); 
             ?>
                 <?= GridView::widget([
                     'dataProvider' => $dataProvider,
@@ -45,7 +47,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
                             [
                                 'class' => 'kartik\grid\ActionColumn',
-                                'template' => '{add_item} {instalment_sum} {paid_by} {details}',
+                                'template' => '{add_item}  {paid_by} {instalment_sum} {details}',
                                 'width' => '45%',
                                 'header' => '',
                                 'buttons'=>[
@@ -59,6 +61,15 @@ $this->params['breadcrumbs'][] = $this->title;
                                                 ]
                                             );
                                         },
+                                    
+                                    'paid_by'=> function($url, $model){
+                                        // $t = 'employee/instalment/instalment_by_instructor&instalment_id='.$model->id;
+                                        return Html::a('เลือกวิธีจ่าย',['employee/with-drawn','instalment_id'=>$model->id],
+                                                ['class' => 'btn btn-round btn-md',
+                                                    'style' => 'padding: 12px 15px !important',
+                                                    'data-background-color'=>"orange"
+                                                ]);
+                                    },
                                     'instalment_sum'=> function($url, $model){
                                         return Html::a('สรุปจ่ายเงินรายช่าง', 
                                         ['employee/instalment/instalment-summary','instalment_id'=>$model->id],
@@ -67,14 +78,6 @@ $this->params['breadcrumbs'][] = $this->title;
                                                 'data-background-color'=>"green"
                                             ]
                                         );
-                                    },
-                                    'paid_by'=> function($url, $model){
-                                        // $t = 'employee/instalment/instalment_by_instructor&instalment_id='.$model->id;
-                                        return Html::a('4.เลือกวิธีจ่าย',['employee/with-drawn','instalment_id'=>$model->id],
-                                                ['class' => 'btn btn-round btn-md',
-                                                    'style' => 'padding: 12px 15px !important',
-                                                    'data-background-color'=>"orange"
-                                                ]);
                                     },
                                     'details'=> function($url, $model){
                                         // $t = 'employee/instalment/instalment_by_instructor&instalment_id='.$model->id;
@@ -92,6 +95,13 @@ $this->params['breadcrumbs'][] = $this->title;
                         ],
                     ]); 
                 ?>
-            <?=\app\models\Methods::card_footer();?>
+            <?=$methodModel->card_footer();?>
         </div><!-- b0x-body -->
     </div><!-- instalment-index box box-success -->
+
+
+<?php
+
+
+
+?>

@@ -11,6 +11,12 @@ use kartik\widgets\Select2;
     #w_paid{
         color:red
     }
+    .hidden{
+        display:none
+    }
+    .show{
+        display:block
+    }
 </style>
 <?php yii\widgets\Pjax::begin(['id' => 'new_country']) ?>
 <div class="card card-stats" style="background-color:#EAF7FB; border-radius:10px 10px">
@@ -96,7 +102,7 @@ use kartik\widgets\Select2;
                         </div>
                         <div class="col-md-2 col-xs-12">
                             <input type="hidden" name="hidden" value="addlists">
-                            <button type="submit" class="btn btn-round btn-success submit">เพิ่มรายการ</button>
+                            <button type="submit" id="instalment_submit" class="btn btn-round btn-success hidden ">เพิ่มรายการ</button>
                         
                         </div>
                     </div>
@@ -145,7 +151,7 @@ use kartik\widgets\Select2;
                                     </div>
                                     <div class="col-md-3 col-xs-12">
                                         <input type="hidden" name="hidden" value="addlists">
-                                        <button type="submit" class="btn btn-round btn-success submit">เพิ่มรายการ</button>
+                                        <button type="submit" class="btn btn-round btn-success submit ">เพิ่มรายการ</button>
                                     
                                     </div>
                                 </div>
@@ -163,3 +169,34 @@ use kartik\widgets\Select2;
 
 </div>
 <?php yii\widgets\Pjax::end() ?>  
+<?php
+  $script = <<< JS
+
+    $(document).ready(function(){
+        // $('.submit').addClass('disabled');
+    })
+
+    $('#instalmentcostdetails-amount').keyup(function() {
+        //ถ้ามากกว่า เงินจ่ายได้ alert และ เป็น0
+        // if($(this).val() > $('#w_remain').val()){
+            let w = $('#w_remain').val()
+            let remain = w.split(',').join('');
+            if( parseFloat($(this).val()) > parseFloat(remain) ){
+                alert('คุณกรอกเงินจ่าย มากกว่า เงินที่สามารถเบิกได้')
+                $('#instalment_submit').removeClass('show');
+                $('#instalment_submit').addClass('hidden');
+                $(this).val('')
+            }else{
+                console.log('ss')
+                if($('#instalment_submit').hasClass('hidden')){
+                    $('#instalment_submit').removeClass('hidden');
+                    $('#instalment_submit').addClass('show');
+                }
+                
+            }
+            // $(this).val(0)
+        // }
+
+    });
+JS;
+$this->registerJs($script);

@@ -19,7 +19,6 @@ use yii\widgets\ActiveForm;
  * @var dektrium\user\models\LoginForm $model
  * @var dektrium\user\Module $module
  */
-
 $this->title = Yii::t('user', 'เข้าสู่ระบบ');
 $this->params['breadcrumbs'][] = $this->title;
 ?>

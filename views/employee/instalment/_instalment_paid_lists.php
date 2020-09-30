@@ -1,4 +1,4 @@
-<!-- <= \app\models\Methods::print_array($addlist);?> -->
+<!-- <= $methodModel->print_array($addlist);?> -->
 <?php
     $title ='รายการขัอมูลการจ่ายเงินงวดงาน';
     $subtitle = "รายการขัอมูลการจ่ายเงินงวดงานที่ถูกเพิ่มข้อมูล ก่อนทำการบันทึกข้อมูล";
@@ -6,7 +6,7 @@
     $action= "";
     $btn_color = "btn-info";
     $display = false;
-    \app\models\Methods::card_header($title, $subtitle, $a_text, $action, $btn_color, $display); 
+    $methodModel->card_header($title, $subtitle, $a_text, $action, $btn_color, $display); 
 ?>
 <table class="table table-striped table-bordered ">
 <thead>
@@ -24,7 +24,7 @@
     </tr>
 </thead>
 <tbody>
-<!-- \app\models\Methods::print_array($addlist) -->
+<!-- $methodModel->print_array($addlist) -->
     <?php $c=0;$i=1; ?>
     <?php foreach($addlist as $ls){ ?>
     <tr>
@@ -33,7 +33,13 @@
             <?php
                 $house = \app\models\Houses::find()->select('house_name')
                     ->where(['id' =>$ls['Instalmentcostdetails']['house_id']])->one();
-                echo count($house) == 0 ? "-" : $house['house_name'];
+                   
+                echo is_null($house) ? "-" : $house['house_name'];
+                // echo $ls['Instalmentcostdetails']['house_id'];
+                // echo '<pre>';
+                // print_r($house);
+                // echo '</pre>';
+                // die();
             ?>
             <input type="hidden" name="aa[house_id][]" value="<?=$ls['Instalmentcostdetails']['house_id'];?>">
         </td>
@@ -41,7 +47,7 @@
         <td>
             <?php
                 $payee = \app\models\Profile::find()->select('name')
-                ->where(['user_id' => $ls['Instalmentcostdetails']['contructor_id']])->one();
+                        ->where(['user_id' => $ls['Instalmentcostdetails']['contructor_id']])->one();
                 echo $payee['name'];
             ?>
             <input type="hidden" name="aa[contructor_id][]" value="<?=$ls['Instalmentcostdetails']['contructor_id'];?>">
@@ -59,7 +65,7 @@
             <?php
                 $work_classify_id = \app\models\WorkCategory::find()->select('wc_name')
                     ->where(['id' => $ls['Instalmentcostdetails']['workclassify_id']])->one();
-                    echo count($work_classify_id) ==0 ? "-" : $work_classify_id['wc_name'];
+                    echo is_null($work_classify_id) ? "-" : $work_classify_id['wc_name'];
                 ?>
                 <input type="hidden" name="aa[workclassify_id][]" value="<?=$ls['Instalmentcostdetails']['workclassify_id'];?>">
         </td>
@@ -68,7 +74,7 @@
             <?php 
                 $worktype = \app\models\WorkGroup::find()->select('wg_name')
                     ->where(['id'=> $ls['Instalmentcostdetails']['worktype_id']])->one();
-                    echo count($worktype) == 0 ? "-" : $worktype['wg_name'];
+                    echo is_null($worktype) == 0 ? "-" : $worktype['wg_name'];
             ?>
             <input type="hidden" name="aa[work_type][]"  value="<?=$ls['Instalmentcostdetails']['worktype_id'];?>">
         </td>            
@@ -76,7 +82,7 @@
             <?php 
                 $work = \app\models\Works::find()->select('work_name')
                     ->where(['id'=> $ls['Instalmentcostdetails']['work_id']])->one();
-                echo count($work) == 0 ? "-" : $work['work_name'];
+                echo is_null($work) == 0 ? "-" : $work['work_name'];
             ?>
             <input type="hidden" name="aa[works][]"  
                 value="<?=$ls['Instalmentcostdetails']['work_id'];?>">

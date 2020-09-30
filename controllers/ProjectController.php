@@ -68,16 +68,15 @@ class ProjectController extends Controller
     {  
         $this->layout = "admin";
         $model = new Project();
-
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-
+        if ($model->load(Yii::$app->request->post())) {
+            //insert 
+            // $model->save();
+            //update date;
             $start_arr = explode("-",$_REQUEST['Project']['start_date']);
             $end_arr = explode("-",$_REQUEST['Project']['end_date']);
-            
-            $start_date = $start_arr[2]."-".$start_arr[1]."-".$start_arr[0];
-            $end_date = $end_arr[2]."-".$end_arr[1]."-".$end_arr[0];
-            $model->start_date = $start_date;
-            $model->end_date = $end_date;
+
+            $model->start_date = $this->dateFormat($start_arr);
+            $model->end_date = $this->dateFormat($end_arr);
             $model->create_date = date('Y-m-d');
             $model->update_date = date('Y-m-d');
             $model->save(); 
@@ -145,5 +144,14 @@ class ProjectController extends Controller
         }
 
         throw new NotFoundHttpException('The requested page does not exist.');
+    }
+
+
+    public function dateformat($dateArray){
+        print_r($dateArray);
+        $date  = $dateArray[0]  < 10 ? '0'.$dateArray[0]  : $dateArray[0];
+        $month = $dateArray[1] < 10 ? '0'.$dateArray[1] : $dateArray[1];
+
+        return  $dateArray[2]."-".$month."-".$date;
     }
 }

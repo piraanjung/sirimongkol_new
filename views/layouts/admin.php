@@ -32,6 +32,9 @@ if (class_exists('ramosisw\CImaterial\web\MaterialAsset')) {
             <link href="https://fonts.googleapis.com/css?family=Kanit" rel="stylesheet">
 
             <style>
+            *{
+                font-family: 'Open Sans', sans-serif
+            }
                 .fixed-plugin {
                     top: 50px;
                 }

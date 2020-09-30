@@ -15,6 +15,7 @@ use app\models\Instalment;
 use app\models\Houses;
 use yii\bootstrap\Alert;
 use yii\widgets\Pjax;
+use app\models\Methods;
 
 $inst = $instalment['monthly']."/".$instalment['instalment'].".".$instalment['year'];
 $this->title = 'จ่ายงวดงานโดยเลือกช่าง งวดที่ '.$inst;
@@ -31,7 +32,7 @@ $workClassify = ArrayHelper::map(\app\models\WorkCategory::find()
     ->select('id, wc_name')->all(), 'id', 'wc_name');
     
 $houses = Arrayhelper::map(Houses::find()->all(), 'id', 'house_name');
-
+$methodModel = new Methods();
 ?>
 
     <div class="box box-success">
@@ -43,7 +44,7 @@ $houses = Arrayhelper::map(Houses::find()->all(), 'id', 'house_name');
                 $action= "";
                 $btn_color = "btn-info";
                 $display = false;
-                \app\models\Methods::card_header($title, $subtitle, $a_text, $action, $btn_color, $display); 
+                $methodModel->card_header($title, $subtitle, $a_text, $action, $btn_color, $display); 
             ?>
 
                 <?php $form = ActiveForm::begin(['id'=> $model->formName()]); ?>
@@ -66,10 +67,9 @@ $houses = Arrayhelper::map(Houses::find()->all(), 'id', 'house_name');
                     
                 <?php ActiveForm::end(); ?>
               
-            <?=\app\models\Methods::card_footer();?>
+            <?=$methodModel->card_footer();?>
         </div>
     </div><!-- box box-success -->
-
     <?php if(count($addlist) > 0 && 
                 $addlist[0]['Instalmentcostdetails']['instalment_id'] == $instalment['id']){ ?>
         <?php Pjax::begin(['id' => 'countries']) ?>       
@@ -81,7 +81,8 @@ $houses = Arrayhelper::map(Houses::find()->all(), 'id', 'house_name');
                             <?= $this->render('_instalment_paid_lists',[
                                                 'addlist' => $addlist,
                                                 'instalment' => $instalment,
-                                                'form' => $form2
+                                                'form' => $form2,
+                                                'methodModel' => $methodModel
                                 ]);    
                             ?>
                         <?php ActiveForm::end(); ?>

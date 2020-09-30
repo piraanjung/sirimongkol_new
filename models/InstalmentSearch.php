@@ -43,10 +43,15 @@ class InstalmentSearch extends Instalment
      *
      * @return ActiveDataProvider
      */
-    public function search($params)
+    public function search($params, $where = "")
     {
+       
         $query = Instalment::find();
 
+        if($where != ""){
+            $query->where($where);
+        }
+        
         // add conditions that should always apply here
         $query->joinWith(['profile','project']);
 

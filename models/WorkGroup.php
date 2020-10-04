@@ -51,7 +51,7 @@ class WorkGroup extends \yii\db\ActiveRecord
         return $this->hasOne(WorkCategory::className(), ['id' => 'wc_id']);
     }
 
-    public function workGroupStatus($status){
+    public static function workGroupStatus($status){
         return $status == 0 ? 'ยังไม่เปิดใช้งาน' : 'เปิดใช้งาน'; 
     }
 }

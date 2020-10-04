@@ -81,7 +81,7 @@ class Houses extends \yii\db\ActiveRecord
         return $sum;
     }
 
-    public function sumPaidAmountByProject($project_id){
+    public static function sumPaidAmountByProject($project_id){
         $query = new Query;
         $query->select('sum(lb.amount) as sumpaid_amount_by_project')
             ->from('houses h')

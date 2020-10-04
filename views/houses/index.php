@@ -3,10 +3,9 @@
 use yii\helpers\Html;
 use yii\grid\GridView;
 use yii\helpers\ArrayHelper;
-/* @var $this yii\web\View */
-/* @var $searchModel app\models\HousesSearch */
-/* @var $dataProvider yii\data\ActiveDataProvider */
+use app\models\Methods;
 
+$method = new Methods();
 $this->title = 'แปลงบ้าน';
 $this->params['breadcrumbs'][] = $this->title;
 
@@ -26,7 +25,7 @@ if(Yii::$app->session->hasFlash('alert')){
         $action ="create"; 
         $btn_color="btn-info";
         $display = true;
-        \app\models\Methods::card_header($title, $subtitle, $a_text, $action, 
+        $method->card_header($title, $subtitle, $a_text, $action, 
                 $btn_color="btn-info", $display);
     ?>
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
@@ -60,7 +59,7 @@ if(Yii::$app->session->hasFlash('alert')){
                     'attribute' => 'house_status',
                     'value'     => function($model){
                         $hs = app\models\Houses::find()->where(['house_status' => $model['house_status']])->one();
-                        return \app\models\Methods::house_status($hs['house_status']);   
+                        return\app\models\Methods::house_status($hs['house_status']);   
                     }
                 ],
                 
@@ -71,5 +70,5 @@ if(Yii::$app->session->hasFlash('alert')){
         ]); ?>
         </div>
     </div>
-    <?php \app\models\Methods::card_footer();?>
+    <?php $method->card_footer();?>
 </div>

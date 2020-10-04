@@ -63,8 +63,15 @@ class Instalment extends \yii\db\ActiveRecord
         $_year  = $_d_arr[0]+543;
         $_month = $_d_arr[1];
         $_day   = $_d_arr[2];
-        $moth_str = \app\models\Methods::getMonth($_month);
+        $methodModel = new \app\models\Methods();
+        $moth_str = $methodModel->getMonth($_month);
         echo $_day." ".$moth_str." ".$_year;
+    }
+
+    public function get_column_value($instalment_id, $column_name){
+        return Instalment::find()
+                ->select($column_name)
+                ->where(['id'=> $instalment_id])->one();
     }
 
     public function getProfile(){

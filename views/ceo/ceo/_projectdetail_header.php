@@ -111,7 +111,7 @@ use yii\helpers\Html;
       <div class="card-content" style="padding:15px 5px !important">
         <h4 class="title">
         <?php $nobuilt = count($houseCount)-($completeBuildedHoueses+$duringBuildedHouses);?>
-        ยังไม่ดำเนินการ <?=$nobuilt;?> &nbsp;หลัง
+        ยังไม่ดำเนินการ <?=$nobuilt;?>หลัง
         </h4>
       </div>
 
@@ -158,9 +158,9 @@ use yii\helpers\Html;
       <div class="card-header" data-background-color="orange">
       <i class="material-icons">home</i>
       </div>
-      <div class="card-content">
+      <div class="card-content" style="padding:15px 3px !important">
         <h4 class="title">
-        กำลังก่อสร้าง <?=$duringBuildedHouses;?>&nbsp;หลัง
+        กำลังก่อสร้าง <?=$duringBuildedHouses;?> หลัง
         </h4>
       </div>
 

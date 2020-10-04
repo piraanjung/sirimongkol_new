@@ -1,77 +1,141 @@
 <?php
-use kartik\helpers\Html;
+
+use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\bootstrap\Modal;
+
 use kartik\grid\GridView;
+use app\models\Methods;
+use yii\helpers\ArrayHelper;
+use app\models\Profile;
 use kartik\export\ExportMenu;
 use kartik\editable\Editable;
 use kartik\dialog\Dialog;
 use yii\widgets\Pjax;
+use app\models\Instalment;
+use app\models\WorkGroup;
+use app\models\Houses;
+$this->title = 'สรุปเบิกจ่ายเงินงวดงาน';
+$this->params['breadcrumbs'][] = $this->title;
+
+$methodModel = new Methods();
+$instalmentModel = new Instalment();
+$selectedColumn = ['monthly', 'year', 'instalment'];
+$instalmentCols = $instalmentModel->get_column_value($dataProvider->getModels()[0]['instalment_id'], $selectedColumn);
+// $methodModel->print_array($instalmentCols);
 
 ?>
-
-
- <h3>
+<h3>
     ตั้งเบิก  ค่าใช้จ่ายประจำวันที่  
 
-    <?=\app\models\Instalment::date_of_instalment($models[0]['create_date']);?> 
-    (งวด <?=$models[0]['monthly']."/".$models[0]['instalment'].".".$models[0]['year']?>)
+    <?=$instalmentModel->date_of_instalment($dataProvider->getModels()[0]['create_date']);?> 
+    (งวด <?=$instalmentCols['monthly']."/".$instalmentCols['instalment'].".".$instalmentCols['year']?> )
     </h3>
 <?php
    
-    $gridColumns = [
+   echo GridView::widget([
+    'dataProvider' => $dataProvider,
+    'filterModel' => $searchModel,
+    'showPageSummary' => true,
+    'pjax' => true,
+    'striped' => false,
+    'hover' => true,
+    'panel' => ['type' => 'primary', 'heading' => 'Grid Grouping Example'],
+    'toggleDataContainer' => ['class' => 'btn-group mr-2'],
+    
+    'columns' => [
         ['class' => 'kartik\grid\SerialColumn'],
-
-        [
-            'attribute' => 'constructor',
-            'value' => 'constructor.name',
-            'group'=>true,  
-            'groupFooter'=>function ($model, $key, $index, $widget) { // Closure method
+        [//1
+            'attribute' => 'constructor', 
+            'width' => '310px',
+            'value' => function ($model, $key, $index, $widget) { 
+                return $model->constructor->name;
+            },
+            'filterType' => GridView::FILTER_SELECT2,
+            'filter' => ArrayHelper::map(Profile::find()->orderBy('user_id')->asArray()->all(), 'user_id', 'name'), 
+            'filterWidgetOptions' => [
+                'pluginOptions' => ['allowClear' => true],
+            ],
+            'filterInputOptions' => ['placeholder' => 'Any supplier'],
+            'group' => true,  // enable grouping
+            'groupFooter' => function ($model, $key, $index, $widget) { // Closure method
                 return [
-                    'mergeColumns'=>[[1,4]], // columns to merge in summary
-                    'content'=>[             // content to show in each summary cell
-                        1=>'รวม',
-                        6=>GridView::F_SUM,
-                        7=>GridView::F_SUM,
+                    'mergeColumns' => [[1,3]], // columns to merge in summary
+                    'content' => [             // content to show in each summary cell
+                        1 => 'Summary (' . $model->constructor->name . ')',
+                        6 => GridView::F_SUM,
+                        7 => GridView::F_SUM,
+                        // 8 => GridView::F_SUM,
                     ],
-                    'contentFormats'=>[      // content reformatting for each summary cell
-                        6=>['format'=>'number', 'decimals'=>2],
-                        7=>['format'=>'number', 'decimals'=>2],
+                    'contentFormats' => [      // content reformatting for each summary cell
+                        6 => ['format' => 'number', 'decimals' => 2],
+                        7 => ['format' => 'number', 'decimals' => 0],
+                        // 8 => ['format' => 'number', 'decimals' => 2],
                     ],
-                    'contentOptions'=>[      // content html attributes for each summary cell
-                        6=>['style'=>'text-align:right'],
-                        7=>['style'=>'text-align:right'],
+                    'contentOptions' => [      // content html attributes for each summary cell
+                        1 => ['style' => 'font-variant:small-caps'],
+                        6 => ['style' => 'text-align:right'],
+                        7 => ['style' => 'text-align:right'],
+                        // 8 => ['style' => 'text-align:right'],
                     ],
                     // html attributes for group summary row
-                    'options'=>['class'=>'danger','style'=>'font-weight:bold;']
+                    'options' => ['class' => 'info table-info','style' => 'font-weight:bold;']
                 ];
             }
         ],
-
-        [
-            'attribute' => 'houses',
-            'value' =>  function($model){
-                return $model->houses['house_name'] == "" ? "-" : $model->houses['house_name'];
-            },//'houses.house_name',
-            'group'=>true,  // enable grouping
-            'subGroupOf'=>1 
+        [//2
+            'attribute' => 'houses', 
+            'width' => '50px',
+            'value' => function ($model, $key, $index, $widget) { 
+                return $model->houses->house_name;
+            },
+            'filterType' => GridView::FILTER_SELECT2,
+            'filter' => ArrayHelper::map(Houses::find()->orderBy('house_name')->asArray()->all(), 'id', 'house_name'), 
+            'filterWidgetOptions' => [
+                'pluginOptions' => ['allowClear' => true],
+            ],
+            'filterInputOptions' => ['placeholder' => 'Any category'],
+            'group' => true,  // enable grouping
+            'subGroupOf' => 1, // supplier column index is the parent group,
+            'groupFooter' => function ($model, $key, $index, $widget) { // Closure method
+                return [
+                    'mergeColumns' => [[2, 5]], // columns to merge in summary
+                    'content' => [              // content to show in each summary cell
+                        2 => 'Summary (' . $model->houses->house_name . ')',
+                        6 => GridView::F_SUM,
+                        7 => GridView::F_SUM,
+                        // 8 => GridView::F_SUM,
+                    ],
+                    'contentFormats' => [      // content reformatting for each summary cell
+                        6 => ['format' => 'number', 'decimals' => 2],
+                        7 => ['format' => 'number', 'decimals' => 0],
+                        // 8 => ['format' => 'number', 'decimals' => 2],
+                    ],
+                    'contentOptions' => [      // content html attributes for each summary cell
+                        6 => ['style' => 'text-align:right'],
+                        7 => ['style' => 'text-align:right'],
+                        // 8 => ['style' => 'text-align:right'],
+                    ],
+                    // html attributes for group summary row
+                    'options' => ['class' => 'success table-success','style' => 'font-weight:bold;']
+                ];
+            },
         ],
-        [
+        [//3
             'attribute' => 'workGroup',
+            // 'pageSummary' => 'Page Summary',
             'value' => function($model){
                 return $model->workGroup['wg_name'] == "" ? "-" : $model->workGroup['wg_name'];
-            },//'workGroup.wg_name',
-            'group'=>true,  // enable grouping
-            'subGroupOf'=>2 
+            },//'
+            'pageSummaryOptions' => ['class' => 'text-right'],
         ],
-        [
+        [//4
             'attribute' => 'work',
-            'width'=>'10%',
+            // 'pageSummary' => 'Page Summary',
             'value' => function($model){
                 return $model->workOne['work_name'] == "" ? "-" : $model->workOne['work_name'];
             },//'workOne.work_name',
-            'group'=>true,
-            'subGroupOf'=>3
+            'pageSummaryOptions' => ['class' => 'text-right'],
         ],
         [
             'attribute' => 'money_type_id',
@@ -79,33 +143,29 @@ use yii\widgets\Pjax;
             'pageSummary'=>'รวมทั้งสิ้น',
             'pageSummaryOptions'=>['class'=>'text-right text-warning'],
         ],
-
         [
-            'attribute' => 'workControlStatement',
+            'attribute' => 'workOne.work_control_statement',
+            'width' => '150px',
+            'hAlign' => 'right',
             'format' => ['decimal', 2],
-            'width'=>'10%',
-            'hAlign' => 'right', 
-            'group'=>true,  // enable grouping
-            'subGroupOf'=>4,
-            'value' => function($model){
-                return $model->workOne['work_control_statement'] == "" ? 0 : $model->workOne['work_control_statement'];
-            },//'workOne.work_control_statement',
-            'pageSummary'=>true,
+            'pageSummary' => true,
+            'pageSummaryFunc' => GridView::F_SUM
         ],
         [
-            'attribute' => 'amount',
-            'format' =>['decimal', 2],
-            'hAlign' => 'right', 
+            'attribute' => 'จำนวนที่เบิก',
+            'width' => '150px',
+            'hAlign' => 'right',
             'value' => function($model){
                 return $model->amount;
-            },//amount',
-            'pageSummary'=>true,
+            },
+            'format' => ['decimal', 0],
+            'pageSummary' => true
         ],
         'comment',
         [
-            'attribute' => '',
+            'attribute' => 'แก้ไข/ลบ',
             'format' => 'raw',
-            'width'=> '70px', 
+            'width'=> '80px', 
             'value' => function($model){
                 return '<i class="material-icons edit-money-icon" 
                 value="'.\yii\helpers\Url::to(['employee/instalment/change-money-value', 
@@ -114,73 +174,9 @@ use yii\widgets\Pjax;
             },
 
         ],
-
-    
-    ];
-    // echo ExportMenu::widget([
-    //     'dataProvider' => $dataProvider,
-    //     'columns' => $gridColumns,
-    //     'columnSelectorOptions'=>[
-    //         'label' => 'Cols...',
-    //     ],
-    //     'hiddenColumns'=>[0, 10], // SerialColumn & ActionColumn
-    //     'disabledColumns'=>[9], // ID & Name
-    //     'fontAwesome' => true,
-    //     'dropdownOptions' => [
-    //         'label' => 'Export All',
-    //         'class' => 'btn btn-default'
-    //     ]
-    // ]);
-    echo GridView::widget([
-    'dataProvider' => $dataProvider,
-    'filterModel' => $searchModel,
-    'containerOptions' => ['style' => 'overflow: auto'], // only set when $responsive = false
-    'headerRowOptions' => ['class' => 'kartik-sheet-style'],
-    'filterRowOptions' => ['class' => 'kartik-sheet-style'],
-    'autoXlFormat'=>true,
-    'toolbar' =>  [
-
-        '{export}',
-        '{toggleData}',
     ],
-    'export'=>[
-        'fontAwesome'=>true,
-        'showConfirmAlert'=>false,
-        'target'=>GridView::TARGET_BLANK,
-    ],
+]);
 
-    'pjax' => true, // pjax is set to always true for this demo
-    'showPageSummary'=>true,
-    'panel' => [
-            'type' => GridView::TYPE_PRIMARY,
-            // 'heading' => 'ddd',
-        ],
-    'persistResize' => false,
-    'toggleDataOptions' => ['minCount' => 10],
-    'exportConfig' => [
-        GridView::EXCEL => [
-            'label' => 'Excel',
-            'icon' => 'file-excel-o',
-            'iconOptions' => ['class' => 'text-success'],
-            'showHeader' => true,
-            'showPageSummary' => true,
-            'showFooter' => true,
-            'showCaption' => true,
-            'filename' => 'grid-export',
-            'alertMsg' => 'The EXCEL export file will be generated for download.',
-            'options' => ['title' => 'Microsoft Excel 95+'],
-            'mime' => 'application/vnd.ms-excel',
-            'config' => [
-                'worksheet' => 'ExportWorksheet',
-                'cssFile' => ''
-            ]
-        ],
-    ],
-
-    // 'pjaxSettings' => ['options' => ['id' => 'kv-pjax-container']],
-
-        'columns' => $gridColumns
-    ]); 
 ?>
 
 
@@ -197,7 +193,7 @@ use yii\widgets\Pjax;
     
     Modal::end();
 ?>
-<br style="clear:both">
+<!-- <br style="clear:both"> -->
 
 
 <?php

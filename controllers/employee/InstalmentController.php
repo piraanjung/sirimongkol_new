@@ -146,10 +146,7 @@ class InstalmentController extends Controller
     }
 
     public function actionInstalment_by_instructor(){
-    //     echo "<pre>";
-    //     print_r($_REQUEST);
-    // print_r(Yii::$app->request->post());
-    //     echo"</pre>";
+
         $this->layout = "employee_layout";
         $model = new \app\models\Instalmentcostdetails ;
         if(isset($_REQUEST['instalment_id'])){
@@ -203,7 +200,10 @@ class InstalmentController extends Controller
         $searchModel = new \app\models\HousesSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
        
-        $res = \app\controllers\ceo\CeoController::_projectdetail($project_id);
+        $res = \app\controllers\ceo\CeoController::ceo_projectdetail($project_id);
+        // $a = new \app\models\Methods();
+        // // $a->print_array($project_id);
+        // $a->print_array($res);
         return $this->render('projectdetail/projectdetail', [
             'houseCount' => $res['houseCount'],
             'noneBuildedHouses' => $res['noneBuildedHouses'],
@@ -400,7 +400,7 @@ class InstalmentController extends Controller
         //    \app\models\Methods::print_array($dataProvider->getModels());
 
         return $this->render('instalment-summary',[
-            'models' => $rows,
+            // 'models' => $rows,
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
         ]);
@@ -587,7 +587,7 @@ class InstalmentController extends Controller
         $searchModel = new \app\models\WorkGroupSearch();
         $this->layout = 'employee_layout';
         // $instalment = $this->_instalment_by_house($_REQUEST);
-        $instalment = \app\controllers\ceo\LaborcostdetailsController::_instalment_by_house($_REQUEST);
+    $instalment = \app\controllers\ceo\LaborcostdetailsController::_instalment_by_house($_REQUEST);
         return $this->render('instalmentdetail_by_house',[
             'instalment' => count($instalment['instalment']) == 0 ? $instalment['empty_instalment'] : $instalment['instalment'],
             'instalment_sum_provider' => $instalment['instalment_sum_provider'],
@@ -597,7 +597,6 @@ class InstalmentController extends Controller
     
     public function actionTestexportexcel(){
         $instalment = \app\controllers\ceo\LaborcostdetailsController::_instalment_by_house($_REQUEST);
-        print_r($instalment);die();
         return $this->render('_exceltest',[
            'instalment_sum_provider' => $instalment['instalment_sum_provider']
         ]);

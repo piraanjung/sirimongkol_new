@@ -27,4 +27,10 @@
         </tr>
     </table>
 </div>
+<?php } else { ?>
+    <div class="card">
+        <div class="card-body text-center bg-warning">
+            <h2>ไม่พบข้อมูล</h2>
+        </div>
+    </div>
 <?php } ?>

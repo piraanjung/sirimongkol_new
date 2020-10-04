@@ -6,7 +6,9 @@ use yii\grid\GridView;
 /* @var $this yii\web\View */
 /* @var $searchModel app\models\ProjectSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
+use app\models\Methods;
 
+$methodModel = new Methods();
 $this->title = 'โครงการ';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
@@ -22,7 +24,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 $action ="create"; 
                 $btn_color="btn-info";
                 $display = true;
-                \app\models\Methods::card_header($title, $subtitle, $a_text, $action, 
+                $methodModel->card_header($title, $subtitle, $a_text, $action, 
                         $btn_color="btn-info", $display);
             ?>
             <br>
@@ -45,7 +47,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 ],
             ]); ?>
             <br>
-            <?php \app\models\Methods::card_footer();?>
+            <?php $methodModel->card_footer();?>
         </div>
     </div>
 </div>

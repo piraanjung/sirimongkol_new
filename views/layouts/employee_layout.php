@@ -9,8 +9,11 @@ use yii\bootstrap\Nav;
 use yii\bootstrap\NavBar;
 use yii\widgets\Breadcrumbs;
 use app\assets\AppAsset;
-
+use app\models\Project;
 // AppAsset::register($this);
+
+$project = new Project();
+$projects = $project->getProjects();
 
 if (class_exists('ramosisw\CImaterial\web\MaterialAsset')) {
     ramosisw\CImaterial\web\MaterialAsset::register($this);
@@ -52,8 +55,20 @@ if (class_exists('ramosisw\CImaterial\web\MaterialAsset')) {
 
                         </li>
                         <li>
-                            <?=Html::a('<i class="material-icons">dashboard</i>
-                            <p>สรุปการจ่ายงวดรายแปลง</p>',['employee/instalment/projectdetail','project_id'=>6]);?>
+                            <a href="javascript:void(0)"><i class="material-icons">dashboard</i>สรุปโครงการ</a>
+                        </li>
+                        <li>
+                            <ul >
+                              
+                                    <?php 
+                                        foreach($projects as $project){
+                                            echo Html::a('<li style="padding-left:20px; list-style-type:none">- '.$project['projectname'].'</li>',
+                                            ['employee/instalment/projectdetail','project_id'=>$project['project_id']]);
+                                        }
+                                    ?>
+                                
+                            </ul>
+                            
                         </li>
                     </ul>
                 </div>
@@ -71,7 +86,7 @@ if (class_exists('ramosisw\CImaterial\web\MaterialAsset')) {
                             </button>
                             
                             <a class="navbar-brand" href="#">
-                            <i class="material-icons navbar_close">backspace</i> โครงการ สิริมงคล 6
+                            <i class="material-icons navbar_close">backspace</i> โครงการ สิริมงคล
                             <i class="material-icons navbar_open" style='display:none'>slideshow</i>
                             </a>
 

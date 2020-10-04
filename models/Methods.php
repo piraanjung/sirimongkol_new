@@ -60,7 +60,7 @@ class Methods extends Model
         return $sub_date[2]." ".$thai_month." ".$thai_year;
     }
 
-    public function house_status($house_status){
+    public static function house_status($house_status){
         $status_str ="";
         switch($house_status){
             case 0 :
@@ -98,7 +98,7 @@ class Methods extends Model
         ';
     }
 
-    public function card_header($title, $subtitle, $a_text="", $action="", $btn_color="btn-info", $display){
+    public  function card_header($title, $subtitle, $a_text="", $action="", $btn_color="btn-info", $display){
         echo '
         <div class="card">
             <div class="card-header" data-background-color="purple">
@@ -118,7 +118,7 @@ class Methods extends Model
                     </div>
                 </div>
             </div>
-            <div class="card-content table-responsive" style="margin-top:0">
+            <div class="card-content" style="margin-top:0">
         ';
     }
 
@@ -129,7 +129,7 @@ class Methods extends Model
         ';
     }
 
-    public function get_amount_over($id){
+    public static function get_amount_over($id){
         $sql = "
             SELECT  a.id as house_id, a.house_name,
                 b.hm_name, b.hm_control_statment ,
@@ -160,7 +160,7 @@ class Methods extends Model
     }
 
 
-    public function find_abnormal_house_status($ab_house_status){
+    public static function find_abnormal_house_status($ab_house_status){
         // $aa = \app\controllers\ceo\CeoController::_projectdetail(6);
         $houses = \app\models\Houses::find()->select('houses.id')
                 ->innerJoin('instalmentcostdetails', 'houses.id = instalmentcostdetails.house_id')

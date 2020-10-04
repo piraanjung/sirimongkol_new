@@ -1,4 +1,8 @@
+<?php 
+    use app\models\Methods;
+    $methodModel = new Methods();
 
+?>
 <?php if(count($bank) > 0){ $_total=0;?>
     <button class="btn btn-info btn-raised pull-right" id="<?=$bankname_eng?>btn">Print</button>
     <br style="clear:both">
@@ -32,7 +36,7 @@
         $alert_subtitle = "ข้อมูลการโอนเงินค่างวดงานให้ช่างผ่านบัญชีธนาคาร ".$bankname;
         $alert_content = "ไม่พบข้อมูล"; 
         $alert_bgcolor = 'orange';
-        \app\models\Methods::alert_card($alert_title,$alert_subtitle,$alert_content, $alert_bgcolor);
+        $methodModel->alert_card($alert_title,$alert_subtitle,$alert_content, $alert_bgcolor);
 }//else ?>
 
 

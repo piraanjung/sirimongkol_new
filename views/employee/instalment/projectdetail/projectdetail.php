@@ -6,11 +6,15 @@ use yii\helpers\Url;
 use yii\bootstrap\Modal;
 use yii\widgets\Pjax;
 use yii\db\Query;
-
+use app\models\Methods;
 $this->title = 'สรุปการจ่ายเงินงวดรายแปลง' ;
 $this->params['breadcrumbs'][] = $this->title;
+$methodModel = new Methods();
+
+
 ?>
 <br>
+
 <div class="owner-default-index">
     <?php
         //หาจำนวนบ้านที่มีการจ่ายเงินผิดปกติ
@@ -146,7 +150,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 // $res = ($model['sum_amount']/$model['hm_control_statment'])*100;
                 //     return $res <= 100 ? ['class' => ''] : ['class' => 'danger'];
                 // }
-                $i = \app\models\Methods::get_amount_over($model['id']);
+                $i = $methodModel->get_amount_over($model['id']);
                 return $i <= 0 ? ['class' => ''] : ['class' => 'danger'];
             }
             ,
@@ -201,7 +205,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     'header' => 'งานจ่ายเกินงบ',
                     'hAlign' => 'right',
                     'value' => function($model){
-                        $i = \app\models\Methods::get_amount_over($model['id']);
+                        $i = $methodModel->get_amount_over($model['id']);
                         return $i ;
                     }
                 ],

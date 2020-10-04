@@ -6,7 +6,9 @@ use yii\widgets\Pjax;
 use yii\bootstrap\Modal;
 use app\models\Form;
 use yii\widgets\ActiveForm;
+use app\models\Methods;
 
+$methodModel = new Methods();
 $this->title = 'วิธีจ่ายงวด';
 $this->params['breadcrumbs'][] = ['label' => 'จ่ายงวด', 'url' => ['employee/instalment/index']];
 $this->params['breadcrumbs'][] = $this->title;
@@ -103,7 +105,7 @@ tr._total td, th{
             $showname = 1;
             $total =0;
             $name_rowspan =0;
-            // \app\models\Methods::print_array($models);
+            // $methodModel->print_array($models);
             foreach($models as $model){
                 $color = $sum_by_payee >= 0 ? "" : "display:none";
                 if($curname != $model['contructor_id']  ){
@@ -315,7 +317,7 @@ tr._total td, th{
             $alert_subtitle = 'ทำการเลือกการจ่ายเงินงวดงานให้ช่าง จ่ายโดย เงินสด หรือ โอนเข้าบัญชีธนาคาร';
             $alert_content = 'ไม่พบข้อมูล';
             $alert_bgcolor = "orange";
-            \app\models\Methods::alert_card($alert_title, $alert_subtitle,$alert_content, $alert_bgcolor);
+            $methodModel->alert_card($alert_title, $alert_subtitle,$alert_content, $alert_bgcolor);
         } ?>
     </div>
 </div>

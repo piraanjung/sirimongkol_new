@@ -4,13 +4,14 @@ namespace app\controllers\employee;
 use Yii;
 use app\models\Laborcostdetails;
 use yii\db\Query;
- 
+use app\models\Methods;
 class WithDrawnController extends \yii\web\Controller
 {
     public function actionIndex($instalment_id){
         $this->layout = "employee_layout";
         $query = new Query;
         // compose the query
+        $methodModel = new Methods();
         $query->select('*')
             ->from('instalmentcostdetails')
             ->where(['instalment_id'=> $instalment_id])
@@ -23,7 +24,7 @@ class WithDrawnController extends \yii\web\Controller
         $inst = \app\models\Instalment::find()->where(['id' => $instalment_id])->one();
         $inst_date = explode(" ", $inst['create_date']);
         $date = explode("-",$inst_date[0]);
-        $monththai = \app\models\Methods::getMonth($date[1]);
+        $monththai = $methodModel->getMonth($date[1]);
         $yearthai = "25".$inst['year'];
         $inst_str = $date[2]." ".$monththai." ".$yearthai." (".$inst['monthly']."/".$inst['instalment'].".".$inst['year'] .")";
         // \app\models\Methods::print_array($inst_date);

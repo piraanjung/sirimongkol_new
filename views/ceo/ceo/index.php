@@ -2,8 +2,9 @@
 use yii\helpers\Html;
 use scotthuangzl\googlechart\GoogleChart;
 use app\models\Houses;
+use app\models\Methods;
 /* @var $this yii\web\View */
-
+$methodModel = new Methods();
 $this->title = 'หน้าแรก ความคืบหน้าโครงการ';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
@@ -15,7 +16,7 @@ $this->params['breadcrumbs'][] = $this->title;
         $paid_abnormal_houses2 =0;
         // print_r($dataProvider2->getModels());
         foreach($dataProvider2->getModels() as $a){
-            $i = \app\models\Methods::get_amount_over($a['id']);
+            $i = $methodModel->get_amount_over($a['id']);
             if($i > 0){
                 if($a['house_status'] ==0 ){
                     $paid_abnormal_houses0+=1;
@@ -46,7 +47,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
 
             <div class="row">
-                <div class="col-lg-3 col-md-6 col-sm-6">
+                <div class="col-lg-6 col-md-6 col-sm-6">
                     <div class="card card-stats">
                         <div class="card-header" data-background-color="orange">
                             <i class="material-icons">home</i>
@@ -55,9 +56,7 @@ $this->params['breadcrumbs'][] = $this->title;
                             <h4 class="title">
                                 จำนวนบ้าน
                             </h4>
-                            <h4 class="title">
-                                &nbsp;
-                            </h4>
+                           
                         </div>
 
                         <div class="card-footer">
@@ -65,15 +64,13 @@ $this->params['breadcrumbs'][] = $this->title;
                                 <small>
                                     <?=$box['unit_count'];?>&nbsp;หลัง</small>
                             </h3>
-                            <h3 class="title">
-                                &nbsp;
-                            </h3>
+                           
                         </div>
                     </div>
                     <!--card-->
                 </div>
                 <!--col -->
-                <div class="col-lg-3 col-md-6 col-sm-6">
+                <div class="col-lg-6 col-md-6 col-sm-6">
                     <div class="card card-stats">
                         <div class="card-header" data-background-color="orange">
                             <i class="material-icons">home</i>
@@ -91,19 +88,17 @@ $this->params['breadcrumbs'][] = $this->title;
                                 <small style="color:green">ปกติ :
                                     <?=$noneBuildedHouses - $paid_abnormal_houses0;?>&nbsp;หลัง</small>
                             </h3>
-                            <h3 class="title">
-                                <small>
-                                <?= Html::a('&nbsp;','') ?>
-
-                                </small>
-                            </h3>
+                           
                         </div>
                     </div>
                     <!--card-->
                 </div>
                 <!--col -->
 
-                <div class="col-lg-3 col-md-6 col-sm-6">
+            </div>
+            <!--row-->
+            <div class="row">
+            <div class="col-lg-6 col-md-6 col-sm-6">
                     <div class="card card-stats">
                         <div class="card-header" data-background-color="orange">
                             <i class="material-icons">home</i>
@@ -134,7 +129,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 </div>
                 <!--col -->
 
-                <div class="col-lg-3 col-md-6 col-sm-6">
+                <div class="col-lg-6 col-md-6 col-sm-6">
                     <div class="card card-stats">
                         <div class="card-header" data-background-color="orange">
                             <i class="material-icons">home</i>
@@ -165,8 +160,6 @@ $this->params['breadcrumbs'][] = $this->title;
                 </div>
                 <!--col -->
             </div>
-            <!--row-->
-
             <div class="row">
                 <div class="col-lg-4 col-md-4 col-sm-12">
                     <div class="card card-stats">
@@ -245,9 +238,9 @@ $this->params['breadcrumbs'][] = $this->title;
                             <div class="card-footer">
                                 <h4>
                                     เริ่มการก่อสร้าง :
-                                    <?=\app\models\Methods::createDate($box['start_date']);?>
+                                    <?=$methodModel->createDate($box['start_date']);?>
                                         <br> สิ้นสุดการก่อสร้าง:
-                                        <?=\app\models\Methods::createDate($box['end_date']);?>
+                                        <?=$methodModel->createDate($box['end_date']);?>
                                 </h4>
                             </div>
                         </div>

@@ -6,7 +6,7 @@
         <i class="material-icons">apps</i>
       </div>
       <div class="card-content">
-        <h3 class="title">
+        <h3 class="title text-right">
         สิริมงคล  <?=substr($houseCount[0]['project_id'],-1);?>
         </h3>
       </div>
@@ -34,7 +34,7 @@
       </div>
 
       <div class="card-footer">
-        <h3 class="title">
+        <h3 class="title text-right">
             <small><?=number_format($project['control_statement'],2);?>&nbsp;บาท</small>
         </h3>
       </div>
@@ -53,7 +53,7 @@
       </div>
 
       <div class="card-footer">
-        <h3 class="title">
+        <h3 class="title text-right">
             <small><?=number_format($sumPaidAmountByProject,2);?>&nbsp;บาท</small>
         </h3>
       </div>
@@ -72,7 +72,7 @@
       </div>
 
       <div class="card-footer">
-        <h3 class="title">
+        <h3 class="title text-right">
         <small><?=number_format(($sumPaidAmountByProject*100)/$project['control_statement'],2);?> %</small>
         </h3>
       </div>
@@ -94,7 +94,7 @@
       </div>
 
       <div class="card-footer">
-        <h3 class="title">
+        <h3 class="title text-right">
         <small><?=count($houseCount);?>&nbsp;หลัง</small>
         </h3>
       </div>
@@ -106,19 +106,19 @@
       <i class="material-icons">home</i>
       </div>
       <div class="card-content" style="padding:15px 5px !important">
-        <h4 class="title">
+        <h4 class="title ">
         <?php $nobuilt = count($houseCount)-($completeBuildedHoueses+$duringBuildedHouses);?>
-        ยังไม่ดำเนินการ <?=$nobuilt;?> &nbsp;หลัง
+        ยังไม่ดำเนินการ 
         </h4>
       </div>
 
       <div class="card-footer">
-        <h3 class="title">
-          <small style="color:green">ปกติ : <?=$nobuilt - $paid_abnormal_houses0;?>&nbsp;หลัง</small>
+         <h3 class="title text-right">
+          <small style="color:green"><?=$nobuilt;?> &nbsp;หลัง</small>
         </h3>
-        <h3 class="title">
-          <small style="color:red">จ่ายเกินงบ : <?=$paid_abnormal_houses0;?>&nbsp;หลัง</small>
-        </h3>
+       <!-- <h3 class="title text-right">
+          <small style="color:red">จ่ายเกินงบ : <=$paid_abnormal_houses0;?>&nbsp;หลัง</small>
+        </h3> -->
       </div>
     </div><!--card-->
   </div><!--col -->
@@ -135,10 +135,10 @@
       </div>
 
       <div class="card-footer">
-        <h3 class="title">
+        <h3 class="title text-right">
           <small style="color:green">ปกติ : <?=$completeBuildedHoueses - $paid_abnormal_houses2;?>&nbsp;หลัง</small>
         </h3>
-        <h3 class="title">
+        <h3 class="title text-right">
           <small style="color:red">จ่ายเกินงบ : <?=$paid_abnormal_houses2;?>&nbsp;หลัง</small>
         </h3>
       </div>
@@ -150,17 +150,17 @@
       <div class="card-header" data-background-color="orange">
       <i class="material-icons">home</i>
       </div>
-      <div class="card-content">
+      <div class="card-content" style="padding:15px 10px !important">
         <h4 class="title">
         กำลังก่อสร้าง <?=$duringBuildedHouses;?>&nbsp;หลัง
         </h4>
       </div>
 
       <div class="card-footer">
-        <h3 class="title">
+        <h3 class="title text-right">
           <small style="color:green">ปกติ : <?=$duringBuildedHouses - $paid_abnormal_houses1;?>&nbsp;หลัง</small>
         </h3>
-        <h3 class="title">
+        <h3 class="title text-right">
           <small style="color:red">จ่ายเกินงบ : <?=$paid_abnormal_houses1;?>&nbsp;หลัง</small>
         </h3>
       </div>

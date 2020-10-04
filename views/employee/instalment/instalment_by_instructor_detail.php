@@ -6,6 +6,10 @@ use yii\widgets\Pjax;
 use yii\bootstrap\Modal;
 use app\models\Form;
 use yii\widgets\ActiveForm;
+use app\models\Methods;
+
+$methodModel = new Methods();
+
 $this->title = 'สรุปข้อมูลการจ่ายงวด';
 $this->params['breadcrumbs'][] = ['label' => 'งวดจ่ายเงิน', 'url' => ['employee/instalment/index']];
 $this->params['breadcrumbs'][] = $this->title;
@@ -19,41 +23,40 @@ $this->params['breadcrumbs'][] = $this->title;
         $action= "create";
         $btn_color = "btn-info";
         $display = false;
-        \app\models\Methods::card_header($title,  $subtitle, $a_text, $action, $btn_color, $display); 
+        $methodModel->card_header($title,  $subtitle, $a_text, $action, $btn_color, $display); 
     ?>
-        <div class="box box-success">
-            <div class="box-body">
-                <div class="tab-content">
-                    <div class="card card-nav-tabs">
-                        <div class="card-header" data-background-color="blue">
-                            <div class="nav-tabs-navigation">
-                                <div class="nav-tabs-wrapper">
-                                    <span class="nav-tabs-title">Tasks:</span>
-                                    <ul class="nav nav-tabs" data-tabs="tabs">
-                                        <li class="active">
-                                            <a href="#instructors" data-toggle="tab">
-                                                <i class="material-icons">supervisor_account</i> ผู้รับเหมา
-                                                <div class="ripple-container"></div>
-                                            </a>
-                                        </li>
-                                    
-                                        <li class="dropdown">
-                                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-                                                <i class="material-icons">code</i>สรุปการวิธีจ่ายเงินให้ช่าง
-                                                <!-- <span class="notification">5</span> -->
-                                                <p class="hidden-lg hidden-md">Notifications</p>
-                                                <div class="ripple-container"></div>
-                                            </a>
-                                            <ul class="dropdown-menu">
-                                                <li>
-                                                    <a href="#paidcash" data-toggle="tab">จ่ายเงินสด</a>
-                                                </li>
-                                                <li>
-                                                    <a href="#transferbank"  data-toggle="tab">โอนเงินผ่านธนาคาร</a>
-                                                </li>
-                                            </ul>
-                                        </li>
-                                        <li class="dropdown">
+
+<div class="card card-nav-tabs">
+                <div class="card-header card-header-primary">
+                  <!-- colors: "header-primary", "header-info", "header-success", "header-warning", "header-danger" -->
+                  <div class="nav-tabs-navigation">
+                    <div class="nav-tabs-wrapper">
+                      <ul class="nav nav-tabs" data-tabs="tabs">
+                        <li class="nav-item">
+                        <li class="active">
+                            <a href="#instructors" data-toggle="tab">
+                                <i class="material-icons">supervisor_account</i> ผู้รับเหมา
+                                <div class="ripple-container"></div>
+                            </a>
+                        </li>
+                        
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                                <i class="material-icons">code</i>สรุปการวิธีจ่ายเงินให้ช่าง
+                                <!-- <span class="notification">5</span> -->
+                                <p class="hidden-lg hidden-md">Notifications</p>
+                                <div class="ripple-container"></div>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li>
+                                    <a href="#paidcash" data-toggle="tab">จ่ายเงินสด</a>
+                                </li>
+                                <li>
+                                    <a href="#transferbank"  data-toggle="tab">โอนเงินผ่านธนาคาร</a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="dropdown">
                                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
                                                 <i class="material-icons">compare_arrows</i>สรุปการโอนเงินแต่ละธนาคาร
                                                 <!-- <span class="notification">5</span> -->
@@ -87,13 +90,13 @@ $this->params['breadcrumbs'][] = $this->title;
                                                 </li>
                                             </ul>
                                         </li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="card-content">
-                            <div class="tab-content">
-                                <div class="tab-pane active" id="instructors">
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+                <div class="card-body ">
+                  <div class="tab-content text-center">
+                  <div class="tab-pane active" id="instructors">
                                     <?=$this->render("_instalmentdetails_by_constructors.php",[
                                         'models' => $models,
                                         'editable' => 0,
@@ -101,26 +104,24 @@ $this->params['breadcrumbs'][] = $this->title;
                                         'dataProvider' => $dataProvider,
                                     ]);?>
                                 </div>
+                    <div id="paidcash" class="tab-pane">
+                        <button class="btn btn-info btn-raised pull-right" id="paidcashbtn">Print</button>
+                        <div id="_paidcash">
+                            <?=$this->render("paidbycash",[
+                                    'paidbycashs' => $paidbycash
+                            ]);?>
+                        </div>
+                    </div>
 
-                                 <div id="paidcash" class="tab-pane">
-                                    <button class="btn btn-info btn-raised pull-right" id="paidcashbtn">Print</button>
-                                    <div id="_paidcash">
-                                        <?=$this->render("paidbycash",[
-                                                'paidbycashs' => $paidbycash
-                                        ]);?>
-                                    </div>
-                                </div>
-
-                                <div id="transferbank" class="tab-pane">
-                                    <button class="btn btn-info btn-raised pull-right" id="transferbankbtn">Print</button>
-                                    <div id="_paidbank">
-                                        <?=$this->render("paidbybank",[
-                                            'paidbybanks' => $paidbybanks
-                                        ]);?>
-                                    </div>
-                                </div>
-
-                                <div id="allbanks" class="tab-pane">
+                    <div id="transferbank" class="tab-pane">
+                        <button class="btn btn-info btn-raised pull-right" id="transferbankbtn">Print</button>
+                        <div id="_paidbank">
+                            <?=$this->render("paidbybank",[
+                                'paidbybanks' => $paidbybanks
+                            ]);?>
+                        </div>
+                    </div>
+                    <div id="allbanks" class="tab-pane">
                                     <?=$this->render("_banksumary",[
                                             'allbanks'=>['
                                                 bkk' =>['data'=>$bkk, 'name' => 'กรุงเทพ'],
@@ -135,7 +136,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                     ]);?>
                                 </div>
 
-                                <div id="bbl" class="tab-pane">
+                    <div id="bbl" class="tab-pane">
                                     <?=$this->render("banksummary",[
                                             'bank' => $bkk,
                                             'bankname' => 'ธนาคารกรุงเทพ',
@@ -184,19 +185,19 @@ $this->params['breadcrumbs'][] = $this->title;
                                             'bankname_eng' => 'bay'
                                         ]);?>
                                 </div>
-                            </div>
-                        </div>
-                    </div>
+
+                <!-- ////////////////////////////////////////// -->
+                  </div>
                 </div>
-            </div>
-        </div>
-        <?=\app\models\Methods::card_footer();?>
+              </div>
+      
+<?=$methodModel->card_footer();?>
  <?php } else{
     $alert_title = $this->title;
     $alert_subtitle = 'แสดงรายงานสรุปการเบิกจ่ายเงินงวดงานให้กับช่างหรือผู้รับเหมา';
     $alert_content = 'ยังไม่มีข้อมูลการเบิกจ่ายงวด'; 
     $alert_bgcolor = 'orange';
-    \app\models\Methods::alert_card($alert_title ,$alert_subtitle,$alert_content, $alert_bgcolor);
+    $methodModel->alert_card($alert_title ,$alert_subtitle,$alert_content, $alert_bgcolor);
 }
 ?>
             <?php
@@ -226,6 +227,7 @@ $this->registerJs("
         document.body.innerHTML = originalContents;
 
     }
+    
 
 
 

@@ -2,11 +2,11 @@
 
 use yii\helpers\Html;
 use yii\grid\GridView;
-
+use app\models\Methods;
 /* @var $this yii\web\View */
 /* @var $searchModel app\models\HouseModelSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
-
+$methodModel = new Methods();
 $this->title = 'ตั้งค่าแบบบ้าน';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
@@ -20,7 +20,7 @@ $this->params['breadcrumbs'][] = $this->title;
             $action ="create"; 
             $btn_color="btn-info";
             $display = true;
-            \app\models\Methods::card_header($title, $subtitle, $a_text, $action, 
+            $methodModel->card_header($title, $subtitle, $a_text, $action, 
                     $btn_color="btn-info", $display);
         ?>
             <div class="box box-success">
@@ -46,5 +46,5 @@ $this->params['breadcrumbs'][] = $this->title;
                         <br>
                 </div>
             </div>
-        <?php \app\models\Methods::card_footer();?>
+        <?php $methodModel->card_footer();?>
 </div>

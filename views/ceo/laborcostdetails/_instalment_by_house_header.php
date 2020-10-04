@@ -19,13 +19,13 @@
                 <i class="material-icons">home</i>
             </div>
             <div class="card-content" style="padding:15px 5px !important">
-                <h4 class="title">
+                <h4 class="title text-right">
                 แปลงบ้าน
                 </h4>
             </div>
 
             <div class="card-footer">
-                <h3 class="title">
+                <h3 class="title text-right">
                     <small><?=$instalment[0]['house_name'];?>
                     [ <?=$instalment[0]['hm_name'];?> ]</small> 
                 </h3>
@@ -41,13 +41,13 @@
                 <i class="material-icons">home</i>
             </div>
             <div class="card-content">
-                <h4 class="title">
+                <h4 class="title text-right">
                  งบควบคุม
                 </h4>
             </div>
 
             <div class="card-footer">
-                <h3 class="title">
+                <h3 class="title text-right">
                     <small><?=number_format($instalment[0]['hm_control_statment'],2);?>&nbsp;บาท</small>
                 </h3>
             </div>
@@ -62,13 +62,13 @@
                 <i class="material-icons">home</i>
             </div>
             <div class="card-content">
-                <h4 class="title">
+                <h4 class="title text-right">
                 จ่ายแล้ว
                 </h4>
             </div>
 
             <div class="card-footer">
-                <h3 class="title">
+                <h3 class="title text-right">
                     <small><?=number_format($instalment[0]['sum_amount'],2);?>บาท</small>
                 </h3>
             </div>
@@ -83,13 +83,13 @@
                 <i class="material-icons">home</i>
             </div>
             <div class="card-content">
-                <h4 class="title">
+                <h4 class="title text-right">
                 %การจ่ายงบ
                 </h4>
             </div>
 
             <div class="card-footer">
-                <h3 class="title">
+                <h3 class="title text-right">
                     <small><?=number_format($percent,2);?>&nbsp;%
                     : <?=$percent > 100 ?'เกินงบควบคุม' : 'ปกติ' ?> </small> 
                 </h3>

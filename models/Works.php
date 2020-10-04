@@ -53,7 +53,7 @@ class Works extends \yii\db\ActiveRecord
         return $this->hasOne(WorkGroup::className(), ['id' => 'wg_id']);
     }
 
-    public function workStatus($status){
+    public static function workStatus($status){
         return $status == 0 ? 'ยังไม่เปิดใช้งาน' : 'เปิดใช้งาน'; 
     }
 }

@@ -175,7 +175,7 @@ if(!isset($instalment['empty_instalment'])){ ?>
 </div>
 </div></div><!--card -->
 <?php }else{
-$this->title = 'สรุปการจ่ายค่าแรง แปลงที่ '.$instalment[0]['id'];
+$this->title = 'สรุปการจ่ายค่าแรง แปลงที่  '.$instalment[0]['id'];
     // " งวดที่ ".$instalment[0]['instalment_monthly']."/".$instalment[0]['instalment'].
     // ".".$instalment[0]['instalment_year'];
 $this->params['breadcrumbs'][] = ['label' => 'หน้าแรก ความคืบหน้าโครงการ'.$instalment[0]['project_id'], 'url' => ['/ceo/ceo/index']];

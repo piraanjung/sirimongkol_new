@@ -15,51 +15,46 @@ use app\models\Housemodels;
 use app\models\Houses;
 use app\models\HousesSearch;
 use app\models\Project;
+use app\models\Methods;
 
+use yii\web\NotFoundHttpException;
 
-class CeoController extends \yii\web\Controller
+class CeoController extends Controller
 {
-    /**
-     * @inheritdoc
-     */
-    public function behaviors()
-    {
-        return [
-            'access' => [
-                'class' => AccessControl::className(),
-                'only' => ['logout', 'index'],
-                'rules' => [
-                    [
-                        'actions' => ['logout' ,'index'],
-                        'allow' => true,
-                        'roles' => ['@'],
-                    ],
-                ],
-            ],
-        ];
-    }
+  
+    // public function behaviors()
+    // {
+    //     return [
+    //         'access' => [
+    //             'class' => AccessControl::className(),
+    //             'only' => ['logout', 'index', 'ceo_projectdetail'],
+    //             'rules' => [
+    //                 [
+    //                     'actions' => ['logout' ,'index', 'ceo_projectdetail'],
+    //                     'allow' => true,
+    //                     'roles' => ['@'],
+    //                 ],
+    //             ],
+    //         ],
+    //     ];
+    // }
 
-    /**
-     * @inheritdoc
-     */
-    public function actions()
-    {
-        return [
-            'error' => [
-                'class' => 'yii\web\ErrorAction',
-            ],
-            'captcha' => [
-                'class' => 'yii\captcha\CaptchaAction',
-                'fixedVerifyCode' => YII_ENV_TEST ? 'testme' : null,
-            ],
-        ];
-    }
+    // /**
+    //  * @inheritdoc
+    //  */
+    // public function actions()
+    // {
+    //     return [
+    //         'error' => [
+    //             'class' => 'yii\web\ErrorAction',
+    //         ],
+    //         'captcha' => [
+    //             'class' => 'yii\captcha\CaptchaAction',
+    //             'fixedVerifyCode' => YII_ENV_TEST ? 'testme' : null,
+    //         ],
+    //     ];
+    // }
 
-    /**
-     * Displays homepage.
-     *
-     * @return string
-     */
     public function actionIndex()
     {
         $this->layout = "ceo_layout";
@@ -112,15 +107,16 @@ class CeoController extends \yii\web\Controller
                     left join instalmentcostdetails c on b.id = c.instalment_id
                     left join works d on c.work_id = d.id 
                     where a.project_id = '.$project_id.' 
-                    group by a.projectname;';
+                    group by a.projectname ;';
         $data_grid = Yii::$app->db->createCommand($sql_grid)->queryAll();
         $dataProvider = new \yii\data\ArrayDataProvider([
             'allModels' => $data_grid
         ]);
         // แสดงรายการโครงการทั้งหมด
         $project_list = Project::find()->all();
-
-        $projectdetails =$this::_projectdetail($project_id);
+        
+        $methodModel = new Methods();
+        $projectdetails =$this::ceo_projectdetail($project_id);
         $house_status['empty'] = \app\models\Methods::find_abnormal_house_status(0);
         $house_status['buliding'] = \app\models\Methods::find_abnormal_house_status(1);
         $house_status['complete'] = \app\models\Methods::find_abnormal_house_status(2);
@@ -143,7 +139,7 @@ class CeoController extends \yii\web\Controller
         $this->layout = 'ceo_layout';
         $searchModel = new HousesSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-        $res = $this::_projectdetail($project_id);
+        $res = $this::ceo_projectdetail($project_id);
 
 
         // $sql = 'SELECT houses.*, house_model.hm_name, SUM(instalmentcostdetails.amount) 
@@ -176,7 +172,8 @@ class CeoController extends \yii\web\Controller
         ]);
     }
 
-    public static function _projectdetail($project_id){
+    public static  function ceo_projectdetail($project_id){
+        
         $res=array();
         $sql_grid = 'select 
             a.*, 
@@ -192,10 +189,10 @@ class CeoController extends \yii\web\Controller
             where a.project_id='. $project_id;
         $data_grid = Yii::$app->db->createCommand($sql_grid)->queryAll();
 
-        $project = \app\models\Project::find()
+        $project = Project::find()
                 ->where(['project_id' => $project_id])
                 ->one();    
-                
+
         $provider = new ArrayDataProvider([
             'allModels' =>$data_grid,
             // 'sort' => [
@@ -220,7 +217,7 @@ class CeoController extends \yii\web\Controller
                 ],
             ]);
 
-        $res['houseCount'] = Houses::find()->all();
+        $res['houseCount'] = Houses::find() ->where(['project_id' => $project_id])->all(); 
         $res['noneBuildedHouses'] = Houses::countHousesByStatus(0, $project_id);
         $res['duringBuildedHouses'] = Houses::countHousesByStatus(1,$project_id);
         $res['completeBuildedHoueses']  = Houses::countHousesByStatus(2, $project_id);

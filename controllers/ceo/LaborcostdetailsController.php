@@ -321,7 +321,7 @@ class LaborcostdetailsController extends Controller
             throw new NotFoundHttpException('The requested page does not exist.');
         }
     }
-    public function generateSqlDataProvider($sql){
+    public static function generateSqlDataProvider($sql){
         $provider = new SqlDataProvider([
             'sql' => $sql,
             'sort' => [
@@ -334,7 +334,7 @@ class LaborcostdetailsController extends Controller
         return $provider;
     }
 
-    public function _instalment_by_house($REQUEST){
+    public static function _instalment_by_house($REQUEST){
         $empty_instalment['empty_instalment'] = false;
         $query = new Query;
         $query->select('a.*, (select sum(amount) from instalmentcostdetails 

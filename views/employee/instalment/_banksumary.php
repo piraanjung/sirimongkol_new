@@ -10,8 +10,8 @@
     <?php if(count($bank['data']) > 0 ){ ?>
     <tr>
         <th width="5%">#</th>
-        <th>ชื่อ - สกุล</th>
-        <th>หมายเลขบัญชี</th>
+        <th width="45%">ชื่อ - สกุล</th>
+        <th width="30%">หมายเลขบัญชี</th>
         <th>จำนวนเงิน</th>
     </tr>
     <?php foreach($bank['data'] as $key => $data){ ?>

@@ -3,6 +3,7 @@
 namespace app\models;
 
 use Yii;
+use yii\db\Query;
 
 /**
  * This is the model class for table "project".
@@ -62,5 +63,14 @@ class Project extends \yii\db\ActiveRecord
 
     public function getHouses(){
         return $this->hasMany(House::className(),['project_id' => 'project_id']);
+    }
+
+    public function getProjects(){
+        return $projects =  (new \yii\db\Query())
+                ->select(['project_id', 'projectname'])
+                ->from('project')
+                ->all();
+        // print_r($projects);
+        // die();
     }
 }

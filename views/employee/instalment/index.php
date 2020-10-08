@@ -47,7 +47,7 @@ $methodModel = new Methods();
 
                             [
                                 'class' => 'kartik\grid\ActionColumn',
-                                'template' => '{add_item}  {paid_by} {instalment_sum} {details}',
+                                'template' => '{add_item}  {paid_by} {instalment_sum} {details} {delete}',
                                 'width' => '45%',
                                 'header' => '',
                                 'buttons'=>[
@@ -86,6 +86,16 @@ $methodModel = new Methods();
                                             ['class'=> 'btn btn-round  custom_button btn-md',
                                             'style' => 'padding: 12px 15px !important',
                                             'data-background-color'=>"blue"
+                                            ]
+                                        );
+                                    },
+
+                                    'delete'=> function($url, $model){
+                                        // $t = 'employee/instalment/instalment_by_instructor&instalment_id='.$model->id;
+                                        return Html::a('<i class="material-icons">delete</i>', 
+                                        ['employee/instalment/delete','id'=>$model->id],
+                                            [
+                                            'style' => 'color:red; float:right;',
                                             ]
                                         );
                                     },

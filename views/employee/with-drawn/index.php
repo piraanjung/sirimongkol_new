@@ -183,7 +183,7 @@ tr._total td, th{
                 <td class="_number">
                     <?=  number_format($work['work_control_statement'],2);?>
                 </td>
-                <td class="_number">
+                <td class="_number" >
                 <?php 
                     echo number_format($model['amount'],2);
                     // if($model['money_type_id'] == 3 || $model['money_type_id'] ==4){
@@ -261,7 +261,7 @@ tr._total td, th{
                     $color = $sum_by_payee >= 0 ? "" : "display:none";
                     echo "<tr class='payee_sum'>";
                     echo    "<td colspan='6'> รวม</td>";
-                    echo    "<td class='_number'>".number_format($sum_by_payee,2)."</td>";
+                    echo    "<td class='_number' id='payee_sum".$i."'>".number_format($sum_by_payee,2)."</td>";
                     echo    "<td>
                                 <div style='color:#ffffff; ".$color."' class='paymethod' id='".$i."'>
                                     <span class='glyphicon glyphicon-download'></span> 
@@ -273,12 +273,12 @@ tr._total td, th{
                     echo "<tr id='paymethod".$i."'   class='payee_sum'>
                             <td colspan='4'>
                                 จ่ายเงินสด
-                                <input type='text' class='paidmethod' name='paidmethod[".$curname."][cash]'>
+                                <input type='text' class='paidmethod' id='bycash".$i."' data-id='".$i."' name='paidmethod[".$curname."][cash]'>
                                 บาท
                             </td>
                             <td colspan='4'>
                             โอนเงินทางธนาคาร
-                            <input type='text' class='paidmethod' name='paidmethod[".$curname."][bank]'>
+                            <input type='text' class='paidmethod' id='bybank".$i."' data-id='".$i."' name='paidmethod[".$curname."][bank]'>
                             บาท
                             <input type='hidden' name='paidmethod[".$curname."][summoney_id]' value='".$sum_id."'>
                             </td>
@@ -335,6 +335,21 @@ $this->registerJs("
         $('.modal').modal('show')
             .find('#modelContent')
             .load($(this).attr('value'));
+    });
+
+
+    $('.paidmethod').keyup(function(){
+        var id = $(this).data('id');
+        var payee_sum0 = $('#payee_sum'+id).text();
+        var payee_sum1 = payee_sum0.split(',').join('');
+        var payee_sum = parseFloat(payee_sum1);
+        var bycash = parseFloat($('#bycash'+id).val() == '' ? 0 : $('#bycash'+id).val()) ;
+        var bybank = parseFloat($('#bybank'+id).val() == '' ? 0 : $('#bybank'+id).val());
+        var sum = bycash + bybank
+        if(sum > payee_sum){
+            alert('คุณกรอกจำนวนเงินเกินที่จะสามารถจ่ายให้ช่างได้')
+        }
+        console.log('sum',payee_sum )
     });
     
 ", $this::POS_READY); 

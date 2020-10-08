@@ -33,28 +33,33 @@ $class = $percent < 100 ? 'bg-yellow' : '';
                                 'project_id' => $instalment[0]['project_id']],
                                     ['class'=> 'btn btn-raised  btn-round btn-info'])
                 ],
+                [
+                    'content' => Html::a('export เฉพาะหมวดหลัก', ['export_excel_by_workgroup','id'=>$instalment[0]['id'], 
+                                 'project_id' => $instalment[0]['project_id']],
+                                     ['class'=> 'btn btn-raised  btn-round btn-info'])
+                 ],
 
-                '{export}',
+                // '{export}',
                 '{toggleData}',
             ],
-            'export'=>[
-                'fontAwesome'=>true,
-                'showConfirmAlert'=>false,
-                'target'=>GridView::TARGET_BLANK,
-                'header' =>false,
-                'label' => 'Export เฉพาะหมวดหลัก',
-                'options' => ['class'=> 'btn btn-raised  btn-round btn-info']
-            ],
+            // 'export'=>[
+            //     'fontAwesome'=>true,
+            //     'showConfirmAlert'=>false,
+            //     'target'=>GridView::TARGET_BLANK,
+            //     'header' =>false,
+            //     'label' => 'Export เฉพาะหมวดหลัก',
+            //     'options' => ['class'=> 'btn btn-raised  btn-round btn-info']
+            // ],
             'toggleDataOptions'=>[
                 'all' => [
                     'icon' => 'resize-full',
-                    'label' => 'Export ทั้งหมด',
+                    'label' => 'แสดงทุกแถว',
                     'class' => 'btn btn-info btn-round',
                     'title' => 'Show all data'
                 ],
                 'page' => [
                     'icon' => 'resize-small',
-                    'label' => 'Export เฉพาะนี้',
+                    'label' => 'แสดงหน้าแรก',
                     'class' => 'btn btn-default btn-round',
                     'title' => 'Show first page data'
                 ],
@@ -74,7 +79,7 @@ $class = $percent < 100 ? 'bg-yellow' : '';
                     'showCaption' => true,
                     'filename' => 'grid-export',
                     'alertMsg' => 'The EXCEL export file will be generated for download.',
-                    'options' => ['title' => 'Microsoft Excel 95+'],
+                    'options' => ['title' => ''],
                     'mime' => 'application/vnd.ms-excel',
                     'config' => [
                         'worksheet' => 'ExportWorksheet',
@@ -179,7 +184,7 @@ $class = $percent < 100 ? 'bg-yellow' : '';
   crossorigin="anonymous"></script>
 <script>
 $("#btnExport").click(function (e) {
+    e.preventDefault();
    window.open('data:application/vnd.ms-excel,' + $('#w0-container').html());
-   e.preventDefault();
 });
 </script>

@@ -22,17 +22,25 @@ class LaborcostdetailsController extends Controller
     /**
      * @inheritdoc
      */
-    public function behaviors()
-    {
-        return [
-            'verbs' => [
-                'class' => VerbFilter::className(),
-                'actions' => [
-                    'delete' => ['POST'],
-                ],
-            ],
-        ];
-    }
+    // {
+    //     return [
+    //         'verbs' => [
+    //             'class' => VerbFilter::className(),
+    //             'actions' => [
+    //                 'delete' => ['POST'],
+    //             ],
+    //         ],
+    //         'access' => [
+    //             'class' => AccessControl::className(),
+    //             'rules' => [
+    //                 [
+    //                     'allow' => true,
+    //                     'roles' => ['@'],
+    //                 ],
+    //             ],
+    //         ]
+    //     ];
+    // }
 
     /**
      * Lists all Laborcostdetails models.
@@ -87,6 +95,17 @@ class LaborcostdetailsController extends Controller
 
         ]);
 
+    }
+
+    public function actionExport_excel_by_workgroup(){
+        $this->layout = 'excel_layout';
+
+        $instalment = \app\controllers\ceo\LaborcostdetailsController::_instalment_by_house($_REQUEST);
+        // print_r($instalment);die();
+
+        return $this->render('_workgroup_instal_excel_for_ceo',[
+           'instalment_sum_provider' => $instalment['instalment_sum_provider']
+        ]);
     }
 
     public function actionInstalmentdetail_by_house(){
@@ -158,6 +177,7 @@ class LaborcostdetailsController extends Controller
         //     $w_statement = $query2->one();             
         //     $instalment[$key]['work_control_statement'] =$w_statement['ww'];
         // }
+
         return $this->render('instalmentdetail_by_house',[
             'instalment' => empty($instalment['instalment']) ? $instalment['empty_instalment'] : $instalment['instalment'],
             'instalment_sum_provider' => $instalment['instalment_sum_provider'],
@@ -411,10 +431,12 @@ class LaborcostdetailsController extends Controller
     }
 
     public function actionTestexportexcel(){
-        $instalment = \app\controllers\ceo\LaborcostdetailsController::_instalment_by_house($_REQUEST);
-        print_r($instalment);die();
+        $this->layout = 'excel_layout';
 
-        return $this->render('_exceltest',[
+        $instalment = \app\controllers\ceo\LaborcostdetailsController::_instalment_by_house($_REQUEST);
+        // print_r($instalment);die();
+
+        return $this->render('_all_instal_excel_for_ceo',[
            'instalment_sum_provider' => $instalment['instalment_sum_provider']
         ]);
     }

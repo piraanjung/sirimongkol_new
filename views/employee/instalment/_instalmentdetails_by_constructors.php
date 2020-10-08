@@ -180,52 +180,53 @@ $instalmentCols = $instalmentModel->get_column_value($dataProvider->getModels()[
 ?>
 
 
-<?php Modal::begin([
-            'header' => '<h4>เปลี่ยนจำนวนเงิน</h4>',
-            'id'     => 'modal',
-            'size'   => 'modal-md',
-            'clientOptions' => [
-                'backdrop' => false, 'keyboard' => true
-                ]
-    ]);
+<?php 
+    // Modal::begin([
+    //         'header' => '<h4>เปลี่ยนจำนวนเงิน</h4>',
+    //         'id'     => 'modal',
+    //         'size'   => 'modal-md',
+    //         'clientOptions' => [
+    //             'backdrop' => false, 'keyboard' => true
+    //             ]
+    // ]);
     
-    echo "<div id='modelContent'></div>";
+    // echo "<div id='modelContent'></div>";
     
-    Modal::end();
+    // Modal::end();
 ?>
 <!-- <br style="clear:both"> -->
 
 
 <?php
 // Form::print_array($models);
-$this->registerJs("
- $('.edit-money-icon').click(function(){
-        $('.modal').modal('show')
-            .find('#modelContent')
-            .load($(this).attr('value'));
-});
+// $this->registerJs("
+//  $('.edit-money-icon').click(function(){
+//         $('.modal').modal('show')
+//             .find('#modelContent')
+//             .load($(this).attr('value'));
+// });
 
-$('.delete-money-icon').click(function(){
-    var id = $(this).attr('value')
-    krajeeDialog.confirm('คุณต้องการลบข้อมูลใช่หรือไม่?', function (result) {
-        if (result) {
-            $.ajax({
-                type : 'POST',
-                url  : 'index.php?r=employee/instalment/delete-money-value',
-                data : {id: id},
-                   success : function(data){
-                      krajeeDialog.alert('ทำการลบข้อมูลเรียบร้อยแล้ว')
-                      location.reload();
-                }
+// $('.delete-money-icon').click(function(){
+//     var id = $(this).attr('value')
+//     krajeeDialog.confirm('คุณต้องการลบข้อมูลใช่หรือไม่?', function (result) {
+//         if (result) {
+//             $.ajax({
+//                 type : 'POST',
+//                 url  : 'index.php?r=employee/instalment/delete-money-value',
+//                 data : {id: id},
+//                    success : function(data){
+//                       krajeeDialog.alert('ทำการลบข้อมูลเรียบร้อยแล้ว')
+//                       location.reload();
+//                 }
     
-            })
-        } else {
-            // alert('Oops! You declined!');
-        }
-    });
-});
+//             })
+//         } else {
+//             // alert('Oops! You declined!');
+//         }
+//     });
+// });
 
 
     
-", $this::POS_READY); 
+// ", $this::POS_READY); 
 ?>
